@@ -1,7 +1,7 @@
 <template>
     <div class="app">
         <el-container>
-            <el-header>
+            <el-header height="70px">
                 <el-row class="home-top" style="width: 1200px;" type="flex" align="middle">
                     <el-col :span="3">
                         <div class="home-logo">
@@ -23,7 +23,7 @@
                     <el-col :span="2">
                         <div class="home-login">
                             <a href="#"><i class="el-icon-search"></i></a>
-                            <el-button type="primary" size="small" @click="homeLogin = true">登录</el-button>
+                            <el-button type="primary" size="small" @click="openLogin = true">登录</el-button>
                         </div>
                     </el-col>
                 </el-row>
@@ -35,8 +35,12 @@
                 </keep-alive>
                 <!-- 登录界面 -->
                 <el-collapse-transition>
-                    <el-card class="box-card" v-if="homeLogin">
-                        <i class="el-icon-close" @click="homeLogin = false"></i>
+                    <el-card class="box-card" v-show="openLogin">
+                        <i class="el-icon-close" @click="openLogin = false"></i>
+                        <el-tabs v-model="activeName">
+                            <el-tab-pane label="手机号登录" name="second">手机号登录</el-tab-pane>
+                            <el-tab-pane label="邮箱登录" name="first">邮箱登录</el-tab-pane>
+                        </el-tabs>
                     </el-card>
                 </el-collapse-transition>
             </el-main>
@@ -54,7 +58,8 @@ export default {
     },
     data() {
         return {
-            homeLogin: false
+            openLogin: false,
+            activeName: 'second'
         };
     },
     methods: {}
@@ -63,80 +68,92 @@ export default {
 
 <style lang="less">
 .app {
-    width: 100%;
     height: 100%;
-    .el-container {
+    // 顶部栏
+    .home-top {
         height: 100%;
         width: 100%;
-        // 头部
-        .el-header {
+        margin: 0 auto;
+        color: #333;
+
+        // logo
+        .home-logo {
             width: 100%;
-            min-height: 70px;
-            // 顶部栏
-            .home-top {
-                height: 100%;
-                width: 100%;
-                margin: 0 auto;
-                color: #333;
-                // logo
-                .home-logo {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    img {
-                        height: 30px;
-                    }
-                    span {
-                        color: #505050;
-                        font-weight: bold;
-                        margin-left: 5px;
-                    }
-                }
-                // 导航
-                .home-nav {
-                    a {
-                        color: #333;
-                        text-decoration: none;
-                        padding: 7px 20px;
-                        border-radius: 3px;
-                        font-size: 14px;
-                    }
-                    .click {
-                        background: #ff6600;
-                        color: white;
-                        transition: all 0.3s ease 0s;
-                    }
-                }
-                // 登录
-                .home-login {
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    color: #909399;
-                    a {
-                        color: #909399;
-                        border-right: 1px solid #909399;
-                        padding-right: 10px;
-                    }
-                }
+            display: flex;
+            align-items: center;
+            img {
+                height: 30px;
+            }
+            span {
+                color: #505050;
+                font-weight: bold;
+                margin-left: 5px;
             }
         }
-        // 内容
-        .el-main {
-            background-color: #e9eef3;
-            color: #333;
-            .box-card {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 500px;
-                height: 300px;
-                i {
-                    float: right;
-                    cursor: pointer;
-                }
+        // 导航
+        .home-nav {
+            a {
+                color: #333;
+                text-decoration: none;
+                padding: 7px 20px;
+                border-radius: 3px;
+                font-size: 14px;
+            }
+            .click {
+                background: #333;
+                color: white;
+                transition: all 0.3s ease 0s;
+            }
+        }
+        // 登录
+        .home-login {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #909399;
+            a {
+                color: #909399;
+                border-right: 1px solid #909399;
+                padding-right: 10px;
+            }
+        }
+    }
+    // 内容
+    .el-main {
+        .box-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 350px;
+            z-index: 99;
+            i {
+                float: right;
+                cursor: pointer;
+            }
+        }
+        .el-dialog {
+            border-radius: 5px;
+        }
+        .el-tabs {
+            margin: 0 auto;
+            width: 50%;
+            .el-tabs__nav-scroll {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .el-tabs__nav-wrap::after {
+                content: '';
+                position: relative;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px;
+                background-color: #e4e7ed;
+                z-index: 1;
             }
         }
     }
