@@ -34,7 +34,21 @@
                     <router-view></router-view>
                 </keep-alive>
             </el-main>
-            <el-footer height="250px"></el-footer>
+            <el-footer height="240px">
+                <div class="home-bottom">
+                    <div class="bottom-title">曲奇云音乐</div>
+                    <p>个人项目</p>
+                </div>
+                <div class="bottom-copyright">
+                    <div class="copyright">
+                        <span>Copyright © 2020</span>
+                        <span> 曲奇云音乐 </span>
+                        <span><a href="#">演示站</a></span>
+                        <span>Designed by </span>
+                        <span><a href="https://123mtr.top">123木头人</a></span>
+                    </div>
+                </div>
+            </el-footer>
         </el-container>
         <Login :openLogin.sync="openLogin" />
     </div>
@@ -113,14 +127,48 @@ export default {
             }
         }
     }
-    // 内容
-    .el-main {
-    }
-
     // 底部
     .el-footer {
-        width: 100%;
         background: #161e27;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        .home-bottom {
+            width: 1200px;
+            margin: 0 auto;
+            .bottom-title {
+                font-size: 14px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                padding-left: 10px;
+                border-left: 3px solid #fa2800;
+                margin-top: 35px;
+            }
+            p {
+                font-size: 14px;
+                margin: 15px 0;
+                color: white;
+            }
+        }
+        .bottom-copyright {
+            color: white;
+            border-top: 1px solid #232a31;
+            .copyright {
+                color: #6d7685;
+                font-size: 12px;
+                width: 1200px;
+                margin: 0 auto;
+                padding: 20px 0;
+                a {
+                    color: #6d7685;
+                    text-decoration: none;
+                    margin-right: 5px;
+                    &:hover {
+                        color: white;
+                    }
+                }
+            }
+        }
     }
 }
 </style>

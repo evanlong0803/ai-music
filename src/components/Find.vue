@@ -13,11 +13,9 @@
         <el-row :gutter="60">
             <el-col :span="4" v-for="item in 12" :key="item">
                 <div class="featured-songList">
-                    <div>
-                        <!-- 播放统计 -->
-                        <el-tag><i class="el-icon-caret-right"></i>7000万</el-tag>
-                        <el-image class="songList-img" :src="songListImg" fit="cover"></el-image>
-                    </div>
+                    <!-- 播放统计 -->
+                    <el-tag><i class="el-icon-caret-right"></i>7000万</el-tag>
+                    <el-image class="songList-img" :src="songListImg" fit="cover"></el-image>
                     <div class="songList-name">2020年BBMA公告牌音乐奖获奖及表演曲目</div>
                 </div>
             </el-col>
@@ -34,7 +32,7 @@
                         <el-image class="newSong-img" :src="newSongImg" fit="cover"></el-image>
                         <div class="newSong-info">
                             <div class="newSong-name">Lonely</div>
-                            <div>Justin Bieber /</div>
+                            <div class="newSong-singer">Justin Bieber /</div>
                         </div>
                         <div class="newSong-name">《Lonely》</div>
                         <div class="newSong-time">02:29</div>
@@ -78,11 +76,10 @@ export default {
     }
     // 推荐歌单
     .featured-songList {
-        width: 150px;
         cursor: pointer;
         .songList-img {
-            width: 150px;
-            height: 150px;
+            // width: 150px;
+            // height: 150px;
             border-radius: 5px;
             background: #ccc;
             margin-bottom: 10px;
@@ -125,7 +122,7 @@ export default {
             width: 100%;
             display: flex;
             flex-flow: column nowrap;
-            div {
+            .newSong-singer {
                 font-size: 14px;
             }
         }
