@@ -33,33 +33,24 @@
                     <!-- 展示内容 -->
                     <router-view></router-view>
                 </keep-alive>
-                <!-- 登录界面 -->
-                <el-collapse-transition>
-                    <el-card class="box-card" v-show="openLogin">
-                        <i class="el-icon-close" @click="openLogin = false"></i>
-                        <el-tabs v-model="activeName">
-                            <el-tab-pane label="手机号登录" name="second">手机号登录</el-tab-pane>
-                            <el-tab-pane label="邮箱登录" name="first">邮箱登录</el-tab-pane>
-                        </el-tabs>
-                    </el-card>
-                </el-collapse-transition>
             </el-main>
+            <el-footer></el-footer>
         </el-container>
+        <Login :openLogin.sync="openLogin" />
     </div>
 </template>
 
 <script>
-// import Home from './components/Home.vue';
+import Login from './views/Login';
 
 export default {
     name: 'app', // 主组件名
     components: {
-        // Home
+        Login
     },
     data() {
         return {
-            openLogin: false,
-            activeName: 'second'
+            openLogin: false
         };
     },
     methods: {}
@@ -69,91 +60,60 @@ export default {
 <style lang="less">
 .app {
     height: 100%;
-    // 顶部栏
-    .home-top {
-        height: 100%;
+    .el-container {
         width: 100%;
-        margin: 0 auto;
-        color: #333;
-
-        // logo
-        .home-logo {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            img {
-                height: 30px;
-            }
-            span {
-                color: #505050;
-                font-weight: bold;
-                margin-left: 5px;
-            }
-        }
-        // 导航
-        .home-nav {
-            a {
-                color: #333;
-                text-decoration: none;
-                padding: 7px 20px;
-                border-radius: 3px;
-                font-size: 14px;
-            }
-            .click {
-                background: #333;
-                color: white;
-                transition: all 0.3s ease 0s;
-            }
-        }
-        // 登录
-        .home-login {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #909399;
-            a {
-                color: #909399;
-                border-right: 1px solid #909399;
-                padding-right: 10px;
-            }
-        }
-    }
-    // 内容
-    .el-main {
-        .box-card {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 350px;
-            z-index: 99;
-            i {
-                float: right;
-                cursor: pointer;
-            }
-        }
-        .el-dialog {
-            border-radius: 5px;
-        }
-        .el-tabs {
-            margin: 0 auto;
-            width: 50%;
-            .el-tabs__nav-scroll {
-                display: flex;
-                justify-content: center;
-                margin-top: 10px;
-            }
-            .el-tabs__nav-wrap::after {
-                content: '';
-                position: relative;
-                left: 0;
-                bottom: 0;
+        height: 100%;
+        // 头部
+        .el-header {
+            box-shadow: 0 1px 5px #ddd;
+            // 顶部栏
+            .home-top {
+                height: 100%;
                 width: 100%;
-                height: 2px;
-                background-color: #e4e7ed;
-                z-index: 1;
+                margin: 0 auto;
+                color: #333;
+                // logo
+                .home-logo {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    img {
+                        height: 30px;
+                    }
+                    span {
+                        color: #505050;
+                        font-weight: bold;
+                        margin-left: 5px;
+                    }
+                }
+                // 导航
+                .home-nav {
+                    a {
+                        color: #333;
+                        text-decoration: none;
+                        padding: 7px 20px;
+                        border-radius: 3px;
+                        font-size: 14px;
+                    }
+                    .click {
+                        background: #333;
+                        color: white;
+                        transition: all 0.3s ease 0s;
+                    }
+                }
+                // 登录按钮以及搜索
+                .home-login {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    color: #909399;
+                    a {
+                        color: #909399;
+                        border-right: 1px solid #909399;
+                        padding-right: 10px;
+                    }
+                }
             }
         }
     }

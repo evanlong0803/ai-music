@@ -8,3 +8,10 @@ html,
 body {
     height: 100%;
 }
+
+/* 去除标签页下的灰色条 */
+.el-tabs__nav-wrap::after {
+    content: none;
+}
+
+
