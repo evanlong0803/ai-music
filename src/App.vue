@@ -34,7 +34,7 @@
                     <router-view></router-view>
                 </keep-alive>
             </el-main>
-            <el-footer></el-footer>
+            <el-footer height="250px"></el-footer>
         </el-container>
         <Login :openLogin.sync="openLogin" />
     </div>
@@ -60,62 +60,67 @@ export default {
 <style lang="less">
 .app {
     height: 100%;
-    .el-container {
-        width: 100%;
-        height: 100%;
-        // 头部
-        .el-header {
-            box-shadow: 0 1px 5px #ddd;
-            // 顶部栏
-            .home-top {
-                height: 100%;
+    // 头部
+    .el-header {
+        box-shadow: 0 1px 5px #ddd;
+        // 顶部栏
+        .home-top {
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+            color: #333;
+            // logo
+            .home-logo {
                 width: 100%;
-                margin: 0 auto;
-                color: #333;
-                // logo
-                .home-logo {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    img {
-                        height: 30px;
-                    }
-                    span {
-                        color: #505050;
-                        font-weight: bold;
-                        margin-left: 5px;
-                    }
+                display: flex;
+                align-items: center;
+                img {
+                    height: 30px;
                 }
-                // 导航
-                .home-nav {
-                    a {
-                        color: #333;
-                        text-decoration: none;
-                        padding: 7px 20px;
-                        border-radius: 3px;
-                        font-size: 14px;
-                    }
-                    .click {
-                        background: #333;
-                        color: white;
-                        transition: all 0.3s ease 0s;
-                    }
+                span {
+                    color: #505050;
+                    font-weight: bold;
+                    margin-left: 5px;
                 }
-                // 登录按钮以及搜索
-                .home-login {
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
+            }
+            // 导航
+            .home-nav {
+                a {
+                    color: #333;
+                    text-decoration: none;
+                    padding: 7px 20px;
+                    border-radius: 3px;
+                    font-size: 14px;
+                }
+                .click {
+                    background: #333;
+                    color: white;
+                    transition: all 0.3s ease 0s;
+                }
+            }
+            // 登录按钮以及搜索
+            .home-login {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                color: #909399;
+                a {
                     color: #909399;
-                    a {
-                        color: #909399;
-                        border-right: 1px solid #909399;
-                        padding-right: 10px;
-                    }
+                    border-right: 1px solid #909399;
+                    padding-right: 10px;
                 }
             }
         }
+    }
+    // 内容
+    .el-main {
+    }
+
+    // 底部
+    .el-footer {
+        width: 100%;
+        background: #161e27;
     }
 }
 </style>

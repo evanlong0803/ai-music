@@ -13,12 +13,10 @@
         <el-row :gutter="60">
             <el-col :span="4" v-for="item in 12" :key="item">
                 <div class="featured-songList">
-                    <div class="songList-img">
+                    <div>
                         <!-- 播放统计 -->
-                        <div class="songList-count">
-                            <i class="el-icon-caret-right"></i>
-                            <span>7000</span>
-                        </div>
+                        <el-tag><i class="el-icon-caret-right"></i>7000万</el-tag>
+                        <el-image class="songList-img" :src="songListImg" fit="cover"></el-image>
                     </div>
                     <div class="songList-name">2020年BBMA公告牌音乐奖获奖及表演曲目</div>
                 </div>
@@ -33,7 +31,7 @@
                     <!-- 内容 -->
                     <div class="featured-newSong">
                         <div class="newSong-index">01</div>
-                        <img class="newSong-img" src="https://p2.music.126.net/2ztAT9l4eOZeEUfcsqmBkA==/109951165393210183.jpg?param=150y150" />
+                        <el-image class="newSong-img" :src="newSongImg" fit="cover"></el-image>
                         <div class="newSong-info">
                             <div class="newSong-name">Lonely</div>
                             <div>Justin Bieber /</div>
@@ -49,15 +47,27 @@
         <div class="featured-title">推荐歌手</div>
         <el-row :gutter="60">
             <el-col :span="3" v-for="item in 24" :key="item">
-                <div class="featured-Vocalists">
-                    <img class="Vocalists-img" src="https://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=200y200" />
-                    <div class="Vocalists-name">薛之谦</div>
-                    <div class="Vocalists-songsNum">单曲数276</div>
+                <div class="featured-vocalists">
+                    <el-image class="vocalists-img" :src="vocalistsImg" fit="cover"></el-image>
+                    <div class="vocalists-name">薛之谦</div>
+                    <div class="vocalists-songsNum">单曲数276</div>
                 </div>
             </el-col>
         </el-row>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            songListImg: 'https://p1.music.126.net/wrhvYn7qGztoXFTKrT8SHA==/109951165114585025.jpg',
+            newSongImg: 'https://p2.music.126.net/2ztAT9l4eOZeEUfcsqmBkA==/109951165393210183.jpg?param=150y150',
+            vocalistsImg: 'https://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=200y200'
+        };
+    }
+};
+</script>
 
 <style lang="less" scoped>
 .find {
@@ -75,22 +85,20 @@
             height: 150px;
             border-radius: 5px;
             background: #ccc;
-            margin-bottom: 15px;
-            // 播放总数
-            .songList-count {
-                margin: 10px 10px 0 0;
-                float: right;
-                padding: 0 5px;
-                text-align: center;
-                color: white;
-                border-radius: 3px;
-                background: #000;
-            }
-            .songList-count span,
-            .songList-count i {
-                font-size: 12px;
-                line-height: 20px;
-            }
+            margin-bottom: 10px;
+        }
+        // 播放总数
+        .el-tag {
+            position: absolute;
+            z-index: 1;
+            margin: 8px;
+            height: 20px;
+            padding: 0;
+            line-height: 18px;
+            padding: 0 3px;
+            text-align: center;
+            background: black;
+            color: white;
         }
         .songList-name {
             font-size: 14px;
@@ -108,8 +116,8 @@
             font-weight: bold;
         }
         .newSong-img {
-            width: 50px;
-            height: 50px;
+            // width: 50px;
+            // height: 50px;
             margin-right: 25px;
             border-radius: 3px;
         }
@@ -133,21 +141,21 @@
         }
     }
     // 推荐歌手
-    .featured-Vocalists {
+    .featured-vocalists {
         width: 100px;
         text-align: center;
-        .Vocalists-img {
+        .vocalists-img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             border: 1px solid #ccc;
         }
-        .Vocalists-name {
+        .vocalists-name {
             font-size: 14px;
             font-weight: bold;
             margin: 10px 0;
         }
-        .Vocalists-songsNum {
+        .vocalists-songsNum {
             color: #fb2800;
             font-size: 12px;
             margin-bottom: 25px;
