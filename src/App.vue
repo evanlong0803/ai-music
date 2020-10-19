@@ -49,6 +49,7 @@
                     </div>
                 </div>
             </el-footer>
+            <AudioPlayer class="" :audio-list="audioList" :before-play="onBeforePlay" isLoop />
         </el-container>
         <Login :openLogin.sync="openLogin" />
     </div>
@@ -64,10 +65,17 @@ export default {
     },
     data() {
         return {
-            openLogin: false
+            openLogin: false,
+            audioList: ['http://txh-cdn.96qbhy.com/20180817175211dtC1vE3z.mp3', 'http://txh-cdn.96qbhy.com/20181106105737sOcozMqw.mp3']
         };
     },
-    methods: {}
+    methods: {
+        // 播放前做的事
+        onBeforePlay(next) {
+            console.log('这里可以做一些事情...');
+            next(); // 开始播放
+        }
+    }
 };
 </script>
 

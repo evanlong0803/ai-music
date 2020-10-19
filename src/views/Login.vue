@@ -15,8 +15,8 @@
                             <!-- 输入验证码 -->
                             <el-form-item prop="captcha">
                                 <el-input placeholder="请输入验证码" v-model.trim="phoneForm.captcha">
-                                    <el-button slot="append" @click="getCaptcha" v-if="wait">{{ wait }}</el-button>
-                                    <el-button slot="append" v-if="!wait">{{ `已发送 ${waitTime}s` }}</el-button>
+                                    <el-button slot="append" @click="loginGetCaptcha" v-if="loginWait">{{ loginWait }}</el-button>
+                                    <el-button slot="append" v-if="!loginWait">{{ `已发送 ${loginWaitTime}s` }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <!-- 登录按钮 -->
@@ -62,8 +62,8 @@
                             <!-- 输入验证码 -->
                             <el-form-item prop="captcha">
                                 <el-input placeholder="输入验证码" v-model.trim="registerForm.captcha">
-                                    <el-button slot="append" @click="getCaptcha" v-if="wait">{{ wait }}</el-button>
-                                    <el-button slot="append" v-if="!wait">{{ `已发送 ${waitTime}s` }}</el-button>
+                                    <el-button slot="append" @click="registerGetCaptcha" v-if="registerWait">{{ registerWait }}</el-button>
+                                    <el-button slot="append" v-if="!registerWait">{{ `已发送 ${registerWaitTime}s` }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <!-- 注册按钮 -->
@@ -85,8 +85,10 @@ export default {
     data() {
         return {
             activeName: 'phoneForm',
-            wait: '获取验证码',
-            waitTime: 59,
+            loginWait: '获取验证码',
+            loginWaitTime: 59,
+            registerWait: '获取验证码',
+            registerWaitTime: 59,
             // 手机登录
             phoneForm: {
                 phoneAccount: '',
@@ -152,15 +154,26 @@ export default {
         }
     },
     methods: {
-        // 获取验证码
-        getCaptcha() {
-            this.wait = '';
+        // 登录获取验证码
+        loginGetCaptcha() {
+            this.loginWait = '';
             setInterval(() => {
-                if (this.waitTime == 0) {
-                    this.waitTime = 59;
-                    return (this.wait = '获取验证码');
+                if (this.loginWaitTime === 1) {
+                    this.loginWaitTime = 59;
+                    return (this.loginWait = '获取验证码');
                 }
-                this.waitTime--;
+                this.loginWaitTime--;
+            }, 1000);
+        },
+        // 注册获取验证码
+        registerGetCaptcha() {
+            this.registerWait = '';
+            setInterval(() => {
+                if (this.registerWaitTime === 1) {
+                    this.registerWaitTime = 59;
+                    return (this.registerWait = '获取验证码');
+                }
+                this.registerWaitTime--;
             }, 1000);
         },
         // 登录时的校验
@@ -183,6 +196,7 @@ export default {
             this.$refs.phoneForm.resetFields();
             this.$refs.emailForm.resetFields();
             this.$refs.registerForm.resetFields();
+            this.activeName = 'phoneForm';
         }
     }
 };
