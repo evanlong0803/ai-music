@@ -8,6 +8,7 @@ html,
 body,
 .app {
     height: 100%;
+    background: #f6f6f6;
 }
 
 /* 去除标签页下的灰色条 */

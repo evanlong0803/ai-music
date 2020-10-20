@@ -156,25 +156,35 @@ export default {
     methods: {
         // 登录获取验证码
         loginGetCaptcha() {
-            this.loginWait = '';
-            setInterval(() => {
-                if (this.loginWaitTime === 1) {
-                    this.loginWaitTime = 59;
-                    return (this.loginWait = '获取验证码');
+            // 提前进行部分校验
+            this.$refs.phoneForm.validateField('phoneAccount', error => {
+                if (!error) {
+                    this.loginWait = '';
+                    setInterval(() => {
+                        if (this.loginWaitTime === 1) {
+                            this.loginWaitTime = 59;
+                            return (this.loginWait = '获取验证码');
+                        }
+                        this.loginWaitTime--;
+                    }, 1000);
                 }
-                this.loginWaitTime--;
-            }, 1000);
+            });
         },
         // 注册获取验证码
         registerGetCaptcha() {
-            this.registerWait = '';
-            setInterval(() => {
-                if (this.registerWaitTime === 1) {
-                    this.registerWaitTime = 59;
-                    return (this.registerWait = '获取验证码');
+            // 提前进行部分校验
+            this.$refs.registerForm.validateField('phoneAccount', error => {
+                if (!error) {
+                    this.registerWait = '';
+                    setInterval(() => {
+                        if (this.registerWaitTime === 1) {
+                            this.registerWaitTime = 59;
+                            return (this.registerWait = '获取验证码');
+                        }
+                        this.registerWaitTime--;
+                    }, 1000);
                 }
-                this.registerWaitTime--;
-            }, 1000);
+            });
         },
         // 登录时的校验
         submitForm(formName) {
@@ -182,7 +192,7 @@ export default {
                 if (valid) {
                     alert('submit!');
                 } else {
-                    console.log('error submit!!');
+                    this.$message.warning('xxxxxxxxxxxxxxx');
                     return false;
                 }
             });

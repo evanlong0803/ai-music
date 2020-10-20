@@ -3,20 +3,20 @@
         <!-- 幻灯片 -->
         <el-row>
             <el-carousel :interval="4000" type="card" height="200px">
-                <el-carousel-item v-for="item in 6" :key="item">
-                    <h3 class="medium">{{ item }}</h3>
+                <el-carousel-item v-for="(banner, index) in banners" :key="index">
+                    <el-image :src="banner.imageUrl" fit="cover"></el-image>
                 </el-carousel-item>
             </el-carousel>
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <el-row :gutter="60">
-            <el-col :span="4" v-for="item in 12" :key="item">
+        <el-row type="flex" class="featured" :gutter="60" style="flex-flow: row wrap;">
+            <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
                 <div class="featured-songList">
                     <!-- 播放统计 -->
-                    <el-tag><i class="el-icon-caret-right"></i>7000万</el-tag>
-                    <el-image class="songList-img" :src="songListImg" fit="cover"></el-image>
-                    <div class="songList-name">2020年BBMA公告牌音乐奖获奖及表演曲目</div>
+                    <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
+                    <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
+                    <div class="songList-name">{{ item.name }}</div>
                 </div>
             </el-col>
         </el-row>
@@ -24,17 +24,23 @@
         <!-- 推荐新歌曲 -->
         <div class="featured-title">推荐新歌曲</div>
         <el-row :gutter="30">
-            <el-col :span="12" v-for="item in 10" :key="item" style="margin-bottom: 20px;">
+            <el-col :span="12" v-for="(item, index) in newSong" :key="index" style="margin-bottom: 20px;">
                 <el-card shadow="always" body-style="padding: 15px 30px;">
                     <!-- 内容 -->
                     <div class="featured-newSong">
-                        <div class="newSong-index">01</div>
-                        <el-image class="newSong-img" :src="newSongImg" fit="cover"></el-image>
+                        <!-- 播放按钮 -->
+                        <!-- <el-image class="newSong-play" :src="require('../assets/play.png')" fit="contain"></el-image> -->
+                        <div class="newSong-index">{{ (index + 1) | addZeros }}</div>
+                        <el-image class="newSong-img" :src="item.picUrl" fit="cover"></el-image>
                         <div class="newSong-info">
-                            <div class="newSong-name">Lonely</div>
-                            <div class="newSong-singer">Justin Bieber /</div>
+                            <div class="newSong-name">{{ item.name }}</div>
+                            <div class="newSong-singer">
+                                <span v-for="(item2, index2) in item.song.artists" :key="index2">
+                                    {{ item2.name }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="newSong-name">《Lonely》</div>
+                        <div class="newSong-record">{{ `《${item.song.album.name}》` }}</div>
                         <div class="newSong-time">02:29</div>
                     </div>
                 </el-card>
@@ -42,13 +48,13 @@
         </el-row>
 
         <!-- 推荐歌手 -->
-        <div class="featured-title">推荐歌手</div>
+        <div class="featured-title">热门歌手</div>
         <el-row :gutter="60">
-            <el-col :span="3" v-for="item in 24" :key="item">
+            <el-col :span="3" v-for="(item, index) in HotSinger" :key="index">
                 <div class="featured-vocalists">
-                    <el-image class="vocalists-img" :src="vocalistsImg" fit="cover"></el-image>
-                    <div class="vocalists-name">薛之谦</div>
-                    <div class="vocalists-songsNum">单曲数276</div>
+                    <el-image class="vocalists-img" :src="item.img1v1Url" fit="cover"></el-image>
+                    <div class="vocalists-name">{{ item.name }}</div>
+                    <div class="vocalists-songsNum">{{ `单曲数${item.musicSize}` }}</div>
                 </div>
             </el-col>
         </el-row>
@@ -61,14 +67,77 @@ export default {
         return {
             songListImg: 'https://p1.music.126.net/wrhvYn7qGztoXFTKrT8SHA==/109951165114585025.jpg',
             newSongImg: 'https://p2.music.126.net/2ztAT9l4eOZeEUfcsqmBkA==/109951165393210183.jpg?param=150y150',
-            vocalistsImg: 'https://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=200y200'
+            vocalistsImg: 'https://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=200y200',
+            // 轮播图
+            banners: [],
+            // 推荐歌单数据
+            FeaturedSongList: [],
+            // 推荐新歌数据
+            newSong: [],
+            // 热门歌手数据
+            HotSinger: []
         };
+    },
+    created() {
+        this.loadBanner();
+        this.loadFeaturedSongList();
+        this.loadHotSinger();
+        this.loadFeaturedNewSong();
+    },
+    methods: {
+        // 请求banner轮播图
+        async loadBanner() {
+            const { data: res } = await this.$axios.get('banner');
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.banners = res.banners;
+        },
+        // 请求推荐歌单
+        async loadFeaturedSongList() {
+            const { data: res } = await this.$axios.get('/personalized', {
+                params: {
+                    limit: 18
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.FeaturedSongList = res.result;
+        },
+        // 推荐新歌
+        async loadFeaturedNewSong() {
+            const { data: res } = await this.$axios.get('/personalized/newsong');
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.newSong = res.result;
+            console.log(res);
+        },
+        // 请求热门歌手
+        async loadHotSinger() {
+            const { data: res } = await this.$axios.get('/top/artists', {
+                params: {
+                    offset: 0,
+                    limit: 24
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.HotSinger = res.artists;
+        }
     }
 };
 </script>
 
 <style lang="less" scoped>
 .find {
+    // 幻灯片
+    .el-carousel__item {
+        border-radius: 5px;
+    }
+    // 推荐标题
     .featured-title {
         text-align: left;
         font-weight: bold;
@@ -76,10 +145,9 @@ export default {
     }
     // 推荐歌单
     .featured-songList {
+        width: 150px;
         cursor: pointer;
         .songList-img {
-            // width: 150px;
-            // height: 150px;
             border-radius: 5px;
             background: #ccc;
             margin-bottom: 10px;
@@ -100,45 +168,69 @@ export default {
         .songList-name {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
     }
     // 推荐新歌
     .featured-newSong {
         display: flex;
         align-items: center;
-        .newSong-index {
-            margin-right: 25px;
+        // 播放按钮
+        .newSong-play {
+            width: 100px;
             cursor: pointer;
+        }
+        .newSong-index {
+            width: 10%;
             font-weight: bold;
+            text-align: left;
         }
         .newSong-img {
-            // width: 50px;
-            // height: 50px;
-            margin-right: 25px;
+            width: 10%;
+            margin-right: 30px;
             border-radius: 3px;
         }
         .newSong-info {
-            width: 100%;
-            display: flex;
-            flex-flow: column nowrap;
-            .newSong-singer {
+            width: 30%;
+            margin-right: 20px;
+            .newSong-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 10px;
                 font-size: 14px;
+                font-weight: bold;
+            }
+            .newSong-singer {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 14px;
+                span {
+                    margin-right: 5px;
+                }
             }
         }
-        .newSong-name {
-            margin-right: 70px;
+
+        .newSong-record {
+            width: 20%;
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 5px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .newSong-time {
+            width: 20%;
             font-size: 14px;
             font-weight: bold;
+            text-align: right;
         }
     }
     // 推荐歌手
     .featured-vocalists {
+        cursor: pointer;
         width: 100px;
         text-align: center;
         .vocalists-img {
@@ -158,20 +250,5 @@ export default {
             margin-bottom: 25px;
         }
     }
-}
-
-.el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
 }
 </style>

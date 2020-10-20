@@ -20,10 +20,20 @@
                             <router-link to="/mv" exact-active-class="click">MV</router-link>
                         </nav>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="4">
                         <div class="home-login">
                             <a href="#"><i class="el-icon-search"></i></a>
                             <el-button type="primary" size="small" @click="openLogin = true">登录</el-button>
+                            <!-- 已经登录显示个人信息 -->
+                            <el-dropdown>
+                                <span class="el-dropdown-link"> 123木头人<i class="el-icon-arrow-down el-icon--right"></i> </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item icon="el-icon-user">个人主页</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-medal">我的等级</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
+                                    <el-dropdown-item divided icon="el-icon-switch-button">退出登录</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                         </div>
                     </el-col>
                 </el-row>
@@ -49,7 +59,6 @@
                     </div>
                 </div>
             </el-footer>
-            <AudioPlayer class="" :audio-list="audioList" :before-play="onBeforePlay" isLoop />
         </el-container>
         <Login :openLogin.sync="openLogin" />
     </div>
@@ -65,16 +74,8 @@ export default {
     },
     data() {
         return {
-            openLogin: false,
-            audioList: ['http://txh-cdn.96qbhy.com/20180817175211dtC1vE3z.mp3', 'http://txh-cdn.96qbhy.com/20181106105737sOcozMqw.mp3']
+            openLogin: false
         };
-    },
-    methods: {
-        // 播放前做的事
-        onBeforePlay(next) {
-            console.log('这里可以做一些事情...');
-            next(); // 开始播放
-        }
     }
 };
 </script>
@@ -84,6 +85,7 @@ export default {
     height: 100%;
     // 头部
     .el-header {
+        background: white;
         box-shadow: 0 1px 5px #ddd;
         // 顶部栏
         .home-top {
@@ -137,6 +139,7 @@ export default {
     }
     // 底部
     .el-footer {
+        padding: 0;
         background: #161e27;
         display: flex;
         flex-flow: column;
@@ -153,7 +156,7 @@ export default {
                 margin-top: 35px;
             }
             p {
-                font-size: 14px;
+                font-size: 12px;
                 margin: 15px 0;
                 color: white;
             }
