@@ -76,7 +76,9 @@
             </el-card>
         </el-collapse-transition>
         <!-- 登录屏障 -->
-        <div class="login-barrier" v-show="openLogin"></div>
+        <transition name="el-fade-in-linear">
+            <div class="login-barrier" v-show="openLogin"></div>
+        </transition>
     </div>
 </template>
 
@@ -244,8 +246,7 @@ export default {
             }
         }
     }
-
-    // 登录暗色屏障
+    // 登录屏障
     .login-barrier {
         width: 100%;
         height: 100%;
@@ -255,7 +256,7 @@ export default {
         right: 0;
         bottom: 0;
         z-index: 55;
-        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(15px);
     }
 }
 </style>
