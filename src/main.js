@@ -15,10 +15,6 @@ Vue.prototype.$axios = axios;
 import filters from '../src/utils/filters.js';
 Vue.use(filters);
 
-// 进度条
-// import NProgress from 'nprogress';
-// import 'nprogress/nprogress.css';
-
 // 关闭生产提示
 Vue.config.productionTip = false;
 

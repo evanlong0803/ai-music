@@ -1,5 +1,7 @@
 <template>
     <div class="app">
+        <!-- 回到顶部 -->
+        <el-backtop right="100" bottom="100"></el-backtop>
         <el-container>
             <el-header height="70px">
                 <el-row class="home-top" style="width: 1200px;" type="flex" align="middle">

@@ -112,7 +112,6 @@ export default {
                 return this.$message.error('请求失败');
             }
             this.newSong = res.result;
-            console.log(res);
         },
         // 请求热门歌手
         async loadHotSinger() {
