@@ -26,7 +26,6 @@ const router = new VueRouter({
 
 // 进度条
 import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
 
 router.beforeEach((to, from, next) => {
     NProgress.start();

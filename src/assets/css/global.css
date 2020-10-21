@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+}
+
+/* 去除标签页下的灰色条 */
+.el-tabs__nav-wrap::after {
+    content: none;
+}

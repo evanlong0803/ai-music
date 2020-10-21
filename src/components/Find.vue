@@ -10,7 +10,7 @@
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <el-row type="flex" class="featured" :gutter="60" style="flex-flow: row wrap;">
+        <el-row type="flex" :gutter="60" style="flex-flow: row wrap;">
             <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
                 <div class="featured-songList">
                     <!-- 播放统计 -->
@@ -35,9 +35,7 @@
                         <div class="newSong-info">
                             <div class="newSong-name">{{ item.name }}</div>
                             <div class="newSong-singer">
-                                <span v-for="(item2, index2) in item.song.artists" :key="index2">
-                                    {{ item2.name }}
-                                </span>
+                                <span v-for="(item2, index2) in item.song.artists" :key="index2">{{ item2.name }}</span>
                             </div>
                         </div>
                         <div class="newSong-record">{{ `《${item.song.album.name}》` }}</div>
@@ -65,9 +63,6 @@
 export default {
     data() {
         return {
-            songListImg: 'https://p1.music.126.net/wrhvYn7qGztoXFTKrT8SHA==/109951165114585025.jpg',
-            newSongImg: 'https://p2.music.126.net/2ztAT9l4eOZeEUfcsqmBkA==/109951165393210183.jpg?param=150y150',
-            vocalistsImg: 'https://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=200y200',
             // 轮播图
             banners: [],
             // 推荐歌单数据
@@ -144,7 +139,6 @@ export default {
     }
     // 推荐歌单
     .featured-songList {
-        width: 150px;
         cursor: pointer;
         .songList-img {
             border-radius: 5px;

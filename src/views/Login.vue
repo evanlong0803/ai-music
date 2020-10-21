@@ -9,19 +9,24 @@
                     <el-tab-pane label="手机号登录" name="phoneForm">
                         <el-form :model="phoneForm" :rules="phoneRules" ref="phoneForm">
                             <!-- 输入手机号 -->
-                            <el-form-item prop="phoneAccount">
-                                <el-input placeholder="请输入手机号" v-model.trim="phoneForm.phoneAccount" prefix-icon="el-icon-mobile-phone"></el-input>
+                            <el-form-item prop="phone">
+                                <el-input placeholder="请输入手机号" v-model.trim="phoneForm.phone" prefix-icon="el-icon-mobile-phone"></el-input>
                             </el-form-item>
-                            <!-- 输入验证码 -->
-                            <el-form-item prop="captcha">
-                                <el-input placeholder="请输入验证码" v-model.trim="phoneForm.captcha">
-                                    <el-button slot="append" @click="loginGetCaptcha" v-if="loginWait">{{ loginWait }}</el-button>
-                                    <el-button slot="append" v-if="!loginWait">{{ `已发送 ${loginWaitTime}s` }}</el-button>
-                                </el-input>
+                            <!-- 输入手机账号密码 -->
+                            <el-form-item prop="password">
+                                <el-input
+                                    placeholder="请输入账号密码"
+                                    v-model.trim="phoneForm.password"
+                                    show-password
+                                    prefix-icon="el-icon-lock"
+                                    @keyup.enter.native="submitForm('phoneForm')"
+                                ></el-input>
                             </el-form-item>
                             <!-- 登录按钮 -->
                             <el-form-item>
-                                <el-button type="primary" size="medium" @click="submitForm('phoneForm')">登 录</el-button>
+                                <el-button type="primary" size="medium" @click="submitForm('phoneForm')" :loading="loginState">
+                                    {{ loginState ? '正在登录' : '登 录' }}
+                                </el-button>
                             </el-form-item>
                         </el-form>
                     </el-tab-pane>
@@ -35,7 +40,7 @@
                             </el-form-item>
                             <!-- 输入密码 -->
                             <el-form-item prop="password">
-                                <el-input placeholder="请输入邮箱密码" v-model.trim="emailForm.password" show-password prefix-icon="el-icon-lock"></el-input>
+                                <el-input placeholder="请输入账号密码" v-model.trim="emailForm.password" show-password prefix-icon="el-icon-lock"></el-input>
                             </el-form-item>
                             <!-- 登录按钮 -->
                             <el-form-item>
@@ -86,6 +91,8 @@
 export default {
     data() {
         return {
+            cookie: '',
+            loginState: false,
             activeName: 'phoneForm',
             loginWait: '获取验证码',
             loginWaitTime: 59,
@@ -93,17 +100,17 @@ export default {
             registerWaitTime: 59,
             // 手机登录
             phoneForm: {
-                phoneAccount: '',
-                captcha: ''
+                phone: '',
+                password: ''
             },
             phoneRules: {
-                phoneAccount: [
+                phone: [
                     { required: true, message: '请输入手机号', trigger: 'blur' },
                     { pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, message: '请输入正确的手机号', trigger: 'blur' }
                 ],
-                captcha: [
-                    { required: true, message: '请输入验证码', trigger: 'blur' },
-                    { pattern: /^\d{4}$/, message: '请输入4位数的验证码', trigger: 'blur' }
+                password: [
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 6, max: 16, message: '密码长度应为6～16个字符', trigger: 'blur' }
                 ]
             },
             // 邮箱登录
@@ -190,14 +197,58 @@ export default {
         },
         // 登录时的校验
         submitForm(formName) {
-            this.$refs[formName].validate(valid => {
-                if (valid) {
-                    alert('submit!');
-                } else {
-                    this.$message.warning('xxxxxxxxxxxxxxx');
-                    return false;
-                }
-            });
+            switch (formName) {
+                // 如果是手机登录
+                case 'phoneForm':
+                    this.$refs.phoneForm.validate(async valid => {
+                        if (valid) {
+                            // 手机登录
+                            this.loginState = true;
+                            const { data: res } = await this.$axios.post('/login/cellphone', this.phoneForm);
+                            // 登录失败
+                            if (res.code !== 200) {
+                                this.loginState = false;
+                                return this.$notify.error({
+                                    title: '错误',
+                                    message: res.msg
+                                });
+                            }
+                            // 登录成功
+                            this.loginState = false;
+                            this.$notify.success({
+                                title: '登录成功',
+                                message: res.msg
+                            });
+                            this.cookie = res.cookie;
+                            this.$emit('update:openLogin', false);
+                        } else {
+                            return false;
+                        }
+                    });
+                    break;
+                // 如果是邮箱登录
+                case 'emailForm':
+                    this.$refs.emailForm.validate(valid => {
+                        if (valid) {
+                            alert('777');
+                        } else {
+                            this.$message.warning('xxxxxxxxxxxxxxx');
+                            return false;
+                        }
+                    });
+                    break;
+                // 如果是账号注册
+                case 'registerForm':
+                    this.$refs.registerForm.validate(valid => {
+                        if (valid) {
+                            alert('888');
+                        } else {
+                            this.$message.warning('xxxxxxxxxxxxxxx');
+                            return false;
+                        }
+                    });
+                    break;
+            }
         },
         // 切换标签页时重置当前表单
         tabRemove(tab) {
@@ -209,6 +260,12 @@ export default {
             this.$refs.emailForm.resetFields();
             this.$refs.registerForm.resetFields();
             this.activeName = 'phoneForm';
+        }
+    },
+    // 监听是否登录
+    watch: {
+        cookie() {
+            this.$emit('getCookie', this.cookie);
         }
     }
 };
