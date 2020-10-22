@@ -24,8 +24,8 @@
                             </el-form-item>
                             <!-- 登录按钮 -->
                             <el-form-item>
-                                <el-button type="primary" size="medium" @click="submitForm('phoneForm')" :loading="loginState">
-                                    {{ loginState ? '正在登录' : '登 录' }}
+                                <el-button type="primary" size="medium" @click="submitForm('phoneForm')" :loading="inLogin">
+                                    {{ inLogin ? '正在登录' : '登 录' }}
                                 </el-button>
                             </el-form-item>
                         </el-form>
@@ -91,8 +91,7 @@
 export default {
     data() {
         return {
-            cookie: '',
-            loginState: false,
+            inLogin: false,
             activeName: 'phoneForm',
             loginWait: '获取验证码',
             loginWaitTime: 59,
@@ -195,7 +194,7 @@ export default {
                 }
             });
         },
-        // 登录时的校验
+        // 提交时的校验
         submitForm(formName) {
             switch (formName) {
                 // 如果是手机登录
@@ -203,24 +202,24 @@ export default {
                     this.$refs.phoneForm.validate(async valid => {
                         if (valid) {
                             // 手机登录
-                            this.loginState = true;
+                            this.inLogin = true;
                             const { data: res } = await this.$axios.post('/login/cellphone', this.phoneForm);
                             // 登录失败
                             if (res.code !== 200) {
-                                this.loginState = false;
+                                this.inLogin = false;
                                 return this.$notify.error({
                                     title: '错误',
                                     message: res.msg
                                 });
                             }
                             // 登录成功
-                            this.loginState = false;
-                            this.$notify.success({
-                                title: '登录成功',
-                                message: res.msg
-                            });
-                            this.cookie = res.cookie;
+                            this.inLogin = false;
+                            // 永久存储cookie
+                            localStorage.setItem('cookie', res.cookie);
+                            // 关闭登录框
                             this.$emit('update:openLogin', false);
+                            // 触发父组件自定义事件
+                            this.$emit('getloginStatus');
                         } else {
                             return false;
                         }
@@ -260,12 +259,6 @@ export default {
             this.$refs.emailForm.resetFields();
             this.$refs.registerForm.resetFields();
             this.activeName = 'phoneForm';
-        }
-    },
-    // 监听是否登录
-    watch: {
-        cookie() {
-            this.$emit('getCookie', this.cookie);
         }
     }
 };

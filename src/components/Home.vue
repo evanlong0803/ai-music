@@ -22,18 +22,20 @@
                             <router-link to="/mv" exact-active-class="click">MV</router-link>
                         </nav>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="loginStatus ? 4 : 2">
                         <div class="home-login">
                             <a href="#"><i class="el-icon-search"></i></a>
-                            <el-button type="primary" size="small" @click="openLogin = true">登录</el-button>
+                            <el-divider direction="vertical"></el-divider>
+                            <el-button type="primary" size="small" @click="openLogin = true" v-if="!loginStatus">登录</el-button>
                             <!-- 已经登录显示个人信息 -->
-                            <el-dropdown>
-                                <span class="el-dropdown-link">123木头人<i class="el-icon-arrow-down el-icon--right"></i> </span>
+                            <el-dropdown trigger="click" @command="handleCommand" v-else>
+                                <el-avatar class="el-dropdown-link" :size="35" :src="userInfo.avatarUrl"></el-avatar>
+                                <span class="el-dropdown-link">{{ userInfo.nickname }}<i class="el-icon-arrow-down el-icon--right"></i></span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item icon="el-icon-user">个人主页</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-medal">我的等级</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-                                    <el-dropdown-item divided icon="el-icon-switch-button">退出登录</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-user" command="Personal Home">个人主页</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-medal" command="My Rank">我的等级</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-setting" command="personal setting">个人设置</el-dropdown-item>
+                                    <el-dropdown-item divided icon="el-icon-switch-button" command="logout">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </div>
@@ -62,7 +64,7 @@
                 </div>
             </el-footer>
         </el-container>
-        <Login :openLogin.sync="openLogin" :getCookie="getCookie" />
+        <Login :openLogin.sync="openLogin" @getloginStatus="getloginStatus" />
     </div>
 </template>
 
@@ -76,13 +78,41 @@ export default {
     },
     data() {
         return {
+            loginStatus: false,
             openLogin: false,
-            getCookie: ''
+            ownCookie: '',
+            userInfo: {}
         };
     },
-    watch: {
-        cookie() {
-            console.log(this.getCookie);
+    mounted() {
+        // 页面刷新重新加载用户信息
+        this.getloginStatus();
+    },
+    methods: {
+        // 第一次登录
+        async getloginStatus() {
+            let cookie = localStorage.getItem('cookie');
+            // 获取登录状态，返回用户信息
+            const { data: res } = await this.$axios.post('/login/status', { cookie });
+            // 获取失败
+            if (res.code !== 200) {
+                return this.$message.error(res.msg);
+            }
+            // let userStr = JSON.stringify(res.profile);
+            // localStorage.setItem('userInfo', userStr);
+            // let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            // 获取成功后储存用户信息
+            this.userInfo = res.profile;
+            this.loginStatus = true;
+        },
+        handleCommand(command) {
+            switch (command) {
+                // 如果选择是退出登录
+                case 'logout':
+                    localStorage.clear();
+                    this.loginStatus = false;
+                    break;
+            }
         }
     }
 };
@@ -137,10 +167,16 @@ export default {
                 align-items: center;
                 justify-content: space-between;
                 color: #909399;
-                a {
-                    color: #909399;
-                    border-right: 1px solid #909399;
-                    padding-right: 10px;
+
+                // 个人信息样式
+                .el-dropdown {
+                    cursor: pointer;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    .el-avatar {
+                        margin-right: 10px;
+                    }
                 }
             }
         }
