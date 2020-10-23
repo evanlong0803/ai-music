@@ -29,8 +29,11 @@
                             <el-button type="primary" size="small" @click="openLogin = true" v-if="!loginStatus">登录</el-button>
                             <!-- 已经登录显示个人信息 -->
                             <el-dropdown trigger="click" @command="handleCommand" v-else>
-                                <el-avatar :size="35" :src="userInfo.avatarUrl"></el-avatar>
-                                <span class="el-dropdown-link">{{ userInfo.nickname }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                                <span class="el-dropdown-link">
+                                    <el-avatar :size="35" :src="userInfo.avatarUrl"></el-avatar>
+                                    {{ userInfo.nickname }}
+                                    <i class="el-icon-arrow-down el-icon--right"></i>
+                                </span>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item icon="el-icon-user" command="Personal Home">个人主页</el-dropdown-item>
                                     <el-dropdown-item icon="el-icon-medal" command="My Rank">我的等级</el-dropdown-item>
@@ -131,6 +134,13 @@ export default {
     .el-header {
         background: white;
         box-shadow: 0 1px 5px #ddd;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+        backdrop-filter: blur(15px);
         // 顶部栏
         .home-top {
             height: 100%;
@@ -177,7 +187,7 @@ export default {
                 }
 
                 // 个人信息样式
-                .el-dropdown {
+                .el-dropdown-link {
                     cursor: pointer;
                     display: flex;
                     flex-flow: row nowrap;
@@ -188,6 +198,10 @@ export default {
                 }
             }
         }
+    }
+    // 内容
+    .el-main {
+        margin-top: 80px;
     }
     // 底部
     .el-footer {
