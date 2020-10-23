@@ -82,7 +82,7 @@ export default {
     methods: {
         // 请求banner轮播图
         async loadBanner() {
-            const { data: res } = await this.$axios.get('banner');
+            const { data: res } = await this.$axios.get('/banner');
             if (res.code !== 200) {
                 return this.$message.error('请求失败');
             }
@@ -90,11 +90,7 @@ export default {
         },
         // 请求推荐歌单
         async loadFeaturedSongList() {
-            const { data: res } = await this.$axios.get('/personalized', {
-                params: {
-                    limit: 18
-                }
-            });
+            const { data: res } = await this.$axios.post('/personalized', { limit: 18 });
             if (res.code !== 200) {
                 return this.$message.error('请求失败');
             }
@@ -110,12 +106,7 @@ export default {
         },
         // 请求热门歌手
         async loadHotSinger() {
-            const { data: res } = await this.$axios.get('/top/artists', {
-                params: {
-                    offset: 0,
-                    limit: 24
-                }
-            });
+            const { data: res } = await this.$axios.post('/top/artists', { offset: 0, limit: 24 });
             if (res.code !== 200) {
                 return this.$message.error('请求失败');
             }

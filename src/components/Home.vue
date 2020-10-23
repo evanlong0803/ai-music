@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" :style="{ overflow: openLogin ? 'hidden' : '' }">
         <!-- 回到顶部 -->
         <el-backtop :right="100" :bottom="100"></el-backtop>
         <el-container>
@@ -29,7 +29,7 @@
                             <el-button type="primary" size="small" @click="openLogin = true" v-if="!loginStatus">登录</el-button>
                             <!-- 已经登录显示个人信息 -->
                             <el-dropdown trigger="click" @command="handleCommand" v-else>
-                                <el-avatar class="el-dropdown-link" :size="35" :src="userInfo.avatarUrl"></el-avatar>
+                                <el-avatar :size="35" :src="userInfo.avatarUrl"></el-avatar>
                                 <span class="el-dropdown-link">{{ userInfo.nickname }}<i class="el-icon-arrow-down el-icon--right"></i></span>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item icon="el-icon-user" command="Personal Home">个人主页</el-dropdown-item>
@@ -64,7 +64,7 @@
                 </div>
             </el-footer>
         </el-container>
-        <Login :openLogin.sync="openLogin" @getloginStatus="getloginStatus" />
+        <Login :openLogin.sync="openLogin" @login="login" @register="register" />
     </div>
 </template>
 
@@ -84,32 +84,38 @@ export default {
             userInfo: {}
         };
     },
-    mounted() {
+    created() {
         // 页面刷新重新加载用户信息
-        this.getloginStatus();
+        this.login();
     },
     methods: {
-        // 第一次登录
-        async getloginStatus() {
+        // 登录（Login组件触发该函数）
+        async login() {
             let cookie = localStorage.getItem('cookie');
+            // 取不到就停止
+            if (!cookie) return;
             // 获取登录状态，返回用户信息
             const { data: res } = await this.$axios.post('/login/status', { cookie });
             // 获取失败
             if (res.code !== 200) {
                 return this.$message.error(res.msg);
             }
-            // let userStr = JSON.stringify(res.profile);
-            // localStorage.setItem('userInfo', userStr);
-            // let userInfo = JSON.parse(localStorage.getItem('userInfo'));
             // 获取成功后储存用户信息
             this.userInfo = res.profile;
             this.loginStatus = true;
         },
+
+        // 注册（Login组件触发该函数）
+        register() {
+            console.log('父组件已接收注册');
+        },
+
         handleCommand(command) {
             switch (command) {
                 // 如果选择是退出登录
                 case 'logout':
                     localStorage.clear();
+                    this.userInfo = {};
                     this.loginStatus = false;
                     break;
             }
@@ -160,13 +166,15 @@ export default {
                     transition: all 0.3s ease 0s;
                 }
             }
-            // 登录按钮以及搜索
+            // 信息栏
             .home-login {
-                height: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 color: #909399;
+                a {
+                    color: #999;
+                }
 
                 // 个人信息样式
                 .el-dropdown {

@@ -35,8 +35,10 @@
                     <el-tab-pane label="邮箱登录" name="emailForm">
                         <el-form :model="emailForm" :rules="emailRules" ref="emailForm">
                             <!-- 输入邮箱 -->
-                            <el-form-item prop="emailAccount">
-                                <el-input placeholder="请输入网易邮箱账号" v-model.trim="emailForm.emailAccount" prefix-icon="el-icon-message"></el-input>
+                            <el-form-item prop="email">
+                                <el-input placeholder="请输入邮箱账号" v-model.trim="emailForm.email" prefix-icon="el-icon-message">
+                                    <template slot="append">@163.com</template>
+                                </el-input>
                             </el-form-item>
                             <!-- 输入密码 -->
                             <el-form-item prop="password">
@@ -44,7 +46,9 @@
                             </el-form-item>
                             <!-- 登录按钮 -->
                             <el-form-item>
-                                <el-button type="primary" size="medium" @click="submitForm('emailForm')">登 录</el-button>
+                                <el-button type="primary" size="medium" @click="submitForm('emailForm')" :loading="inLogin">
+                                    {{ inLogin ? '正在登录' : '登 录' }}
+                                </el-button>
                             </el-form-item>
                         </el-form>
                     </el-tab-pane>
@@ -53,16 +57,16 @@
                     <el-tab-pane label="快速注册" name="registerForm">
                         <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
                             <!-- 输入用户名 -->
-                            <el-form-item prop="nickName">
-                                <el-input placeholder="注册用户名" v-model.trim="registerForm.nickName" prefix-icon="el-icon-user"></el-input>
+                            <el-form-item prop="nickname">
+                                <el-input placeholder="注册用户名" v-model.trim="registerForm.nickname" prefix-icon="el-icon-user"></el-input>
                             </el-form-item>
                             <!-- 输入用户名密码 -->
                             <el-form-item prop="password">
                                 <el-input placeholder="输入用户名密码" v-model.trim="registerForm.password" prefix-icon="el-icon-user"></el-input>
                             </el-form-item>
                             <!-- 输入手机号 -->
-                            <el-form-item prop="phoneAccount">
-                                <el-input placeholder="绑定手机号" v-model.trim="registerForm.phoneAccount" prefix-icon="el-icon-mobile-phone"></el-input>
+                            <el-form-item prop="phone">
+                                <el-input placeholder="绑定手机号" v-model.trim="registerForm.phone" prefix-icon="el-icon-mobile-phone"></el-input>
                             </el-form-item>
                             <!-- 输入验证码 -->
                             <el-form-item prop="captcha">
@@ -73,7 +77,9 @@
                             </el-form-item>
                             <!-- 注册按钮 -->
                             <el-form-item>
-                                <el-button type="primary" size="medium" @click="submitForm('registerForm')">注 册</el-button>
+                                <el-button type="primary" size="medium" @click="submitForm('registerForm')" :loading="inRegister">
+                                    {{ inRegister ? '正在注册' : '注 册' }}
+                                </el-button>
                             </el-form-item>
                         </el-form>
                     </el-tab-pane>
@@ -92,6 +98,7 @@ export default {
     data() {
         return {
             inLogin: false,
+            inRegister: false,
             activeName: 'phoneForm',
             loginWait: '获取验证码',
             loginWaitTime: 59,
@@ -114,13 +121,13 @@ export default {
             },
             // 邮箱登录
             emailForm: {
-                emailAccount: '',
+                email: '',
                 password: ''
             },
             emailRules: {
-                emailAccount: [
+                email: [
                     { required: true, message: '请输入邮箱账号', trigger: 'blur' },
-                    { pattern: /^[A-Za-z]\w{5,17}@(vip\.(126|163|188)\.com|163\.com|126\.com|yeach\.net)/, message: '请输入正确的网易邮箱账号', trigger: 'blur' }
+                    { pattern: /^[A-Za-z]\w{5,17}/, message: '请输入正确的网易邮箱账号', trigger: 'blur' }
                 ],
                 password: [
                     { required: true, message: '请输入密码', trigger: 'blur' },
@@ -129,13 +136,13 @@ export default {
             },
             // 注册
             registerForm: {
-                nickName: '',
+                nickname: '',
                 password: '',
-                phoneAccount: '',
+                phone: '',
                 captcha: ''
             },
             registerRules: {
-                nickName: [
+                nickname: [
                     { required: true, message: '请输入用户名', trigger: 'blur' },
                     { pattern: /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/, message: '只含有汉字、数字、字母、下划线不能以下划线开头和结尾', trigger: 'blur' },
                     { min: 3, max: 16, message: '用户名长度应为3～16个字符', trigger: 'blur' }
@@ -144,7 +151,7 @@ export default {
                     { required: true, message: '请输入用户名密码', trigger: 'blur' },
                     { min: 6, max: 16, message: '密码长度应为6～16个字符', trigger: 'blur' }
                 ],
-                phoneAccount: [
+                phone: [
                     { required: true, message: '请输入手机号', trigger: 'blur' },
                     { pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, message: '请输入正确的手机号', trigger: 'blur' }
                 ],
@@ -165,7 +172,7 @@ export default {
         // 登录获取验证码
         loginGetCaptcha() {
             // 提前进行部分校验
-            this.$refs.phoneForm.validateField('phoneAccount', error => {
+            this.$refs.phoneForm.validateField('phone', error => {
                 if (!error) {
                     this.loginWait = '';
                     setInterval(() => {
@@ -181,8 +188,26 @@ export default {
         // 注册获取验证码
         registerGetCaptcha() {
             // 提前进行部分校验
-            this.$refs.registerForm.validateField('phoneAccount', error => {
+            this.$refs.registerForm.validateField('phone', async error => {
                 if (!error) {
+                    // 发送验证码
+                    try {
+                        const getCaptcha = await this.$axios.post('/captcha/sent', {
+                            phone: this.registerForm.phone
+                        });
+                        if (getCaptcha.code !== 200) {
+                            return this.$message.error(getCaptcha.message);
+                        }
+                        this.$message.success('验证码已发送，请查收');
+                    } catch (error) {
+                        return this.$notify({
+                            title: '提示',
+                            message: '发送验证码超过限制：每个手机号一天只能发5条验证码',
+                            type: 'warning'
+                        });
+                    }
+
+                    // 倒计时60秒
                     this.registerWait = '';
                     setInterval(() => {
                         if (this.registerWaitTime === 1) {
@@ -197,18 +222,17 @@ export default {
         // 提交时的校验
         submitForm(formName) {
             switch (formName) {
-                // 如果是手机登录
+                // 手机登录
                 case 'phoneForm':
                     this.$refs.phoneForm.validate(async valid => {
                         if (valid) {
-                            // 手机登录
                             this.inLogin = true;
                             const { data: res } = await this.$axios.post('/login/cellphone', this.phoneForm);
                             // 登录失败
                             if (res.code !== 200) {
                                 this.inLogin = false;
                                 return this.$notify.error({
-                                    title: '错误',
+                                    title: '失败',
                                     message: res.msg
                                 });
                             }
@@ -219,30 +243,75 @@ export default {
                             // 关闭登录框
                             this.$emit('update:openLogin', false);
                             // 触发父组件自定义事件
-                            this.$emit('getloginStatus');
+                            this.$emit('login');
                         } else {
                             return false;
                         }
                     });
                     break;
-                // 如果是邮箱登录
+                // 邮箱登录
                 case 'emailForm':
-                    this.$refs.emailForm.validate(valid => {
+                    this.$refs.emailForm.validate(async valid => {
                         if (valid) {
-                            alert('777');
+                            this.inLogin = true;
+                            const { data: res } = await this.$axios.post('/login', {
+                                email: this.emailForm.email + '@163.com',
+                                password: this.emailForm.password
+                            });
+                            // 登录失败
+                            if (res.code !== 200) {
+                                this.inLogin = false;
+                                return this.$notify.error({
+                                    title: '失败',
+                                    message: res.msg
+                                });
+                            }
+                            // 登录成功
+                            this.inLogin = false;
+                            // 永久存储cookie
+                            localStorage.setItem('cookie', res.cookie);
+                            // 关闭登录框
+                            this.$emit('update:openLogin', false);
+                            // 触发父组件自定义事件
+                            this.$emit('login');
                         } else {
-                            this.$message.warning('xxxxxxxxxxxxxxx');
                             return false;
                         }
                     });
                     break;
-                // 如果是账号注册
+                // 账号注册
                 case 'registerForm':
-                    this.$refs.registerForm.validate(valid => {
+                    this.$refs.registerForm.validate(async valid => {
                         if (valid) {
-                            alert('888');
+                            this.inRegister = true;
+
+                            // 验证手机号是否被注册
+                            const { data: verifyPhone } = await this.$axios.post('/cellphone/existence/check', {
+                                phone: this.registerForm.phone
+                            });
+                            if (verifyPhone.exist === 1) {
+                                return this.$message.warning('该手机号已被注册');
+                            }
+
+                            // 开始验证验证码
+                            const { data: verify } = await this.$axios.post('/captcha/verify', {
+                                phone: this.registerForm.phone,
+                                captcha: this.registerForm.captcha
+                            });
+                            if (verify.code !== 200) {
+                                return this.$message.error('验证码无效，请重新获取');
+                            }
+
+                            // 开始注册
+                            const { data: res } = await this.$axios.post('/register/cellphone', this.registerForm);
+                            // 注册成功
+                            console.log(res);
+                            this.inRegister = false;
+                            // 关闭登录框
+                            // this.$emit('update:openLogin', false);
+                            // 触发父组件自定义事件
+                            // this.$emit('register');
                         } else {
-                            this.$message.warning('xxxxxxxxxxxxxxx');
                             return false;
                         }
                     });
@@ -298,8 +367,6 @@ export default {
     }
     // 登录屏障
     .login-barrier {
-        width: 100%;
-        height: 100%;
         position: fixed;
         top: 0;
         left: 0;
