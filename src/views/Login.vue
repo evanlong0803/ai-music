@@ -62,7 +62,7 @@
                             </el-form-item>
                             <!-- 输入用户名密码 -->
                             <el-form-item prop="password">
-                                <el-input placeholder="输入用户名密码" v-model.trim="registerForm.password" prefix-icon="el-icon-user"></el-input>
+                                <el-input placeholder="输入用户名密码" v-model.trim="registerForm.password" show-password prefix-icon="el-icon-lock"></el-input>
                             </el-form-item>
                             <!-- 输入手机号 -->
                             <el-form-item prop="phone">
@@ -153,7 +153,7 @@ export default {
                 ],
                 phone: [
                     { required: true, message: '请输入手机号', trigger: 'blur' },
-                    { pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, message: '请输入正确的手机号', trigger: 'blur' }
+                    { pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
                 ],
                 captcha: [
                     { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -190,32 +190,39 @@ export default {
             // 提前进行部分校验
             this.$refs.registerForm.validateField('phone', async error => {
                 if (!error) {
+                    // 验证手机号是否被注册
+                    const { data: verifyPhone } = await this.$axios.post('/cellphone/existence/check', {
+                        phone: this.registerForm.phone
+                    });
+                    if (verifyPhone.exist === 1) {
+                        return this.$message.warning('该手机号已被注册');
+                    }
+
                     // 发送验证码
                     try {
-                        const getCaptcha = await this.$axios.post('/captcha/sent', {
+                        const { data: getCaptcha } = await this.$axios.post('/captcha/sent', {
                             phone: this.registerForm.phone
                         });
-                        if (getCaptcha.code !== 200) {
-                            return this.$message.error(getCaptcha.message);
-                        }
+                        if (getCaptcha.code !== 200) return;
                         this.$message.success('验证码已发送，请查收');
+
+                        // 倒计时60秒
+                        this.registerWait = '';
+                        let interval = setInterval(() => {
+                            if (this.registerWaitTime === 1) {
+                                this.registerWait = '获取验证码';
+                                this.registerWaitTime = 59;
+                                return clearInterval(interval);
+                            }
+                            this.registerWaitTime--;
+                        }, 1000);
                     } catch (error) {
                         return this.$notify({
                             title: '提示',
-                            message: '发送验证码超过限制：每个手机号一天只能发5条验证码',
+                            message: '该手机号一天只能收5条验证码',
                             type: 'warning'
                         });
                     }
-
-                    // 倒计时60秒
-                    this.registerWait = '';
-                    setInterval(() => {
-                        if (this.registerWaitTime === 1) {
-                            this.registerWaitTime = 59;
-                            return (this.registerWait = '获取验证码');
-                        }
-                        this.registerWaitTime--;
-                    }, 1000);
                 }
             });
         },
@@ -226,24 +233,34 @@ export default {
                 case 'phoneForm':
                     this.$refs.phoneForm.validate(async valid => {
                         if (valid) {
-                            this.inLogin = true;
-                            const { data: res } = await this.$axios.post('/login/cellphone', this.phoneForm);
-                            // 登录失败
-                            if (res.code !== 200) {
+                            try {
+                                this.inLogin = true;
+                                const { data: res } = await this.$axios.get('/login/cellphone', {
+                                    params: this.phoneForm
+                                });
+                                // 登录失败
+                                if (res.code !== 200) {
+                                    this.inLogin = false;
+                                    return this.$notify.error({
+                                        title: '登录失败',
+                                        message: res.msg
+                                    });
+                                }
+                                // 登录成功
+                                this.inLogin = false;
+                                // 永久存储cookie
+                                localStorage.setItem('cookie', res.cookie);
+                                // 关闭登录框
+                                this.$emit('update:openLogin', false);
+                                // 触发父组件自定义事件
+                                this.$emit('getUserInfo');
+                            } catch (error) {
                                 this.inLogin = false;
                                 return this.$notify.error({
-                                    title: '失败',
-                                    message: res.msg
+                                    title: '登录失败',
+                                    message: '登录太频繁，请5分钟后再试'
                                 });
                             }
-                            // 登录成功
-                            this.inLogin = false;
-                            // 永久存储cookie
-                            localStorage.setItem('cookie', res.cookie);
-                            // 关闭登录框
-                            this.$emit('update:openLogin', false);
-                            // 触发父组件自定义事件
-                            this.$emit('login');
                         } else {
                             return false;
                         }
@@ -273,7 +290,7 @@ export default {
                             // 关闭登录框
                             this.$emit('update:openLogin', false);
                             // 触发父组件自定义事件
-                            this.$emit('login');
+                            this.$emit('getUserInfo');
                         } else {
                             return false;
                         }
@@ -283,22 +300,20 @@ export default {
                 case 'registerForm':
                     this.$refs.registerForm.validate(async valid => {
                         if (valid) {
-                            this.inRegister = true;
-
-                            // 验证手机号是否被注册
-                            const { data: verifyPhone } = await this.$axios.post('/cellphone/existence/check', {
-                                phone: this.registerForm.phone
-                            });
-                            if (verifyPhone.exist === 1) {
-                                return this.$message.warning('该手机号已被注册');
-                            }
-
                             // 开始验证验证码
-                            const { data: verify } = await this.$axios.post('/captcha/verify', {
-                                phone: this.registerForm.phone,
-                                captcha: this.registerForm.captcha
-                            });
-                            if (verify.code !== 200) {
+                            try {
+                                const { data: verify } = await this.$axios.post('/captcha/verify', {
+                                    phone: this.registerForm.phone,
+                                    captcha: this.registerForm.captcha
+                                });
+                                if (verify.code !== 200) {
+                                    return this.$message.error('验证码无效，请重新获取');
+                                }
+                                console.log(verify);
+
+                                this.$message.success('验证通过');
+                                this.inRegister = true;
+                            } catch (error) {
                                 return this.$message.error('验证码无效，请重新获取');
                             }
 

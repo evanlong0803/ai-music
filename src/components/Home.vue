@@ -28,7 +28,7 @@
                             <el-divider direction="vertical"></el-divider>
                             <el-button type="primary" size="small" @click="openLogin = true" v-if="!loginStatus">登录</el-button>
                             <!-- 已经登录显示个人信息 -->
-                            <el-dropdown trigger="click" @command="handleCommand" v-else>
+                            <el-dropdown trigger="click" v-else>
                                 <span class="el-dropdown-link">
                                     <el-avatar :size="35" :src="userInfo.avatarUrl"></el-avatar>
                                     {{ userInfo.nickname }}
@@ -38,7 +38,7 @@
                                     <el-dropdown-item icon="el-icon-user" command="Personal Home">个人主页</el-dropdown-item>
                                     <el-dropdown-item icon="el-icon-medal" command="My Rank">我的等级</el-dropdown-item>
                                     <el-dropdown-item icon="el-icon-setting" command="personal setting">个人设置</el-dropdown-item>
-                                    <el-dropdown-item divided icon="el-icon-switch-button" command="logout">退出登录</el-dropdown-item>
+                                    <el-dropdown-item divided icon="el-icon-switch-button" @click.native="logout">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </div>
@@ -67,7 +67,7 @@
                 </div>
             </el-footer>
         </el-container>
-        <Login :openLogin.sync="openLogin" @login="login" @register="register" />
+        <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" @register="register" />
     </div>
 </template>
 
@@ -89,11 +89,11 @@ export default {
     },
     created() {
         // 页面刷新重新加载用户信息
-        this.login();
+        this.getUserInfo();
     },
     methods: {
-        // 登录（Login组件触发该函数）
-        async login() {
+        // 获取用户信息（Login组件登录后触发该函数）
+        async getUserInfo() {
             let cookie = localStorage.getItem('cookie');
             // 取不到就停止
             if (!cookie) return;
@@ -108,20 +108,20 @@ export default {
             this.loginStatus = true;
         },
 
-        // 注册（Login组件触发该函数）
+        // 注册（Login组件注册后触发该函数）
         register() {
             console.log('父组件已接收注册');
         },
 
-        handleCommand(command) {
-            switch (command) {
-                // 如果选择是退出登录
-                case 'logout':
-                    localStorage.clear();
-                    this.userInfo = {};
-                    this.loginStatus = false;
-                    break;
+        // 退出登录
+        async logout() {
+            const { data: res } = await this.$axios.get('/logout');
+            if (res.code !== 200) {
+                return this.$message.error('退出失败');
             }
+            localStorage.clear();
+            this.userInfo = {};
+            this.loginStatus = false;
         }
     }
 };

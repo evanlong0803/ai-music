@@ -9,11 +9,11 @@ export default {
             }
             //大于8位数显示亿
             else if (numStr.length >= 9) {
-                return (target / 100000000).toFixed(0) + '亿';
+                return Math.floor(target / 100000000).toFixed(0) + '亿';
             }
             //大于6位数显示万
             else if (numStr.length >= 5) {
-                return (target / 10000).toFixed(0) + '万';
+                return Math.floor(target / 10000).toFixed(0) + '万';
             }
         });
         // 个位数补零
