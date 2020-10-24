@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="newSong-record">{{ `《${item.song.album.name}》` }}</div>
-                        <div class="newSong-time">02:29</div>
+                        <div class="newSong-time">{{ item.song.bMusic.playTime | playTime }}</div>
                     </div>
                 </el-card>
             </el-col>

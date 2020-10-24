@@ -20,5 +20,12 @@ export default {
         Vue.filter('addZeros', target => {
             return target < 10 ? '0' + target : target;
         });
+
+        // 毫秒转换为分钟
+        Vue.filter('playTime', target => {
+            let min = Math.floor((target / 1000 / 60) << 0);
+            let sec = Math.floor((target / 1000) % 60);
+            return (min > 10 ? min : '0' + min) + ':' + (sec > 10 ? sec : '0' + sec);
+        });
     }
 };

@@ -3,7 +3,7 @@
         <!-- 登录界面 -->
         <el-collapse-transition>
             <el-card class="box-card" v-show="openLogin">
-                <i class="el-icon-close" @click="$emit('update:openLogin', false), close()"></i>
+                <i class="el-icon-close" @click="close"></i>
                 <el-tabs v-model="activeName" stretch @tab-click="tabRemove">
                     <!-- 手机号登录 -->
                     <el-tab-pane label="手机号登录" name="phoneForm">
@@ -42,7 +42,13 @@
                             </el-form-item>
                             <!-- 输入密码 -->
                             <el-form-item prop="password">
-                                <el-input placeholder="请输入账号密码" v-model.trim="emailForm.password" show-password prefix-icon="el-icon-lock"></el-input>
+                                <el-input
+                                    placeholder="请输入账号密码"
+                                    v-model.trim="emailForm.password"
+                                    show-password
+                                    prefix-icon="el-icon-lock"
+                                    @keyup.enter.native="submitForm('emailForm')"
+                                ></el-input>
                             </el-form-item>
                             <!-- 登录按钮 -->
                             <el-form-item>
@@ -339,6 +345,7 @@ export default {
         },
         // 关闭登录框时重置所有表单
         close() {
+            this.$emit('update:openLogin', false);
             this.$refs.phoneForm.resetFields();
             this.$refs.emailForm.resetFields();
             this.$refs.registerForm.resetFields();
