@@ -60,7 +60,7 @@
                     </el-tab-pane>
 
                     <!-- 手机号注册 -->
-                    <el-tab-pane label="快速注册" name="registerForm">
+                    <el-tab-pane label="手机号注册" name="registerForm">
                         <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
                             <!-- 输入用户名 -->
                             <el-form-item prop="nickname">
@@ -118,7 +118,7 @@ export default {
             phoneRules: {
                 phone: [
                     { required: true, message: '请输入手机号', trigger: 'blur' },
-                    { pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, message: '请输入正确的手机号', trigger: 'blur' }
+                    { pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
                 ],
                 password: [
                     { required: true, message: '请输入密码', trigger: 'blur' },
@@ -197,13 +197,17 @@ export default {
             this.$refs.registerForm.validateField('phone', async error => {
                 if (!error) {
                     // 验证手机号是否被注册
-                    const { data: verifyPhone } = await this.$axios.post('/cellphone/existence/check', {
-                        phone: this.registerForm.phone
+                    const { data: verifyPhone } = await this.$axios.get('/cellphone/existence/check', {
+                        params: {
+                            phone: this.registerForm.phone,
+                            timestamp: new Date().getTime()
+                        }
                     });
+                    console.log(verifyPhone);
+
                     if (verifyPhone.exist === 1) {
                         return this.$message.warning('该手机号已被注册');
                     }
-
                     // 发送验证码
                     try {
                         const { data: getCaptcha } = await this.$axios.post('/captcha/sent', {
@@ -260,6 +264,12 @@ export default {
                                 this.$emit('update:openLogin', false);
                                 // 触发父组件自定义事件
                                 this.$emit('getUserInfo');
+                                // 提示
+                                this.$notify({
+                                    title: '登录成功',
+                                    message: `欢迎${res.profile.nickname}回家`,
+                                    type: 'success'
+                                });
                             } catch (error) {
                                 this.inLogin = false;
                                 return this.$notify.error({
@@ -297,6 +307,12 @@ export default {
                             this.$emit('update:openLogin', false);
                             // 触发父组件自定义事件
                             this.$emit('getUserInfo');
+                            // 提示
+                            this.$notify({
+                                title: '登录成功',
+                                message: `欢迎${res.profile.nickname}回家`,
+                                type: 'success'
+                            });
                         } else {
                             return false;
                         }
@@ -325,13 +341,21 @@ export default {
 
                             // 开始注册
                             const { data: res } = await this.$axios.post('/register/cellphone', this.registerForm);
-                            // 注册成功
                             console.log(res);
+                            if (res.code !== 200) {
+                                return this.$message.error('注册失败，请重新注册');
+                            }
+                            // 注册成功
                             this.inRegister = false;
                             // 关闭登录框
-                            // this.$emit('update:openLogin', false);
-                            // 触发父组件自定义事件
-                            // this.$emit('register');
+                            this.$emit('update:openLogin', false);
+                            // 提示
+                            this.$notify({
+                                title: '注册成功',
+                                message: `用户${res.profile.nickname}：注册后请您用手机号进行登录，本次注册将和网易云音乐账号互通哟~`,
+                                type: 'success',
+                                duration: 0
+                            });
                         } else {
                             return false;
                         }

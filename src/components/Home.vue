@@ -67,7 +67,7 @@
                 </div>
             </el-footer>
         </el-container>
-        <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" @register="register" />
+        <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" />
     </div>
 </template>
 
@@ -92,7 +92,7 @@ export default {
         this.getUserInfo();
     },
     methods: {
-        // 获取用户信息（Login组件登录后触发该函数）
+        // 登录成功后，获取用户信息（Login组件登录后触发该函数）
         async getUserInfo() {
             let cookie = localStorage.getItem('cookie');
             // 取不到就停止
@@ -108,18 +108,13 @@ export default {
             this.loginStatus = true;
         },
 
-        // 注册（Login组件注册后触发该函数）
-        register() {
-            console.log('父组件已接收注册');
-        },
-
         // 退出登录
         async logout() {
             const { data: res } = await this.$axios.get('/logout');
             if (res.code !== 200) {
                 return this.$message.error('退出失败');
             }
-            localStorage.clear();
+            localStorage.removeItem('cookie');
             this.userInfo = {};
             this.loginStatus = false;
         }
