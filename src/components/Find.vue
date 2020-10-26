@@ -1,5 +1,5 @@
 <template>
-    <div class="find" style="width: 1200px;margin: 0 auto;">
+    <div class="find">
         <!-- 幻灯片 -->
         <el-row>
             <el-carousel :interval="4000" type="card" height="200px">
@@ -12,12 +12,14 @@
         <div class="featured-title">推荐歌单</div>
         <el-row type="flex" :gutter="60" style="flex-flow: row wrap;">
             <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
-                <div class="featured-songList">
-                    <!-- 播放统计 -->
-                    <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
-                    <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
-                    <div class="songList-name">{{ item.name }}</div>
-                </div>
+                <router-link to="/detail" tag="div">
+                    <div class="featured-songList">
+                        <!-- 播放统计 -->
+                        <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
+                        <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
+                        <div class="songList-name">{{ item.name }}</div>
+                    </div>
+                </router-link>
             </el-col>
         </el-row>
 
@@ -118,6 +120,8 @@ export default {
 
 <style lang="less" scoped>
 .find {
+    width: 1200px;
+    margin: 0 auto;
     // 幻灯片
     .el-carousel__item {
         border-radius: 5px;
@@ -212,7 +216,7 @@ export default {
             text-align: right;
         }
     }
-    // 推荐歌手
+    // 热门歌手
     .featured-vocalists {
         cursor: pointer;
         width: 100px;

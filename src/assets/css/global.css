@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
 }
 
 html,
@@ -10,7 +11,34 @@ body,
     height: 100%;
 }
 
+body .el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+
+/* 滚动条 */
+/* Chrome Safari */
+::-webkit-scrollbar {
+    border-radius: 7px;
+    width: 7px;
+    height: 7px;
+    background: #eee;
+}
+/* 滚动条凹槽 */
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 7px;
+}
+
 /* 去除标签页下的灰色条 */
 .el-tabs__nav-wrap::after {
     content: none;
+}
+
+/* 描述对话框 */
+.el-dialog__body {
+    padding: 10px 20px;
+}
+/* 对话框圆角 */
+.el-dialog {
+    border-radius: 6px;
 }

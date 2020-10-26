@@ -11,7 +11,7 @@
                             <span>曲奇云音乐</span>
                         </div>
                     </el-col>
-                    <el-col :span="19">
+                    <el-col :span="loginStatus ? 15 : 19">
                         <nav class="home-nav">
                             <!-- router-link默认被解析为a标签 -->
                             <router-link to="/find" exact-active-class="click">发现音乐</router-link>
@@ -22,7 +22,7 @@
                             <router-link to="/mv" exact-active-class="click">MV</router-link>
                         </nav>
                     </el-col>
-                    <el-col :span="loginStatus ? 4 : 2">
+                    <el-col :span="loginStatus ? 6 : 2">
                         <div class="home-login">
                             <a href="#"><i class="el-icon-search"></i></a>
                             <el-divider direction="vertical"></el-divider>
@@ -35,9 +35,9 @@
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item icon="el-icon-user" command="Personal Home">个人主页</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-medal" command="My Rank">我的等级</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-setting" command="personal setting">个人设置</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-user">个人主页</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-medal">我的等级</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
                                     <el-dropdown-item divided icon="el-icon-switch-button" @click.native="logout">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
@@ -49,6 +49,8 @@
                 <keep-alive>
                     <!-- 展示内容 -->
                     <router-view></router-view>
+                    <!-- 歌曲详情 -->
+                    <Datail />
                 </keep-alive>
             </el-main>
             <el-footer height="240px">
@@ -73,11 +75,13 @@
 
 <script>
 import Login from '../views/Login';
+import Datail from '../components/Detail';
 
 export default {
     name: 'home', // 主组件名
     components: {
-        Login
+        Login,
+        Datail
     },
     data() {
         return {
@@ -175,10 +179,15 @@ export default {
             .home-login {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: flex-end;
                 color: #909399;
                 a {
                     color: #999;
+                }
+
+                // 分隔线
+                .el-divider--vertical {
+                    margin: 0 15px;
                 }
 
                 // 个人信息样式
@@ -197,6 +206,7 @@ export default {
     // 内容
     .el-main {
         margin-top: 80px;
+        overflow-x: hidden;
     }
     // 底部
     .el-footer {

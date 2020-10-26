@@ -7,7 +7,7 @@ import SongList from '../components/SongList.vue';
 import Vocalists from '../components/Vocalists.vue';
 import Video from '../components/Video.vue';
 import MV from '../components/MV.vue';
-
+import Detail from '../components/Detail.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,7 +17,8 @@ const routes = [
     { path: '/songlist', name: 'SongList', component: SongList },
     { path: '/vocalists', name: 'Vocalists', component: Vocalists },
     { path: '/video', name: 'Video', component: Video },
-    { path: '/mv', name: 'MV', component: MV }
+    { path: '/mv', name: 'MV', component: MV },
+    { path: '/detail', name: 'Detail', comments: Detail }
 ];
 
 const router = new VueRouter({
