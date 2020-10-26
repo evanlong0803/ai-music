@@ -4,7 +4,7 @@
             <!-- 左侧 -->
             <el-col :span="17">
                 <!-- 左侧卡片 -->
-                <el-card class="left-card" shadow="hover">
+                <el-card class="left-card">
                     <!-- 左侧上部分 -->
                     <el-row class="card-top">
                         <el-col :span="7">
@@ -36,7 +36,7 @@
                             <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
                         </div>
                         <div class="bottom-song">
-                            <el-table :data="tableData" height="600" style="width: 100%" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }">
+                            <el-table :data="tableData" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }">
                                 <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
                                 <el-table-column prop="date" label="歌曲" width="220" show-overflow-tooltip></el-table-column>
                                 <el-table-column prop="name" label="歌手" width="150" show-overflow-tooltip></el-table-column>
@@ -192,6 +192,7 @@ export default {
     // 左边
     .left-card {
         height: 100%;
+        border-radius: 10px;
         // 左侧上部分
         .card-top {
             .top-left-img {
@@ -264,6 +265,8 @@ export default {
     }
     // 右边
     .right-card {
+        border-radius: 10px;
+
         height: 100%;
         margin-bottom: 20px;
         .card-title {
