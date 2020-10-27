@@ -44,7 +44,35 @@ export default {
             let newTime = new Date()
             // 获取时间差
             let res = newTime - target
-            return Math.floor(res / (1000 * 60 * 60 * 24 * 30)) + '月前'
+            // 定义小时
+            let hour = res / (1000 * 60 * 60)
+            // 定义天
+            let day = res / (1000 * 60 * 60 * 24)
+            // 定义月
+            let month = res / (1000 * 60 * 60 * 24 * 30)
+            // 定义年
+            let year = res / (1000 * 60 * 60 * 24 * 30 * 12)
+
+            // 小时前
+            if (hour < 24) {
+                return Math.floor(hour) + '小时前'
+            }
+            // 天前
+            else if (day < 7) {
+                return Math.floor(day) + '天前'
+            }
+            // 周前
+            else if (day < 29 && day > 7) {
+                return Math.floor(day / 7) + '周前'
+            }
+            // 月前
+            else if (month <= 11) {
+                return Math.floor(month) + '月前'
+            }
+            // 年前
+            else if (month >= 12) {
+                return Math.floor(year) + '年前'
+            }
         })
     }
 }

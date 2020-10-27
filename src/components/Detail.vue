@@ -299,10 +299,14 @@ export default {
                 height: 100%;
                 // 歌曲样式
                 .songName {
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     div {
+                        width: 70%;
                         margin-left: 10px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
             }
