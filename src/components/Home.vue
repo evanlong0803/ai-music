@@ -14,7 +14,7 @@
                     <el-col :span="loginStatus ? 15 : 19">
                         <nav class="home-nav">
                             <!-- router-link默认被解析为a标签 -->
-                            <router-link to="/find" exact-active-class="click">发现音乐</router-link>
+                            <router-link to="/" exact-active-class="click">发现音乐</router-link>
                             <router-link to="/rank" exact-active-class="click">排行榜</router-link>
                             <router-link to="/songlist" exact-active-class="click">歌单</router-link>
                             <router-link to="/vocalists" exact-active-class="click">歌手</router-link>
@@ -46,12 +46,8 @@
                 </el-row>
             </el-header>
             <el-main>
-                <keep-alive>
-                    <!-- 展示内容 -->
-                    <router-view></router-view>
-                    <!-- 歌曲详情 -->
-                    <Datail />
-                </keep-alive>
+                <!-- 展示内容 -->
+                <router-view></router-view>
             </el-main>
             <el-footer height="240px">
                 <div class="home-bottom">
@@ -74,14 +70,12 @@
 </template>
 
 <script>
-import Login from '../views/Login';
-import Datail from '../components/Detail';
+import Login from '../views/Login'
 
 export default {
     name: 'home', // 主组件名
     components: {
-        Login,
-        Datail
+        Login
     },
     data() {
         return {
@@ -89,41 +83,41 @@ export default {
             openLogin: false,
             ownCookie: '',
             userInfo: {}
-        };
+        }
     },
     created() {
         // 页面刷新重新加载用户信息
-        this.getUserInfo();
+        this.getUserInfo()
     },
     methods: {
         // 登录成功后，获取用户信息（Login组件登录后触发该函数）
         async getUserInfo() {
-            let cookie = localStorage.getItem('cookie');
+            let cookie = localStorage.getItem('cookie')
             // 取不到就停止
-            if (!cookie) return;
+            if (!cookie) return
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.post('/login/status', { cookie });
+            const { data: res } = await this.$axios.post('/login/status', { cookie })
             // 获取失败
             if (res.code !== 200) {
-                return this.$message.error(res.msg);
+                return this.$message.error(res.msg)
             }
             // 获取成功后储存用户信息
-            this.userInfo = res.profile;
-            this.loginStatus = true;
+            this.userInfo = res.profile
+            this.loginStatus = true
         },
 
         // 退出登录
         async logout() {
-            const { data: res } = await this.$axios.get('/logout');
+            const { data: res } = await this.$axios.get('/logout')
             if (res.code !== 200) {
-                return this.$message.error('退出失败');
+                return this.$message.error('退出失败')
             }
-            localStorage.removeItem('cookie');
-            this.userInfo = {};
-            this.loginStatus = false;
+            localStorage.removeItem('cookie')
+            this.userInfo = {}
+            this.loginStatus = false
         }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>

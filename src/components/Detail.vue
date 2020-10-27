@@ -8,23 +8,21 @@
                     <!-- 左侧上部分 -->
                     <el-row class="card-top">
                         <el-col :span="7">
-                            <el-image class="top-left-img" src="http://p1.music.126.net/_PXjlu7VMgWRiLgEMAr5Wg==/109951165007536195.jpg?param=200y200" fit="cover"></el-image>
+                            <el-image class="top-left-img" :src="detail.coverImgUrl" fit="cover"></el-image>
                         </el-col>
                         <el-col :span="17">
                             <div class="top-right">
-                                <h2 class="top-right-title">闻香寻味｜时光沉淀后方感深邃</h2>
+                                <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-userInfo">
-                                    <el-image class="userInfo-avatar" src="http://p1.music.126.net/4Th0M0Qp6ttM4sOfQbNyyg==/109951165262707714.jpg?param=100y100" fit="cover"></el-image>
-                                    <div class="userInfo-name">52赫兹共振</div>
-                                    <div class="userInfo-time">2020-05-09创建</div>
+                                    <el-image class="userInfo-avatar" :src="creator.avatarUrl" fit="cover"></el-image>
+                                    <div class="userInfo-name">{{ creator.nickname }}</div>
+                                    <div class="userInfo-time">更新时间：{{ detail.updateTime | timeStamp }}</div>
                                 </div>
                                 <div class="top-right-tag">
                                     标签：
-                                    <el-tag>欧美</el-tag>
-                                    <el-tag type="success">民谣</el-tag>
-                                    <el-tag type="info">爵士</el-tag>
+                                    <el-tag v-for="(item, index) in detail.tags" :key="index">{{ item }}</el-tag>
                                 </div>
-                                <div class="top-right-description">再好闻的香水，都没有时间沉淀出来的气息。</div>
+                                <div class="top-right-description">{{ detail.description }}</div>
                                 <el-link type="danger" :underline="false" @click="descriptionDialog = true">全部<i class="el-icon-arrow-right"></i></el-link>
                             </div>
                         </el-col>
@@ -52,9 +50,9 @@
                 <!-- 喜欢歌单 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">喜欢这个歌单的伙伴</div>
-                    <el-row class="card-users" :gutter="10">
-                        <el-col :span="4" v-for="(item, index) in 30" :key="index">
-                            <el-image class="users-avatar" src="http://p1.music.126.net/RLeBJe4D1ZzUtltxfoKDMg==/109951163250239066.jpg?param=150y150" fit="cover"></el-image>
+                    <el-row class="card-users" :gutter="15" type="flex">
+                        <el-col :span="4" v-for="(item, index) in subscribers" :key="index">
+                            <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
                         </el-col>
                     </el-row>
                     <div></div>
@@ -62,42 +60,39 @@
                 <!-- 相关推荐 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">相关推荐</div>
-                    <div class="card-featured" v-for="(item, index) in 5" :key="index">
+                    <div class="card-featured" v-for="(item, index) in featured" :key="index">
                         <div class="featured-left">
-                            <el-image class="featured-avatar" src="http://p1.music.126.net/RLeBJe4D1ZzUtltxfoKDMg==/109951163250239066.jpg?param=150y150" fit="cover"></el-image>
+                            <el-image class="featured-avatar" :src="item.coverImgUrl" fit="cover"></el-image>
                         </div>
                         <div class="featured-right">
-                            <div class="featured-title">小语种民歌丨淳朴又感情的曲调</div>
-                            <div class="featured-name">By. 音乐大师师</div>
+                            <div class="featured-title">{{ item.name }}</div>
+                            <div class="featured-name">By. {{ item.creator.nickname }}</div>
                         </div>
                     </div>
                 </el-card>
                 <!-- 精彩评论 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">精彩评论</div>
-                    <div class="card-comments" v-for="(item, index) in 10" :key="index">
+                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index">
                         <!-- 左侧 -->
                         <div class="comments-left">
-                            <el-avatar :size="50" src="http://p1.music.126.net/RLeBJe4D1ZzUtltxfoKDMg==/109951163250239066.jpg?param=150y150"></el-avatar>
+                            <el-avatar :size="40" :src="item.user.avatarUrl"></el-avatar>
                         </div>
                         <!-- 右侧 -->
                         <div class="comments-right">
                             <div class="right-name">
-                                曲清酌
-                                <span>4月前</span>
+                                {{ item.user.nickname }}
+                                <span>{{ item.time | timeStamp }}</span>
                             </div>
-                            <div class="right-content">
-                                哪有什么侧颜 阳光 白衬衫 对于普通家庭 普通学生 普通中学的我们青春的烦恼更多的是拿着不及格的试卷的不知所措 体育课800米后的汗液 班主任无意间的羞辱
-                                坐在教室的角落里望着嬉闹的他们
-                            </div>
+                            <div class="right-content">{{ item.content }}</div>
                         </div>
                     </div>
                 </el-card>
             </el-col>
 
             <!-- 查看全部描述对话框 -->
-            <el-dialog title="闻香寻味｜时光沉淀后方感深邃" :visible.sync="descriptionDialog" width="25%">
-                <div class="dialog-content" v-for="(item, index) in 5" :key="index">再好闻的香水，都没有时间沉淀出来的气息。</div>
+            <el-dialog :title="detail.name" :visible.sync="descriptionDialog" width="25%">
+                <div class="dialog-content">{{ detail.description }}</div>
             </el-dialog>
         </el-row>
     </div>
@@ -108,6 +103,18 @@ export default {
     name: 'detail',
     data() {
         return {
+            // 歌单ID
+            songListId: '',
+            // 歌单详情
+            detail: {},
+            creator: {},
+            // 喜欢歌单的伙伴
+            subscribers: [],
+            // 相关评论
+            featured: [],
+            // 精彩评论
+            hotComments: [],
+            // 查看全部描述对话框
             descriptionDialog: false,
             tableData: [
                 {
@@ -178,11 +185,57 @@ export default {
             ],
             // 自定义索引
             indexMethod(index) {
-                return index + 1 < 10 ? '0' + (index + 1) : index + 1;
+                return index + 1 < 10 ? '0' + (index + 1) : index + 1
             }
-        };
+        }
+    },
+    created() {
+        this.songListId = this.$route.query.id
+        this.loadDetail()
+        this.loadSubscribers()
+        this.loadFeatured()
+        this.loadComments()
+    },
+    methods: {
+        // 加载歌单详情
+        async loadDetail() {
+            const { data: res } = await this.$axios.get(`/playlist/detail?id=${this.songListId}`)
+            if (res.code !== 200) {
+                return this.$message.error('歌单详情请求失败')
+            }
+            this.detail = res.playlist
+            this.creator = res.playlist.creator
+            console.log(this.detail)
+        },
+        // 加载喜欢歌单的人
+        async loadSubscribers() {
+            const { data: res } = await this.$axios.post('/playlist/subscribers', {
+                id: this.songListId,
+                limit: 30
+            })
+            if (res.code !== 200) {
+                return this.$message.error('歌单详情请求失败')
+            }
+            this.subscribers = res.subscribers
+        },
+        // 加载相关推荐
+        async loadFeatured() {
+            const { data: res } = await this.$axios.get(`/related/playlist?id=${this.songListId}`)
+            if (res.code !== 200) {
+                return this.$message.error('歌单详情请求失败')
+            }
+            this.featured = res.playlists
+        },
+        // 加载精彩评论
+        async loadComments() {
+            const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.songListId}`)
+            if (res.code !== 200) {
+                return this.$message.error('歌单详情请求失败')
+            }
+            this.hotComments = res.hotComments
+        }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -237,7 +290,7 @@ export default {
                     font-size: 14px;
                     .el-tag {
                         height: 25px;
-                        line-height: 25px;
+                        line-height: 23px;
                         padding: 0 15px;
                         margin-right: 10px;
                         border-radius: 20px;
@@ -270,15 +323,16 @@ export default {
         height: 100%;
         margin-bottom: 20px;
         .card-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             padding-left: 10px;
             border-left: 3px solid #409eff;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         // 喜欢这个歌单的人
         .card-users {
+            flex-flow: row wrap;
             .users-avatar {
                 border-radius: 5px;
                 margin: 5px 0;
@@ -295,7 +349,7 @@ export default {
             // 左边
             .featured-left {
                 height: 100%;
-                margin-right: 10px;
+                margin-right: 20px;
                 .featured-avatar {
                     width: 60px;
                     height: 60px;
@@ -308,7 +362,7 @@ export default {
                 cursor: pointer;
 
                 .featured-title {
-                    font-size: 14px;
+                    font-size: 15px;
                     font-weight: bold;
                     margin-bottom: 10px;
                     &:hover {
@@ -326,7 +380,7 @@ export default {
         .card-comments {
             height: 100%;
             display: flex;
-            margin-top: 20px;
+            margin-top: 30px;
             .comments-left {
                 margin-right: 12px;
             }

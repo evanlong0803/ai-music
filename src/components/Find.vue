@@ -12,14 +12,12 @@
         <div class="featured-title">推荐歌单</div>
         <el-row type="flex" :gutter="60" style="flex-flow: row wrap;">
             <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
-                <router-link to="/detail" tag="div">
-                    <div class="featured-songList">
-                        <!-- 播放统计 -->
-                        <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
-                        <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
-                        <div class="songList-name">{{ item.name }}</div>
-                    </div>
-                </router-link>
+                <div class="featured-songList" @click="goDetail(item.id)">
+                    <!-- 播放统计 -->
+                    <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
+                    <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
+                    <div class="songList-name">{{ item.name }}</div>
+                </div>
             </el-col>
         </el-row>
 
@@ -73,49 +71,53 @@ export default {
             newSong: [],
             // 热门歌手数据
             HotSinger: []
-        };
+        }
     },
     created() {
-        this.loadBanner();
-        this.loadFeaturedSongList();
-        this.loadHotSinger();
-        this.loadFeaturedNewSong();
+        this.loadBanner()
+        this.loadFeaturedSongList()
+        this.loadHotSinger()
+        this.loadFeaturedNewSong()
     },
     methods: {
         // 请求banner轮播图
         async loadBanner() {
-            const { data: res } = await this.$axios.get('/banner');
+            const { data: res } = await this.$axios.get('/banner')
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
-            this.banners = res.banners;
+            this.banners = res.banners
         },
         // 请求推荐歌单
         async loadFeaturedSongList() {
-            const { data: res } = await this.$axios.post('/personalized', { limit: 18 });
+            const { data: res } = await this.$axios.post('/personalized', { limit: 18 })
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
-            this.FeaturedSongList = res.result;
+            this.FeaturedSongList = res.result
         },
         // 推荐新歌
         async loadFeaturedNewSong() {
-            const { data: res } = await this.$axios.get('/personalized/newsong');
+            const { data: res } = await this.$axios.get('/personalized/newsong')
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
-            this.newSong = res.result;
+            this.newSong = res.result
         },
         // 请求热门歌手
         async loadHotSinger() {
-            const { data: res } = await this.$axios.post('/top/artists', { offset: 0, limit: 24 });
+            const { data: res } = await this.$axios.post('/top/artists', { offset: 0, limit: 24 })
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
-            this.HotSinger = res.artists;
+            this.HotSinger = res.artists
+        },
+        // 跳转详情页
+        goDetail(id) {
+            this.$router.push(`/detail?id=${id}`)
         }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>
