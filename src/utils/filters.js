@@ -38,6 +38,13 @@ export default {
             return `${year}-${month}-${date} ${hour}:${minute}:${second}`
         })
 
-        // 时间戳转换多少天前
+        // 时间戳转换多少月前
+        Vue.filter('time', target => {
+            // 今天的时间
+            let newTime = new Date()
+            // 获取时间差
+            let res = newTime - target
+            return Math.floor(res / (1000 * 60 * 60 * 24 * 30)) + '月前'
+        })
     }
 }

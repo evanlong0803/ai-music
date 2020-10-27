@@ -82,7 +82,7 @@
                         <div class="comments-right">
                             <div class="right-name">
                                 {{ item.user.nickname }}
-                                <span>{{ item.time | timeStamp }}</span>
+                                <span>{{ item.time | time }}</span>
                             </div>
                             <div class="right-content">{{ item.content }}</div>
                         </div>
