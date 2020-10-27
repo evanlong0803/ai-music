@@ -34,12 +34,25 @@
                             <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
                         </div>
                         <div class="bottom-song">
-                            <el-table :data="tableData" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }">
+                            <el-table :data="songDetail" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }" @row-click="rowClick">
                                 <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
-                                <el-table-column prop="date" label="歌曲" width="220" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="name" label="歌手" width="150" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="address" label="专辑" width="180" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="date" label="时长" align="center"> </el-table-column>
+                                <el-table-column label="歌曲" width="220" show-overflow-tooltip>
+                                    <template slot-scope="scope">
+                                        <div class="songName">
+                                            <el-avatar shape="square" :size="35" :src="scope.row.al.picUrl"></el-avatar>
+                                            <div>{{ scope.row.name }}</div>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="歌手" width="150" show-overflow-tooltip>
+                                    <template slot-scope="scope">
+                                        <span v-for="item in scope.row.ar" :key="item.id">
+                                            {{ item.name }}
+                                        </span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="al.name" label="专辑" width="180" show-overflow-tooltip></el-table-column>
+                                <el-table-column prop="publishTime" label="时长" align="center"> </el-table-column>
                             </el-table>
                         </div>
                     </div>
@@ -114,75 +127,12 @@ export default {
             featured: [],
             // 精彩评论
             hotComments: [],
+            // 歌曲详情
+            songDetail: [],
+            // 音乐URL
+            musicURL: [],
             // 查看全部描述对话框
             descriptionDialog: false,
-            tableData: [
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-08',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-06',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },
-                {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }
-            ],
             // 自定义索引
             indexMethod(index) {
                 return index + 1 < 10 ? '0' + (index + 1) : index + 1
@@ -191,12 +141,10 @@ export default {
     },
     created() {
         this.songListId = this.$route.query.id
-        this.$nextTick(() => {
-            this.loadDetail()
-            this.loadSubscribers()
-            this.loadFeatured()
-            this.loadComments()
-        })
+        this.loadDetail()
+        this.loadSubscribers()
+        this.loadFeatured()
+        this.loadComments()
     },
     methods: {
         // 加载歌单详情
@@ -207,6 +155,12 @@ export default {
             }
             this.detail = res.playlist
             this.creator = res.playlist.creator
+            // 储存音乐ID
+            let musicId = res.privileges.map(item => {
+                return item.id
+            })
+            this.loadSongDetail(musicId)
+            this.loadMusicURL(musicId)
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
@@ -215,7 +169,7 @@ export default {
                 limit: 30
             })
             if (res.code !== 200) {
-                return this.$message.error('歌单详情请求失败')
+                return this.$message.error('歌单收藏的用户请求失败')
             }
             this.subscribers = res.subscribers
         },
@@ -223,7 +177,7 @@ export default {
         async loadFeatured() {
             const { data: res } = await this.$axios.get(`/related/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
-                return this.$message.error('歌单详情请求失败')
+                return this.$message.error('相关推荐请求失败')
             }
             this.featured = res.playlists
         },
@@ -231,16 +185,43 @@ export default {
         async loadComments() {
             const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
-                return this.$message.error('歌单详情请求失败')
+                return this.$message.error('精彩评论请求失败')
             }
             // 如果没有精彩评论就给普通评论，统一12条
             this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments
+        },
+        // 加载歌曲详情
+        async loadSongDetail(musicId) {
+            const { data: res } = await this.$axios.get(`/song/detail?ids=${musicId.join(',')}`)
+            if (res.code !== 200) {
+                return this.$message.error('歌曲详情请求失败')
+            }
+            this.songDetail = res.songs
+            console.log(this.songDetail)
+        },
+        // 加载音乐URL
+        async loadMusicURL(musicId) {
+            const { data: res } = await this.$axios.get(`/song/url?id=${musicId.join(',')}`)
+            if (res.code !== 200) {
+                return this.$message.error('音乐URL请求失败')
+            }
+            this.musicURL = res.data
+            console.log(this.musicURL)
+        },
+        // 当某一行被点击时会触发该事件
+        rowClick(row) {
+            console.log(row, 123)
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
+.songName {
+    .el-table .cell.el-tooltip {
+        display: flex;
+    }
+}
 .detail {
     width: 1200px;
     margin: 0 auto;
@@ -315,6 +296,15 @@ export default {
             }
             .bottom-song {
                 width: 100%;
+                height: 100%;
+                // 歌曲样式
+                .songName {
+                    display: flex;
+                    align-items: center;
+                    div {
+                        margin-left: 10px;
+                    }
+                }
             }
         }
     }
@@ -343,17 +333,20 @@ export default {
 
         // 相关推荐
         .card-featured {
-            height: 60px;
+            width: 100%;
+            height: 50px;
             display: flex;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 20px;
+
             // 左边
             .featured-left {
+                width: 50px;
                 height: 100%;
                 margin-right: 20px;
                 .featured-avatar {
-                    width: 60px;
-                    height: 60px;
+                    width: 50px;
+                    height: 50px;
                     border-radius: 5px;
                     cursor: pointer;
                 }
@@ -361,8 +354,11 @@ export default {
             // 右边
             .featured-right {
                 cursor: pointer;
-
+                width: 220px;
                 .featured-title {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     font-size: 15px;
                     font-weight: bold;
                     margin-bottom: 10px;
@@ -373,6 +369,9 @@ export default {
                 .featured-name {
                     font-size: 12px;
                     color: #999;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
         }
