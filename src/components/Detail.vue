@@ -385,6 +385,7 @@ export default {
 
             .comments-left {
                 margin-right: 12px;
+                cursor: pointer;
             }
             .comments-right {
                 .right-name {
