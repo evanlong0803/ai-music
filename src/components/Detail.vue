@@ -73,7 +73,7 @@
                 <!-- 精彩评论 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">精彩评论</div>
-                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index">
+                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index" v-show="hotComments">
                         <!-- 左侧 -->
                         <div class="comments-left">
                             <el-avatar :size="40" :src="item.user.avatarUrl"></el-avatar>
@@ -191,10 +191,12 @@ export default {
     },
     created() {
         this.songListId = this.$route.query.id
-        this.loadDetail()
-        this.loadSubscribers()
-        this.loadFeatured()
-        this.loadComments()
+        this.$nextTick(() => {
+            this.loadDetail()
+            this.loadSubscribers()
+            this.loadFeatured()
+            this.loadComments()
+        })
     },
     methods: {
         // 加载歌单详情
@@ -205,7 +207,6 @@ export default {
             }
             this.detail = res.playlist
             this.creator = res.playlist.creator
-            console.log(this.detail)
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
@@ -232,7 +233,8 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌单详情请求失败')
             }
-            this.hotComments = res.hotComments
+            // 如果没有精彩评论就给普通评论，统一12条
+            this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments
         }
     }
 }
@@ -319,7 +321,6 @@ export default {
     // 右边
     .right-card {
         border-radius: 10px;
-
         height: 100%;
         margin-bottom: 20px;
         .card-title {
@@ -381,6 +382,7 @@ export default {
             height: 100%;
             display: flex;
             margin-top: 30px;
+
             .comments-left {
                 margin-right: 12px;
             }

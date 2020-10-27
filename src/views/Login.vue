@@ -6,7 +6,7 @@
                 <i class="el-icon-close" @click="close"></i>
                 <el-tabs v-model="activeName" stretch @tab-click="tabRemove">
                     <!-- 手机号登录 -->
-                    <el-tab-pane label="手机号登录" name="phoneForm">
+                    <el-tab-pane label="网易手机登录" name="phoneForm">
                         <el-form :model="phoneForm" :rules="phoneRules" ref="phoneForm">
                             <!-- 输入手机号 -->
                             <el-form-item prop="phone">
@@ -32,7 +32,7 @@
                     </el-tab-pane>
 
                     <!-- 邮箱登录 -->
-                    <el-tab-pane label="邮箱登录" name="emailForm">
+                    <el-tab-pane label="网易邮箱登录" name="emailForm">
                         <el-form :model="emailForm" :rules="emailRules" ref="emailForm">
                             <!-- 输入邮箱 -->
                             <el-form-item prop="email">
@@ -60,7 +60,7 @@
                     </el-tab-pane>
 
                     <!-- 手机号注册 -->
-                    <el-tab-pane label="手机号注册" name="registerForm">
+                    <el-tab-pane label="网易手机号注册" name="registerForm">
                         <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
                             <!-- 输入用户名 -->
                             <el-form-item prop="nickname">
@@ -68,7 +68,7 @@
                             </el-form-item>
                             <!-- 输入用户名密码 -->
                             <el-form-item prop="password">
-                                <el-input placeholder="输入用户名密码" v-model.trim="registerForm.password" show-password prefix-icon="el-icon-lock"></el-input>
+                                <el-input placeholder="注册密码" v-model.trim="registerForm.password" show-password prefix-icon="el-icon-lock"></el-input>
                             </el-form-item>
                             <!-- 输入手机号 -->
                             <el-form-item prop="phone">
@@ -387,7 +387,7 @@ export default {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 500px;
+        width: 550px;
         z-index: 99;
         border-radius: 10px;
         i {
@@ -397,7 +397,7 @@ export default {
         // 登录标签页
         .el-tabs {
             margin: 0 auto;
-            width: 75%;
+            width: 80%;
             margin-top: 15px;
 
             // 登录内容
