@@ -10,7 +10,7 @@
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <el-row type="flex" :gutter="60" style="flex-flow: row wrap;">
+        <el-row type="flex" :gutter="60" style="flex-flow: row wrap;" v-loading="!FeaturedSongList.length">
             <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
@@ -23,7 +23,7 @@
 
         <!-- 推荐新歌曲 -->
         <div class="featured-title">推荐新歌曲</div>
-        <el-row :gutter="30">
+        <el-row :gutter="30" v-loading="!newSong.length">
             <el-col :span="12" v-for="(item, index) in newSong" :key="index" style="margin-bottom: 20px;">
                 <el-card shadow="always" body-style="padding: 15px 30px;">
                     <!-- 内容 -->
@@ -47,7 +47,7 @@
 
         <!-- 推荐歌手 -->
         <div class="featured-title">热门歌手</div>
-        <el-row :gutter="60">
+        <el-row :gutter="60" v-loading="!HotSinger.length">
             <el-col :span="3" v-for="(item, index) in HotSinger" :key="index">
                 <div class="featured-vocalists">
                     <el-image class="vocalists-img" :src="item.img1v1Url" fit="cover"></el-image>
@@ -65,11 +65,11 @@ export default {
         return {
             // 轮播图
             banners: [],
-            // 推荐歌单数据
+            // 推荐歌单
             FeaturedSongList: [],
-            // 推荐新歌数据
+            // 推荐新歌
             newSong: [],
-            // 热门歌手数据
+            // 热门歌手
             HotSinger: []
         }
     },

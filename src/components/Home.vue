@@ -66,16 +66,19 @@
             </el-footer>
         </el-container>
         <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" />
+        <Player />
     </div>
 </template>
 
 <script>
 import Login from '../views/Login'
+import Player from '../views/player'
 
 export default {
     name: 'home', // 主组件名
     components: {
-        Login
+        Login,
+        Player
     },
     data() {
         return {
@@ -125,7 +128,6 @@ export default {
     height: 100%;
     // 头部
     .el-header {
-        background: white;
         box-shadow: 0 1px 5px #ddd;
         position: fixed;
         width: 100%;

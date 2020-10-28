@@ -34,7 +34,15 @@
                             <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
                         </div>
                         <div class="bottom-song">
-                            <el-table :data="songDetail" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }" @row-click="rowClick">
+                            <el-table
+                                :data="songDetail"
+                                v-loading="!songDetail.length"
+                                size="medium"
+                                stripe
+                                :header-cell-style="{ background: '#FAFAFA', color: '#606266' }"
+                                @row-click="rowClick"
+                                lazy
+                            >
                                 <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
                                 <el-table-column label="歌曲" width="220" show-overflow-tooltip>
                                     <template slot-scope="scope">
@@ -67,15 +75,17 @@
                 <!-- 喜欢歌单 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">喜欢这个歌单的伙伴</div>
-                    <el-row class="card-users" :gutter="15" type="flex">
+                    <el-row class="card-users" :gutter="15" type="flex" v-loading="!subscribers.length">
                         <el-col :span="4" v-for="(item, index) in subscribers" :key="index">
-                            <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
+                            <el-tooltip effect="dark" :content="item.nickname" placement="top" :open-delay="300">
+                                <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
+                            </el-tooltip>
                         </el-col>
                     </el-row>
                     <div></div>
                 </el-card>
                 <!-- 相关推荐 -->
-                <el-card class="right-card" shadow="hover">
+                <el-card class="right-card" shadow="hover" v-loading="!featured.length">
                     <div class="card-title">相关推荐</div>
                     <div class="card-featured" v-for="(item, index) in featured" :key="index">
                         <div class="featured-left">
@@ -90,7 +100,7 @@
                 <!-- 精彩评论 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">精彩评论</div>
-                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index" v-show="hotComments">
+                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index">
                         <!-- 左侧 -->
                         <div class="comments-left">
                             <el-avatar :size="40" :src="item.user.avatarUrl"></el-avatar>
@@ -211,7 +221,6 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }
-            console.log(res)
             // 储存每首音乐的RUL
             let musicURL = res.data.map(item => {
                 return { url: item.url, id: item.id }
@@ -412,6 +421,7 @@ export default {
                     font-size: 15px;
                     font-weight: bold;
                     margin-bottom: 10px;
+                    cursor: pointer;
                     span {
                         font-size: 12px;
                         font-weight: normal;
