@@ -8,13 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@liripeng/vue-audio-player": "^1.0.7",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.4.5",
-    "hammer-touchemulator": "0.0.2",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
+    "vue-aplayer": "^1.6.1",
     "vue-router": "^3.4.8"
   },
   "devDependencies": {

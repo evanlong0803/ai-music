@@ -37,11 +37,6 @@ Vue.prototype.$axios = axios
 // 全局CSS样式
 import './assets/css/global.css'
 
-// 音乐播放器
-import AudioPlayer from '@liripeng/vue-audio-player'
-import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
-Vue.use(AudioPlayer)
-
 // 关闭生产提示
 Vue.config.productionTip = false
 
