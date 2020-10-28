@@ -40,33 +40,43 @@ export default {
 
         // 时间戳转换多少月前
         Vue.filter('time', target => {
-            // 今天的时间
+            // 现在的时间
             let newTime = new Date()
             // 获取时间差
-            let res = newTime - target
+            let timeDiff = newTime - target
+            // 定义分钟
+            let minute = timeDiff / (1000 * 60)
             // 定义小时
-            let hour = res / (1000 * 60 * 60)
+            let hour = timeDiff / (1000 * 60 * 60)
             // 定义天
-            let day = res / (1000 * 60 * 60 * 24)
+            let day = timeDiff / (1000 * 60 * 60 * 24)
             // 定义月
-            let month = res / (1000 * 60 * 60 * 24 * 30)
+            let month = timeDiff / (1000 * 60 * 60 * 24 * 30)
             // 定义年
-            let year = res / (1000 * 60 * 60 * 24 * 30 * 12)
+            let year = timeDiff / (1000 * 60 * 60 * 24 * 30 * 12)
 
+            // 刚刚
+            if (minute === 0) {
+                return Math.floor(minute) + '刚刚'
+            }
+            // 分钟前
+            else if (minute < 60 && minute > 0) {
+                return Math.floor(minute) + '分钟前'
+            }
             // 小时前
-            if (hour < 24) {
+            else if (hour < 24 && hour > 0) {
                 return Math.floor(hour) + '小时前'
             }
             // 天前
-            else if (day < 7) {
+            else if (day < 7 && day > 0) {
                 return Math.floor(day) + '天前'
             }
             // 周前
-            else if (day < 29 && day > 7) {
+            else if (day < 29 && day > 6) {
                 return Math.floor(day / 7) + '周前'
             }
             // 月前
-            else if (month <= 11) {
+            else if (month < 12 && month > 0) {
                 return Math.floor(month) + '月前'
             }
             // 年前

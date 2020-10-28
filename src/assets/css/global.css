@@ -15,16 +15,15 @@ body .el-scrollbar__wrap {
 }
 
 /* 滚动条 */
-/* Chrome Safari */
 ::-webkit-scrollbar {
     border-radius: 7px;
     width: 7px;
     height: 7px;
     background: #eee;
 }
-/* 滚动条凹槽 */
+/* 滚动条滑块儿 */
 ::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+    background-color: #acacac;
     border-radius: 7px;
 }
 

@@ -52,7 +52,11 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column prop="al.name" label="专辑" width="180" show-overflow-tooltip></el-table-column>
-                                <el-table-column prop="publishTime" label="时长" align="center"> </el-table-column>
+                                <el-table-column label="时长" align="center">
+                                    <template slot-scope="scope">
+                                        {{ scope.row.dt | playTime }}
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </div>
                     </div>
@@ -156,11 +160,13 @@ export default {
             this.detail = res.playlist
             this.creator = res.playlist.creator
             // 储存音乐ID
-            let musicId = res.privileges.map(item => {
+            let trackIds = res.playlist.trackIds.map(item => {
                 return item.id
             })
-            this.loadSongDetail(musicId)
-            this.loadMusicURL(musicId)
+            // let musicId = res.privileges.map(item => {
+            //     return item.id
+            // })
+            this.loadSongDetail(trackIds)
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
@@ -191,26 +197,37 @@ export default {
             this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments
         },
         // 加载歌曲详情
-        async loadSongDetail(musicId) {
-            const { data: res } = await this.$axios.get(`/song/detail?ids=${musicId.join(',')}`)
+        async loadSongDetail(trackIds) {
+            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
             }
             this.songDetail = res.songs
-            console.log(this.songDetail)
+            this.loadMusicURL(trackIds)
         },
         // 加载音乐URL
-        async loadMusicURL(musicId) {
-            const { data: res } = await this.$axios.get(`/song/url?id=${musicId.join(',')}`)
+        async loadMusicURL(trackIds) {
+            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }
-            this.musicURL = res.data
-            console.log(this.musicURL)
+            console.log(res)
+            // 储存每首音乐的RUL
+            let musicURL = res.data.map(item => {
+                return { url: item.url, id: item.id }
+            })
+            // 将每一个音乐URL放入对象属性中
+            for (const i in musicURL) {
+                for (const j in this.songDetail) {
+                    if (this.songDetail[j].id === musicURL[i].id) {
+                        this.$set(this.songDetail[j], 'url', musicURL[i].url)
+                    }
+                }
+            }
         },
-        // 当某一行被点击时会触发该事件
+        // 当某一行被点击时
         rowClick(row) {
-            console.log(row, 123)
+            console.log(row.url)
         }
     }
 }
