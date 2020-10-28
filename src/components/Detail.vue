@@ -236,7 +236,7 @@ export default {
         },
         // 当某一行被点击时
         rowClick(row) {
-            console.log(row.url)
+            console.log(row)
         }
     }
 }
