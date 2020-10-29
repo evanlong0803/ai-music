@@ -1,29 +1,17 @@
 <template>
     <div class="player">
-        <aplayer autoplay :music="list[0]" theme="#409EFF" :list="list" :showLrc="true" listMaxHeight="400px" repeat="repeat-all" controls />
+        <transition name="el-fade-in-linear">
+            <aplayer ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" showLrc @error="err" :lrcType="1" />
+        </transition>
     </div>
 </template>
 
 <script>
-import Aplayer from 'vue-aplayer'
-// 关闭播放器生产提示
-Aplayer.disableVersionBadge = true
 export default {
-    components: {
-        Aplayer
-    },
     data() {
         return {
-            autoplay: true,
+            // 播放列表
             list: []
-        }
-    },
-    created() {
-        this.list[0] = {
-            title: '再见曲中人',
-            artist: '丁文涛',
-            src: 'http://m10.music.126.net/20201029145711/8049864f823e116d0fd7c40bb60d286b/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/2470428796/372e/c983/0529/7acde67af7e207e40d7509d337f2a9ec.mp3',
-            pic: 'http://p1.music.126.net/qRvVYt0AlA190xZNM7mmsQ==/109951164975688110.jpg'
         }
     },
     mounted() {
@@ -35,24 +23,23 @@ export default {
                     return this.$message.success('列表已存在')
                 }
             }
-            this.list.unshift(Single)
+            this.list.push(Single)
+            this.$message.success('已添加到歌曲列表中')
         })
 
         // 接收当前歌单所有歌曲
         this.$root.$on('getAllSong', allSong => {
-            // allSong.forEach(item => {
-            //     this.list.push(item)
-            // })
             this.list = allSong
         })
+    },
+    methods: {
+        // 当播放出现错误的回调
+        err() {
+            return this.$message.error('当前歌曲链接无效，请切换其他歌曲')
+        }
+    },
+    watch: {
+        list() {}
     }
 }
 </script>
-
-<style lang="less">
-.player {
-    position: fixed;
-    bottom: 0;
-    width: 320px;
-}
-</style>
