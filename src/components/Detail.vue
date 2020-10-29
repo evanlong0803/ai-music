@@ -28,7 +28,9 @@
                                     <el-tag v-for="(item, index) in detail.tags" :key="index">{{ item }}</el-tag>
                                 </div>
                                 <div class="top-right-description">{{ detail.description }}</div>
-                                <el-link type="danger" :underline="false" @click="descriptionDialog = true">全部<i class="el-icon-arrow-right"></i></el-link>
+                                <el-link type="danger" :underline="false" @click="descriptionDialog = true"
+                                    >全部<i class="el-icon-arrow-right"></i
+                                ></el-link>
                             </div>
                         </el-col>
                     </el-row>
@@ -36,11 +38,18 @@
                     <div class="card-bottom">
                         <div class="bottom-button">
                             <el-button type="primary" round size="medium" icon="el-icon-caret-right" @click="allPlay">播放全部</el-button>
-                            <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
+                            <el-button round size="medium" icon="el-icon-star-off" @click="favorite">收藏</el-button>
                         </div>
                         <!-- 播放歌单 -->
                         <div class="bottom-song">
-                            <el-table :data="songDetail" v-loading="!songDetail.length" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }" @row-click="rowClick">
+                            <el-table
+                                :data="songDetail"
+                                v-loading="!songDetail.length"
+                                size="medium"
+                                stripe
+                                :header-cell-style="{ background: '#FAFAFA', color: '#606266' }"
+                                @row-click="rowClick"
+                            >
                                 <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
                                 <el-table-column label="歌曲" width="220" show-overflow-tooltip>
                                     <template slot-scope="scope">
@@ -125,7 +134,6 @@
 
 <script>
 export default {
-    name: 'detail',
     data() {
         return {
             // 歌单ID
@@ -234,40 +242,52 @@ export default {
         },
         // 当某一行被点击时
         rowClick(row) {
-            // this.loadSongLyrics(row)
+            this.loadSongLyrics(row)
+        },
+        // 加载当前歌曲歌词
+        async loadSongLyrics(row) {
+            const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求歌词失败')
+            } else if (!res.lrc || !res.lrc.lyric) {
+                this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
+            }
             let firstSong = {
                 id: row.id,
-                title: row.al.name,
+                name: row.name,
                 artist: row.ar[0].name,
-                src: row.url,
-                pic: row.al.picUrl
-                // lrc: res.lrc.lyric
+                url: row.url,
+                cover: row.al.picUrl,
+                lrc: res.lrc.lyric
             }
             // 传递当前单曲歌词和歌曲
             this.$root.$emit('getSingle', firstSong)
         },
-        // 加载当前歌曲歌词
-        // async loadSongLyrics(row) {
-        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
-        //     if (res.code !== 200) {
-        //         return this.$message.error('请求歌词失败')
-        //     } else if (!res.lrc || !res.lrc.lyric) {
-        //         this.$message.error('当前歌曲没有歌词') // 此处不能停止函数
-        //     }
-        // },
         // 全部播放
         allPlay() {
             // 重新定义播放器对象结构
             let allSong = this.songDetail.map(item => {
                 return {
-                    title: item.al.name,
+                    id: item.id,
+                    name: item.name,
                     artist: item.ar[0].name,
-                    src: item.url,
-                    pic: item.al.picUrl
+                    url: item.url,
+                    cover: item.al.picUrl
                 }
             })
             // 传递当前歌单所有歌曲
             this.$root.$emit('getAllSong', allSong)
+        },
+        // 收藏
+        favorite() {
+            let cookie = localStorage.getItem('cookie')
+            // 取不到就停止
+            if (!cookie) {
+                return this.$notify.info({
+                    title: '消息',
+                    message: '请先登录再进行收藏'
+                })
+            }
         },
         // 返回上一级
         goBack() {
