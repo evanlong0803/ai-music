@@ -1,10 +1,5 @@
 <template>
     <div class="detail">
-        <el-row class="goBack">
-            <el-col :span="24">
-                <el-page-header @back="goBack" :content="detail.name"></el-page-header>
-            </el-col>
-        </el-row>
         <el-row :gutter="20">
             <!-- 左侧 -->
             <el-col :span="17">
@@ -242,27 +237,26 @@ export default {
         },
         // 当某一行被点击时
         rowClick(row) {
-            this.loadSongLyrics(row)
-        },
-        // 加载当前歌曲歌词
-        async loadSongLyrics(row) {
-            const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
-            if (res.code !== 200) {
-                return this.$message.error('请求歌词失败')
-            } else if (!res.lrc || !res.lrc.lyric) {
-                this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
-            }
+            // this.loadSongLyrics(row)
             let firstSong = {
                 id: row.id,
                 name: row.name,
                 artist: row.ar[0].name,
                 url: row.url,
-                cover: row.al.picUrl,
-                lrc: res.lrc.lyric
+                cover: row.al.picUrl
             }
             // 传递当前单曲歌词和歌曲
             this.$root.$emit('getSingle', firstSong)
         },
+        // 加载当前歌曲歌词
+        // async loadSongLyrics(row) {
+        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
+        //     if (res.code !== 200) {
+        //         return this.$message.error('请求歌词失败')
+        //     } else if (!res.lrc || !res.lrc.lyric) {
+        //         this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
+        //     }
+        // },
         // 全部播放
         allPlay() {
             // 重新定义播放器对象结构
@@ -288,10 +282,6 @@ export default {
                     message: '请先登录再进行收藏'
                 })
             }
-        },
-        // 返回上一级
-        goBack() {
-            this.$router.back()
         }
     }
 }

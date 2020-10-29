@@ -8,7 +8,7 @@ import SongList from '../components/SongList.vue'
 import Vocalists from '../components/Vocalists.vue'
 import Video from '../components/Video.vue'
 import MV from '../components/MV.vue'
-import Detail from '../components/Detail.vue'
+import Detail from '../components/detail/Detail.vue'
 
 const routes = [
     { path: '/', name: 'Find', component: Find },
