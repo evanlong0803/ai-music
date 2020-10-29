@@ -2,7 +2,7 @@
     <div class="detail">
         <el-row class="goBack">
             <el-col :span="24">
-                <el-page-header @back="goBack" content="歌单详情"></el-page-header>
+                <el-page-header @back="goBack" :content="detail.name"></el-page-header>
             </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -231,7 +231,17 @@ export default {
         },
         // 当某一行被点击时
         rowClick(row) {
-            console.log(row)
+            this.loadSongLyrics(row.id)
+        },
+        // 加载当前歌曲歌词
+        async loadSongLyrics(id) {
+            const { data: res } = await this.$axios.get(`/lyric?id=${id}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求歌词失败')
+            } else if (!res.lrc || !res.lrc.lyric) {
+                return this.$message.error('暂无歌词')
+            }
+            this.songLyrics = res.lrc.lyric
         },
         // 返回上一级
         goBack() {

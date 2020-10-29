@@ -40,3 +40,7 @@ body .el-scrollbar__wrap {
 .el-dialog {
     border-radius: 6px;
 }
+
+.el-table__row {
+    cursor: pointer;
+}

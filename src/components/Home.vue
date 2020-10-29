@@ -6,9 +6,8 @@
             <el-header height="70px">
                 <el-row class="home-top" style="width: 1200px;" type="flex" align="middle">
                     <el-col :span="3">
-                        <div class="home-logo">
+                        <div class="home-logo" @click="goHome">
                             <img src="../assets/logo.png" />
-                            <span>曲奇云音乐</span>
                         </div>
                     </el-col>
                     <el-col :span="loginStatus ? 15 : 19">
@@ -118,6 +117,9 @@ export default {
             localStorage.removeItem('cookie')
             this.userInfo = {}
             this.loginStatus = false
+        },
+        goHome() {
+            this.$router.push('/')
         }
     }
 }
@@ -144,16 +146,11 @@ export default {
             color: #333;
             // logo
             .home-logo {
-                width: 100%;
                 display: flex;
-                align-items: center;
+                margin-right: 10px;
+                cursor: pointer;
                 img {
                     height: 30px;
-                }
-                span {
-                    color: #505050;
-                    font-weight: bold;
-                    margin-left: 5px;
                 }
             }
             // 导航
@@ -166,6 +163,8 @@ export default {
                     font-size: 14px;
                 }
                 .click {
+                    line-height: 70px;
+                    box-sizing: border-box;
                     background: #333;
                     color: white;
                     transition: all 0.3s ease 0s;
@@ -183,7 +182,7 @@ export default {
 
                 // 分隔线
                 .el-divider--vertical {
-                    margin: 0 15px;
+                    margin: 0 13px;
                 }
 
                 // 个人信息样式
