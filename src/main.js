@@ -42,8 +42,8 @@ import store from './store'
 // 音乐播放器
 import APlayer from '@moefe/vue-aplayer'
 Vue.use(APlayer, {
-    defaultCover: 'https://github.com/u3u.png', // set the default cover
-    productionTip: false // disable console output
+    defaultCover: 'https://q1.qlogo.cn/g?b=qq&nk=1206993746&s=5', // 设置默认封面
+    productionTip: false // 关闭生产提示
 })
 
 // 关闭生产提示
