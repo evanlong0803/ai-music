@@ -147,7 +147,6 @@ export default {
             // logo
             .home-logo {
                 display: flex;
-                margin-right: 10px;
                 cursor: pointer;
                 img {
                     height: 30px;
@@ -155,6 +154,8 @@ export default {
             }
             // 导航
             .home-nav {
+                height: 100%;
+                line-height: 70px;
                 a {
                     color: #333;
                     text-decoration: none;
