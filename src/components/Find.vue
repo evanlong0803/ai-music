@@ -25,11 +25,10 @@
         <div class="featured-title">推荐新歌曲</div>
         <el-row :gutter="30" v-loading="!newSong.length">
             <el-col :span="12" v-for="(item, index) in newSong" :key="index" style="margin-bottom: 20px;">
-                <el-card shadow="always" body-style="padding: 15px 30px;">
+                <el-card shadow="always" body-style="padding: 15px 30px;" class="newSong-each">
                     <!-- 内容 -->
-                    <div class="featured-newSong">
+                    <div class="featured-newSong" @click="playNewSong(item)">
                         <!-- 播放按钮 -->
-                        <!-- <el-image class="newSong-play" :src="require('../assets/play.png')" fit="contain"></el-image> -->
                         <div class="newSong-index">{{ (index + 1) | addZeros }}</div>
                         <el-image class="newSong-img" :src="item.picUrl" fit="cover"></el-image>
                         <div class="newSong-info">
@@ -104,6 +103,7 @@ export default {
             }
             this.newSong = res.result
         },
+
         // 请求热门歌手
         async loadHotSinger() {
             const { data: res } = await this.$axios.post('/top/artists', { offset: 0, limit: 24 })
@@ -111,6 +111,23 @@ export default {
                 return this.$message.error('请求失败')
             }
             this.HotSinger = res.artists
+        },
+        // 播放新音乐
+        async playNewSong(item) {
+            // 请求新歌URL
+            const { data: res } = await this.$axios.get(`/song/url?id=${item.id}`)
+            if (res.code !== 200) {
+                return this.$message.error('音乐URL请求失败')
+            }
+            let newSong = {
+                id: item.id,
+                name: item.name,
+                artist: item.song.artists[0].name,
+                cover: item.picUrl,
+                url: res.data[0].url
+            }
+            // 传递当前单曲歌词和歌曲
+            this.$root.$emit('getNewSong', newSong)
         },
         // 跳转详情页
         goDetail(id) {
@@ -168,11 +185,11 @@ export default {
         align-items: center;
         // 播放按钮
         .newSong-play {
-            width: 100px;
-            cursor: pointer;
+            width: 25px;
+            position: absolute;
         }
         .newSong-index {
-            width: 10%;
+            width: 9%;
             font-weight: bold;
             text-align: left;
         }
@@ -239,6 +256,11 @@ export default {
             color: #fb2800;
             font-size: 12px;
             margin-bottom: 25px;
+        }
+    }
+    .newSong-each {
+        &:active {
+            opacity: 0.7;
         }
     }
 }
