@@ -35,7 +35,7 @@
                     <!-- 左侧下部分 -->
                     <div class="card-bottom">
                         <div class="bottom-button">
-                            <el-button type="primary" round size="medium" icon="el-icon-caret-right">播放全部</el-button>
+                            <el-button type="primary" round size="medium" icon="el-icon-caret-right" @click="allPlay">播放全部</el-button>
                             <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
                         </div>
                         <!-- 播放歌单 -->
@@ -143,6 +143,8 @@ export default {
             songDetail: [],
             // 音乐URL
             musicURL: [],
+            // 歌词
+            songLyrics: [],
             // 查看全部描述对话框
             descriptionDialog: false,
             // 自定义索引
@@ -223,6 +225,7 @@ export default {
             // 将每一个音乐URL放入对象属性中
             for (const i in musicURL) {
                 for (const j in this.songDetail) {
+                    // 如果歌单与歌单URL的ID一致，就把URL加入到对应的歌单中
                     if (this.songDetail[j].id === musicURL[i].id) {
                         this.$set(this.songDetail[j], 'url', musicURL[i].url)
                     }
@@ -231,17 +234,40 @@ export default {
         },
         // 当某一行被点击时
         rowClick(row) {
-            this.loadSongLyrics(row.id)
+            // this.loadSongLyrics(row)
+            let firstSong = {
+                id: row.id,
+                title: row.al.name,
+                artist: row.ar[0].name,
+                src: row.url,
+                pic: row.al.picUrl
+                // lrc: res.lrc.lyric
+            }
+            // 传递当前单曲歌词和歌曲
+            this.$root.$emit('getSingle', firstSong)
         },
         // 加载当前歌曲歌词
-        async loadSongLyrics(id) {
-            const { data: res } = await this.$axios.get(`/lyric?id=${id}`)
-            if (res.code !== 200) {
-                return this.$message.error('请求歌词失败')
-            } else if (!res.lrc || !res.lrc.lyric) {
-                return this.$message.error('暂无歌词')
-            }
-            this.songLyrics = res.lrc.lyric
+        // async loadSongLyrics(row) {
+        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
+        //     if (res.code !== 200) {
+        //         return this.$message.error('请求歌词失败')
+        //     } else if (!res.lrc || !res.lrc.lyric) {
+        //         this.$message.error('当前歌曲没有歌词') // 此处不能停止函数
+        //     }
+        // },
+        // 全部播放
+        allPlay() {
+            // 重新定义播放器对象结构
+            let allSong = this.songDetail.map(item => {
+                return {
+                    title: item.al.name,
+                    artist: item.ar[0].name,
+                    src: item.url,
+                    pic: item.al.picUrl
+                }
+            })
+            // 传递当前歌单所有歌曲
+            this.$root.$emit('getAllSong', allSong)
         },
         // 返回上一级
         goBack() {
