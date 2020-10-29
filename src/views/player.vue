@@ -22,7 +22,7 @@ export default {
                 if (this.list[i].id === newSong.id) {
                     return this.$notify({
                         title: '消息',
-                        message: `《${newSong.name}》歌单列表中已存在`,
+                        message: `歌单列表中已存在《${newSong.name}》`,
                         type: 'info',
                         position: 'top-left'
                     })
@@ -44,7 +44,7 @@ export default {
                 if (this.list[i].id === Single.id) {
                     return this.$notify({
                         title: '消息',
-                        message: `《${Single.name}》歌单列表中已存在`,
+                        message: `歌单列表中已存在《${Single.name}》`,
                         type: 'info',
                         position: 'top-left'
                     })
