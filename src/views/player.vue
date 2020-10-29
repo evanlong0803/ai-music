@@ -15,9 +15,9 @@ export default {
         }
     },
     mounted() {
-        // 接收首页新歌
+        // 接收首页新歌单曲
         this.$root.$on('getNewSong', newSong => {
-            // 如果单歌曲已经添加到列表就停止
+            // 如果已经添加到列表就停止
             for (const i in this.list) {
                 if (this.list[i].id === newSong.id) {
                     return this.$notify({
@@ -37,9 +37,9 @@ export default {
             })
         })
 
-        // 接收详情页单曲歌词
+        // 接收详情页单曲
         this.$root.$on('getSingle', Single => {
-            // 如果单歌曲已经添加到列表就停止
+            // 如果已经添加到列表就停止
             for (const i in this.list) {
                 if (this.list[i].id === Single.id) {
                     return this.$notify({
