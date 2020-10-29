@@ -1,5 +1,10 @@
 <template>
     <div class="detail">
+        <el-row class="goBack">
+            <el-col :span="24">
+                <el-page-header @back="goBack" content="歌单详情"></el-page-header>
+            </el-col>
+        </el-row>
         <el-row :gutter="20">
             <!-- 左侧 -->
             <el-col :span="17">
@@ -33,16 +38,9 @@
                             <el-button type="primary" round size="medium" icon="el-icon-caret-right">播放全部</el-button>
                             <el-button round size="medium" icon="el-icon-star-off">收藏</el-button>
                         </div>
+                        <!-- 播放歌单 -->
                         <div class="bottom-song">
-                            <el-table
-                                :data="songDetail"
-                                v-loading="!songDetail.length"
-                                size="medium"
-                                stripe
-                                :header-cell-style="{ background: '#FAFAFA', color: '#606266' }"
-                                @row-click="rowClick"
-                                lazy
-                            >
+                            <el-table :data="songDetail" v-loading="!songDetail.length" size="medium" stripe :header-cell-style="{ background: '#FAFAFA', color: '#606266' }" @row-click="rowClick">
                                 <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
                                 <el-table-column label="歌曲" width="220" show-overflow-tooltip>
                                     <template slot-scope="scope">
@@ -54,7 +52,7 @@
                                 </el-table-column>
                                 <el-table-column label="歌手" width="150" show-overflow-tooltip>
                                     <template slot-scope="scope">
-                                        <span v-for="item in scope.row.ar" :key="item.id">
+                                        <span v-for="(item, index) in scope.row.ar" :key="index">
                                             {{ item.name }}
                                         </span>
                                     </template>
@@ -77,7 +75,7 @@
                     <div class="card-title">喜欢这个歌单的伙伴</div>
                     <el-row class="card-users" :gutter="15" type="flex" v-loading="!subscribers.length">
                         <el-col :span="4" v-for="(item, index) in subscribers" :key="index">
-                            <el-tooltip effect="dark" :content="item.nickname" placement="top" :open-delay="300">
+                            <el-tooltip effect="dark" :content="item.nickname" placement="top" :open-delay="260">
                                 <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
                             </el-tooltip>
                         </el-col>
@@ -118,7 +116,7 @@
             </el-col>
 
             <!-- 查看全部描述对话框 -->
-            <el-dialog :title="detail.name" :visible.sync="descriptionDialog" width="25%">
+            <el-dialog :title="detail.name" :visible.sync="descriptionDialog" width="30%">
                 <div class="dialog-content">{{ detail.description }}</div>
             </el-dialog>
         </el-row>
@@ -173,9 +171,6 @@ export default {
             let trackIds = res.playlist.trackIds.map(item => {
                 return item.id
             })
-            // let musicId = res.privileges.map(item => {
-            //     return item.id
-            // })
             this.loadSongDetail(trackIds)
         },
         // 加载喜欢歌单的人
@@ -237,6 +232,10 @@ export default {
         // 当某一行被点击时
         rowClick(row) {
             console.log(row)
+        },
+        // 返回上一级
+        goBack() {
+            this.$router.back()
         }
     }
 }
@@ -446,5 +445,8 @@ export default {
         margin-bottom: 20px;
         color: #666;
     }
+}
+.goBack {
+    margin-bottom: 20px;
 }
 </style>
