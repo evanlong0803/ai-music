@@ -60,7 +60,7 @@
                         <span> 曲奇云音乐 </span>
                         <span><a href="#">演示站</a></span>
                         <span>Designed by </span>
-                        <span><a href="https://123mtr.top" target="_blank">123木头人</a></span>
+                        <span><a href="https://gitee.com/handsomewood/netease-music" target="_blank">123木头人</a></span>
                     </div>
                 </div>
             </el-footer>

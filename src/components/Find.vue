@@ -163,6 +163,7 @@ export default {
     }
     // 推荐新歌
     .featured-newSong {
+        cursor: pointer;
         display: flex;
         align-items: center;
         // 播放按钮
