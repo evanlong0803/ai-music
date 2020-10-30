@@ -20,8 +20,11 @@ export default {
         this.$root.$on('getNewSong', newSong => {
             // 如果已经添加到列表就停止
             for (const i in this.list) {
+                // 如果在列表中发现有重复的歌曲ID
                 if (this.list[i].id === newSong.id) {
+                    // 切换到对应名称的歌曲
                     this.$refs.aplayer.switch(newSong.name)
+                    // 立即播放
                     this.$refs.aplayer.play()
                     return this.$notify({
                         title: '消息',
@@ -46,8 +49,11 @@ export default {
         this.$root.$on('getSingle', Single => {
             // 如果已经添加到列表就停止
             for (const i in this.list) {
+                // 如果在列表中发现有重复的歌曲ID
                 if (this.list[i].id === Single.id) {
+                    // 切换到对应名称的歌曲
                     this.$refs.aplayer.switch(Single.name)
+                    // 立即播放
                     this.$refs.aplayer.play()
                     return this.$notify({
                         title: '消息',
