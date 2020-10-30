@@ -33,7 +33,9 @@
                     <div class="card-bottom">
                         <div class="bottom-button">
                             <el-button type="primary" round size="medium" icon="el-icon-caret-right" @click="allPlay">播放全部</el-button>
-                            <el-button round size="medium" icon="el-icon-star-off" @click="favorite">收藏</el-button>
+                            <el-button round size="medium" icon="el-icon-star-off" @click="favorite">
+                                {{ '收藏' }}
+                            </el-button>
                         </div>
                         <!-- 播放歌单 -->
                         <div class="bottom-song">
@@ -129,6 +131,8 @@
 
 <script>
 export default {
+    // 接收Home组件的用户信息
+    inject: ['userInfo'],
     data() {
         return {
             // 歌单ID
@@ -148,6 +152,10 @@ export default {
             musicURL: [],
             // 歌词
             songLyrics: [],
+            // 收藏歌单
+            favoriteSong: {},
+            // 是否收藏
+            flagFavorite: null,
             // 查看全部描述对话框
             descriptionDialog: false,
             // 自定义索引
@@ -273,15 +281,49 @@ export default {
             this.$root.$emit('getAllSong', allSong)
         },
         // 收藏
-        favorite() {
+        async favorite() {
+            // 没有登录
             let cookie = localStorage.getItem('cookie')
             // 取不到就停止
             if (!cookie) {
-                return this.$notify.info({
+                return this.$notify({
                     title: '消息',
-                    message: '请先登录再进行收藏'
+                    message: '请先登录再进行收藏',
+                    type: 'warning'
                 })
             }
+            // 已登录
+            return this.$notify({
+                title: '消息',
+                message: '现处于开发状态，请耐心等待，谢谢配合',
+                type: 'info'
+            })
+            // this.flagFavorite = !this.flagFavorite
+            // if (this.flagFavorite) {
+            //     const res1 = await this.$axios.post('/playlist/subscribe', {
+            //         t: 2,
+            //         id: this.songListId,
+            //         cookie
+            //     })
+            //     this.favoriteSong = JSON.parse(res1.config.data)
+            //     this.$notify({
+            //         title: '消息',
+            //         message: '收藏成功',
+            //         type: 'success'
+            //     })
+            // } else if (!this.flagFavorite) {
+            //     const res2 = await this.$axios.post('/playlist/subscribe', {
+            //         t: 1,
+            //         id: this.songListId,
+            //         cookie
+            //     })
+            //     this.favoriteSong = JSON.parse(res2.config.data)
+            //     this.$notify({
+            //         title: '消息',
+            //         message: '已取消收藏',
+            //         type: 'warning'
+            //     })
+            // }
         }
     }
 }

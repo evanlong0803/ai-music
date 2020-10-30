@@ -1,7 +1,7 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" />
+            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-show="list.length" />
         </transition>
     </div>
 </template>
@@ -14,6 +14,7 @@ export default {
             list: []
         }
     },
+    // 页面渲染完成后开始监听
     mounted() {
         // 接收首页新歌单曲
         this.$root.$on('getNewSong', newSong => {
