@@ -26,12 +26,20 @@
                             <!-- 搜索框 -->
                             <el-autocomplete
                                 prefix-icon="el-icon-search"
-                                placeholder="搜索歌曲"
                                 size="medium"
-                                clearable
+                                popper-class="my-autocomplete"
+                                v-model="searchContent"
                                 :fetch-suggestions="querySearch"
+                                placeholder="搜索歌曲"
                                 @select="handleSelect"
-                            ></el-autocomplete>
+                                clearable
+                            >
+                                <template slot-scope="{ item }">
+                                    <el-avatar shape="square" :size="50" src="squareUrl"></el-avatar>
+                                    <div class="name">{{ item.searchWord }}</div>
+                                    <span class="addr">{{ item.content }}</span>
+                                </template>
+                            </el-autocomplete>
                             <!-- 分割线 -->
                             <el-divider direction="vertical"></el-divider>
                             <!-- 登录按钮 -->
@@ -97,15 +105,21 @@ export default {
             // 搜索内容
             searchContent: '',
             restaurants: [],
-            timeout: null
+            timeout: null,
+            // 火热歌曲
+            hotSearch: []
         }
     },
     created() {
         // 页面刷新重新加载用户信息
         this.getUserInfo()
+        // 加载火热搜索
+        this.loadHotSearch()
     },
     mounted() {
-        this.restaurants = this.loadAll()
+        this.$nextTick(() => {
+            this.restaurants = this.loadAll()
+        })
     },
     methods: {
         // 登录成功后，获取用户信息（Login组件登录后触发该函数）
@@ -138,13 +152,14 @@ export default {
         goHome() {
             this.$router.push('/')
         },
+        // 加载火热搜索
+        async loadHotSearch() {
+            const { data: res } = await this.$axios.get('/search/hot/detail')
+            this.hotSearch = res.data.splice(0, 10)
+            console.log(this.hotSearch)
+        },
         loadAll() {
-            // const { data: res } = await this.$axios.get('/search/hot/detail')
-            // console.log(res)
-            return [
-                { value: '三全鲜食（北新泾店）', address: '长宁区新渔路144号' },
-                { value: 'Hot honey 首尔炸鸡（仙霞路）', address: '上海市长宁区淞虹路661号' }
-            ]
+            return this.hotSearch
         },
         querySearch(queryString, cb) {
             let restaurants = this.restaurants
@@ -218,18 +233,10 @@ export default {
                 align-items: center;
                 justify-content: flex-end;
                 color: #909399;
-                .el-icon-search {
-                    cursor: pointer;
-                }
-                a {
-                    color: #999;
-                }
-
                 // 分隔线
                 .el-divider--vertical {
                     margin: 0 15px;
                 }
-
                 // 个人信息样式
                 .el-dropdown-link {
                     cursor: pointer;
@@ -290,6 +297,25 @@ export default {
                     }
                 }
             }
+        }
+    }
+}
+
+// 搜索框
+.my-autocomplete {
+    li {
+        line-height: normal;
+        padding: 7px;
+        .name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .addr {
+            font-size: 12px;
+            color: #b4b4b4;
+        }
+        .highlighted .addr {
+            color: #ddd;
         }
     }
 }

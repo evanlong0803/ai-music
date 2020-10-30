@@ -131,8 +131,6 @@
 
 <script>
 export default {
-    // 接收Home组件的用户信息
-    inject: ['userInfo'],
     data() {
         return {
             // 歌单ID

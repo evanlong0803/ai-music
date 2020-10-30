@@ -21,18 +21,22 @@ export default {
             // 如果已经添加到列表就停止
             for (const i in this.list) {
                 if (this.list[i].id === newSong.id) {
+                    this.$refs.aplayer.switch(newSong.name)
+                    this.$refs.aplayer.play()
                     return this.$notify({
                         title: '消息',
-                        message: `歌单列表中已存在《${newSong.name}》`,
-                        type: 'info',
+                        message: `正在播放《${newSong.name}》`,
+                        type: 'success',
                         position: 'top-left'
                     })
                 }
             }
-            this.list.push(newSong)
+            this.list.unshift(newSong)
+            this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+            this.$refs.aplayer.play() // 开始播放
             this.$notify({
                 title: '消息',
-                message: `《${newSong.name}》已添加到歌单列表末尾`,
+                message: `正在播放《${newSong.name}》`,
                 type: 'success',
                 position: 'top-left'
             })
@@ -43,18 +47,22 @@ export default {
             // 如果已经添加到列表就停止
             for (const i in this.list) {
                 if (this.list[i].id === Single.id) {
+                    this.$refs.aplayer.switch(Single.name)
+                    this.$refs.aplayer.play()
                     return this.$notify({
                         title: '消息',
-                        message: `歌单列表中已存在《${Single.name}》`,
-                        type: 'info',
+                        message: `正在播放《${Single.name}》`,
+                        type: 'success',
                         position: 'top-left'
                     })
                 }
             }
-            this.list.push(Single)
+            this.list.unshift(Single)
+            this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+            this.$refs.aplayer.play() // 开始播放
             this.$notify({
                 title: '消息',
-                message: `《${Single.name}》已添加到歌单列表末尾`,
+                message: `正在播放《${Single.name}》`,
                 type: 'success',
                 position: 'top-left'
             })
