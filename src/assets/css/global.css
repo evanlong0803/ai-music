@@ -40,7 +40,15 @@ body .el-scrollbar__wrap {
 .el-dialog {
     border-radius: 6px;
 }
-
+/* 表格每行点击效果 */
 .el-table__row {
     cursor: pointer;
+}
+
+/* 搜索 */
+.search-input > .el-input__inner {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
 }

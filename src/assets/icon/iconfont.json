@@ -1,0 +1,163 @@
+{
+  "id": "2170461",
+  "name": "网易云音乐项目",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2237677",
+      "name": "历史",
+      "font_class": "lishi",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "5828515",
+      "name": "热门",
+      "font_class": "remen",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "14007852",
+      "name": "lv2",
+      "font_class": "icon-test",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "14007853",
+      "name": "lv3",
+      "font_class": "icon-test1",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "14007854",
+      "name": "lv1",
+      "font_class": "icon-test2",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "14007855",
+      "name": "lv4",
+      "font_class": "icon-test3",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "14007856",
+      "name": "lv7",
+      "font_class": "icon-test4",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "14007857",
+      "name": "lv9",
+      "font_class": "icon-test5",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "14007858",
+      "name": "lv5",
+      "font_class": "icon-test6",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "14007859",
+      "name": "lv6",
+      "font_class": "icon-test7",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "14007860",
+      "name": "lv8",
+      "font_class": "icon-test8",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "14011596",
+      "name": "lv11",
+      "font_class": "icon-test9",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "14011597",
+      "name": "lv10",
+      "font_class": "icon-test10",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "14011598",
+      "name": "lv12",
+      "font_class": "icon-test11",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "14011599",
+      "name": "lv13",
+      "font_class": "icon-test12",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "14011600",
+      "name": "lv14",
+      "font_class": "icon-test13",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "14011601",
+      "name": "lv16",
+      "font_class": "icon-test14",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "14011602",
+      "name": "lv17",
+      "font_class": "icon-test15",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "14011603",
+      "name": "lv15",
+      "font_class": "icon-test16",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "14011604",
+      "name": "lv18",
+      "font_class": "icon-test17",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "14011605",
+      "name": "lv19",
+      "font_class": "icon-test18",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "14011606",
+      "name": "lv20",
+      "font_class": "icon-test19",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    }
+  ]
+}

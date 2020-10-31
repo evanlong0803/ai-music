@@ -7,6 +7,9 @@ import './plugins/element.js'
 import filters from '../src/utils/filters.js'
 Vue.use(filters)
 
+// 阿里矢量图标
+import './assets/icon/iconfont.css'
+
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'

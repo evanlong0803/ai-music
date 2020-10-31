@@ -1,5 +1,5 @@
 <template>
-    <div class="home" :style="{ overflow: openLogin ? 'hidden' : '' }">
+    <div class="home" :style="{ overflow: openLogin || showSearchBox ? 'hidden' : '' }">
         <!-- 回到顶部 -->
         <el-backtop :right="100" :bottom="100"></el-backtop>
         <el-container>
@@ -23,22 +23,8 @@
                     </el-col>
                     <el-col>
                         <div class="home-login">
-                            <!-- 搜索框 -->
-                            <el-autocomplete
-                                class="search"
-                                prefix-icon="el-icon-search"
-                                size="medium"
-                                popper-class="my-autocomplete"
-                                v-model="searchContent"
-                                :fetch-suggestions="querySearch"
-                                placeholder="搜索歌曲、歌手"
-                                @select="handleSelect"
-                                clearable
-                            >
-                                <template slot-scope="{ item }">
-                                    <div class="name">{{ item.name }}</div>
-                                </template>
-                            </el-autocomplete>
+                            <!-- 搜索图标 -->
+                            <i class="el-icon-search" @click="showSearchBox = !showSearchBox"></i>
                             <!-- 分割线 -->
                             <el-divider direction="vertical"></el-divider>
                             <!-- 登录按钮 -->
@@ -85,42 +71,34 @@
         <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" />
         <!-- 音乐播放器 -->
         <Player />
+        <!-- 搜索框 -->
+        <Search-Box :showSearchBox.sync="showSearchBox" />
     </div>
 </template>
 
 <script>
 import Login from '../views/Login'
 import Player from '../views/player'
+import SearchBox from '../views/SearchBox'
 
 export default {
     name: 'home', // 主组件名
     components: {
         Login,
-        Player
+        Player,
+        SearchBox
     },
     data() {
         return {
             loginStatus: false,
             openLogin: false,
             userInfo: {},
-            // 搜索内容
-            searchContent: '',
-            restaurants: [],
-            timeout: null,
-            // 热搜
-            hotSearch: []
+            showSearchBox: false
         }
     },
     created() {
         // 页面刷新重新加载用户信息
         this.getUserInfo()
-        // 加载热搜
-        this.loadHotSearch()
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.restaurants = this.loadAll()
-        })
     },
     methods: {
         // 登录成功后，获取用户信息（Login组件登录后触发该函数）
@@ -150,42 +128,8 @@ export default {
         },
         // 点击Logo跳转首页
         goHome() {
+            if (this.$route.path === '/') return
             this.$router.push('/')
-        },
-        // 加载热搜
-        async loadHotSearch() {
-            const { data: res } = await this.$axios.get('/search/hot/detail')
-            this.hotSearch = res.data.splice(0, 10)
-            console.log(this.hotSearch)
-        },
-        loadAll() {
-            return [
-                { name: '三全鲜食（北新泾店）' },
-                { name: 'Hot honey 首尔炸鸡（仙霞路）' },
-                { name: '新旺角茶餐厅' },
-                { name: '泷千家(天山西路店)' },
-                { name: '胖仙女纸杯蛋糕（上海凌空店）' },
-                { name: '贡茶' },
-                { name: '豪大大香鸡排超级奶爸' },
-                { name: '茶芝兰（奶茶，手抓饼）' },
-                { name: '十二泷町' }
-            ]
-        },
-        querySearch(queryString, cb) {
-            let restaurants = this.restaurants
-            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-            // 调用 callback 返回建议列表的数据
-            cb(results)
-        },
-        createFilter(queryString) {
-            return restaurant => {
-                console.log(restaurant)
-                return restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-            }
-        },
-        handleSelect(item) {
-            // this.searchContent = item
-            console.log(item)
         }
     }
 }
@@ -258,9 +202,9 @@ export default {
                         margin-right: 10px;
                     }
                 }
-                // 搜索框
-                .search {
-                    width: 300px;
+                // 搜索图标
+                .el-icon-search {
+                    cursor: pointer;
                 }
             }
         }
@@ -312,25 +256,6 @@ export default {
                     }
                 }
             }
-        }
-    }
-}
-
-// 搜索框返回自定义内容
-.my-autocomplete {
-    li {
-        line-height: normal;
-        padding: 7px;
-        .name {
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-        .addr {
-            font-size: 12px;
-            color: #b4b4b4;
-        }
-        .highlighted .addr {
-            color: #ddd;
         }
     }
 }
