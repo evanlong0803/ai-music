@@ -82,42 +82,53 @@ export default {
                 }
             })
         },
-        // 回车搜索
-        goSearch() {
-            // 存储用户搜索历史
-            if (this.searchContent) {
+        // 存储用户搜索历史
+        saveSearchHistory() {
+            // 没有重复的历史就存入
+            if (this.searchHistory.indexOf(this.searchContent) === -1) {
                 // 把搜索内容添加到搜索历史当中
                 this.searchHistory.push(this.searchContent)
                 // 以字符串的方式存入
                 localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
                 // 以对象的方式取出
                 let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-                // 有重复的历史就不再存入
-
                 // 存入历史
                 this.searchHistory = searchHistory
             }
-            // 回车跳转搜索页
+        },
+        // 回车搜索
+        goSearch() {
+            if (this.searchContent === '') {
+                return this.$notify({
+                    title: '消息',
+                    message: '搜索内容不能为空',
+                    type: 'warning',
+                    position: 'top-left'
+                })
+            }
+            // 存储用户搜索历史
+            this.saveSearchHistory()
+            // 已经是搜索页就不跳转页面
             if (this.$route.path === '/search') {
-                this.$emit('update:showSearchBox', false)
+                this.close()
                 return // 直接搜索
             }
             this.$router.push('/search')
-            this.$emit('update:showSearchBox', false)
-            this.searchContent = ''
+            // 存储用户搜索历史
+            this.saveSearchHistory()
+            this.close()
         },
         // 页面重新获取历史
         getSearchHistory() {
             // 以对象的方式取出
             let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-            // 有重复的历史就不再存入
             // 存入历史
             this.searchHistory = searchHistory
         },
         // 清空历史
         clearHistory() {
-            this.searchHistory = []
             localStorage.removeItem('searchHistory')
+            this.searchHistory = []
         }
     }
 }
