@@ -16,13 +16,15 @@
                     </div>
                 </div>
                 <!-- 搜索历史 -->
-                <div class="search-history">
+                <div class="search-history" v-show="searchHistory.length">
                     <div class="history-title">
                         <span class="iconfont icon-lishi"></span>
                         搜索历史
+                        <el-link :underline="false" class="clearHistory" @click="clearHistory" icon="el-icon-delete">清空</el-link>
+                        <!-- <span ></span> -->
                     </div>
-                    <el-tag size="medium" v-for="tag in tags" :key="tag.name" closable :type="tag.type">
-                        {{ tag.name }}
+                    <el-tag size="medium" v-for="(item, index) in searchHistory" :key="index" closable>
+                        {{ item }}
                     </el-tag>
                 </div>
                 <!-- 热搜 -->
@@ -31,8 +33,8 @@
                         <span class="iconfont icon-remen"></span>
                         热门搜索
                     </div>
-                    <el-tag size="medium" v-for="tag in tags" :key="tag.name" :type="tag.type">
-                        {{ tag.name }}
+                    <el-tag size="medium" v-for="(item, index) in hotSearch" :key="index">
+                        {{ item.name }}
                     </el-tag>
                 </div>
                 <!-- 关闭图标 -->
@@ -52,22 +54,19 @@ export default {
         return {
             // 搜索内容
             searchContent: '',
+            // 搜索历史
+            searchHistory: [],
             // 热搜
-            hotSearch: [],
-            tags: [
-                { name: '标签一', type: '' },
-                { name: '标签二', type: 'success' },
-                { name: '标签三', type: 'info' },
-                { name: '标签四', type: 'warning' },
-                { name: '标签五', type: 'danger' }
-            ]
+            hotSearch: []
         }
     },
     // 接收父组件的数据
     props: ['showSearchBox'],
     created() {
         // 加载热搜
-        // this.loadHotSearch()
+        this.loadHotSearch()
+        // 页面重新获取历史
+        this.getSearchHistory()
     },
     methods: {
         close() {
@@ -75,22 +74,50 @@ export default {
             this.searchContent = ''
         },
         // 加载热搜
-        // async loadHotSearch() {
-        //     const { data: res } = await this.$axios.get('/search/hot')
-        //     this.hotSearch = res.result.hots.map(item => {
-        //         return {
-        //             name: item.first
-        //         }
-        //     })
-        //     this.restaurants = this.loadAll()
-        // }
+        async loadHotSearch() {
+            const { data: res } = await this.$axios.get('/search/hot')
+            this.hotSearch = res.result.hots.map(item => {
+                return {
+                    name: item.first
+                }
+            })
+        },
+        // 回车搜索
         goSearch() {
+            // 存储用户搜索历史
+            if (this.searchContent) {
+                // 把搜索内容添加到搜索历史当中
+                this.searchHistory.push(this.searchContent)
+                // 以字符串的方式存入
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
+                // 以对象的方式取出
+                let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+                // 有重复的历史就不再存入
+
+                // 存入历史
+                this.searchHistory = searchHistory
+            }
+            // 回车跳转搜索页
             if (this.$route.path === '/search') {
                 this.$emit('update:showSearchBox', false)
                 return // 直接搜索
             }
             this.$router.push('/search')
             this.$emit('update:showSearchBox', false)
+            this.searchContent = ''
+        },
+        // 页面重新获取历史
+        getSearchHistory() {
+            // 以对象的方式取出
+            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+            // 有重复的历史就不再存入
+            // 存入历史
+            this.searchHistory = searchHistory
+        },
+        // 清空历史
+        clearHistory() {
+            this.searchHistory = []
+            localStorage.removeItem('searchHistory')
         }
     }
 }
@@ -100,29 +127,15 @@ export default {
 .home-searchBox {
     // 登录窗口
     .search-box {
+        background: white;
+        border-radius: 5px;
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 750px;
         z-index: 99;
-        // 标签
-        .el-tag {
-            margin-right: 10px;
-        }
-        // 关闭图标
-        .el-icon-close {
-            width: 30px;
-            background: white;
-            height: 30px;
-            line-height: 30px;
-            display: block;
-            margin: 20px auto;
-            cursor: pointer;
-            color: #666;
-            text-align: center;
-            border-radius: 50%;
-        }
+
         // 搜索栏
         .search-bar {
             border-radius: 5px 5px 0 0;
@@ -143,8 +156,12 @@ export default {
         // 搜索历史和热门搜索
         .search-history,
         .search-hot {
-            background: white;
             padding: 20px 50px;
+            // 标签
+            .el-tag {
+                margin: 0 10px 10px 0;
+                cursor: pointer;
+            }
             // 标题
             .history-title,
             .hot-title {
@@ -160,9 +177,28 @@ export default {
                     color: #fa2800;
                 }
             }
+            // 清空历史
+            .clearHistory {
+                float: right;
+                cursor: pointer;
+                color: #f56c6c;
+                font-size: 14px;
+            }
         }
-        .search-hot {
-            border-radius: 0 0 5px 5px;
+        // 关闭搜索框图标
+        .el-icon-close {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            background: #e4e4e4;
+            cursor: pointer;
+            color: white;
+            text-align: center;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translate(-50%);
         }
     }
     // 登录屏障
