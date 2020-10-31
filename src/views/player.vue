@@ -86,6 +86,12 @@ export default {
         getAllSong() {
             this.$root.$on('getAllSong', allSong => {
                 this.list = allSong
+                this.$notify({
+                    title: '消息',
+                    message: `正在播放全部歌曲`,
+                    type: 'success',
+                    position: 'top-left'
+                })
             })
         }
     }
