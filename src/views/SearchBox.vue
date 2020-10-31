@@ -190,9 +190,9 @@ export default {
             width: 30px;
             height: 30px;
             line-height: 30px;
-            background: #e4e4e4;
+            background: white;
             cursor: pointer;
-            color: white;
+            color: #999;
             text-align: center;
             border-radius: 50%;
             position: absolute;

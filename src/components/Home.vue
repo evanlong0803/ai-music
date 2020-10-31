@@ -1,5 +1,5 @@
 <template>
-    <div class="home" :style="{ overflow: openLogin ? 'hidden' : '' }">
+    <div class="home" :style="{ overflow: openLogin || showSearchBox ? 'hidden' : '' }">
         <!-- 回到顶部 -->
         <el-backtop :right="100" :bottom="100"></el-backtop>
         <el-container>
