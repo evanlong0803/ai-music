@@ -21,9 +21,15 @@
                         <span class="iconfont icon-lishi"></span>
                         搜索历史
                         <el-link :underline="false" class="clearHistory" @click="clearHistory" icon="el-icon-delete">清空</el-link>
-                        <!-- <span ></span> -->
                     </div>
-                    <el-tag size="medium" v-for="(item, index) in searchHistory" :key="index" closable>
+                    <el-tag
+                        size="medium"
+                        v-for="(item, index) in searchHistory"
+                        :key="index"
+                        @close="handleClose(item)"
+                        :disable-transitions="false"
+                        closable
+                    >
                         {{ item }}
                     </el-tag>
                 </div>
@@ -68,6 +74,7 @@ export default {
         // 页面重新获取历史
         this.getSearchHistory()
     },
+    mounted() {},
     methods: {
         close() {
             this.$emit('update:showSearchBox', false)
@@ -82,6 +89,15 @@ export default {
                 }
             })
         },
+        // 页面重新获取历史
+        getSearchHistory() {
+            // 取出数组
+            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+            // 历史为空的时候就停止
+            if (searchHistory === null) return
+            // 存入历史
+            this.searchHistory = searchHistory
+        },
         // 存储用户搜索历史
         saveSearchHistory() {
             // 没有重复的历史就存入
@@ -90,7 +106,7 @@ export default {
                 this.searchHistory.push(this.searchContent)
                 // 以字符串的方式存入
                 localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
-                // 以对象的方式取出
+                // 取出数组
                 let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
                 // 存入历史
                 this.searchHistory = searchHistory
@@ -111,19 +127,25 @@ export default {
             // 已经是搜索页就不跳转页面
             if (this.$route.path === '/search') {
                 this.close()
-                return // 直接搜索
+                return // 这里搜索进行请求
             }
             this.$router.push('/search')
-            // 存储用户搜索历史
-            this.saveSearchHistory()
+            // 这里搜索进行请求
             this.close()
         },
-        // 页面重新获取历史
-        getSearchHistory() {
-            // 以对象的方式取出
+        // 删除一个历史
+        handleClose(item) {
+            // 找数组中的索引
+            let arrIndex = this.searchHistory.indexOf(item)
             let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-            // 存入历史
-            this.searchHistory = searchHistory
+            // 找到存储中的索引
+            let localIndex = searchHistory.indexOf(item)
+            // 如果都存在就删除
+            if (localIndex !== -1 && localIndex !== -1) {
+                this.searchHistory.splice(arrIndex, 1)
+                searchHistory.splice(localIndex, 1)
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
+            }
         },
         // 清空历史
         clearHistory() {
