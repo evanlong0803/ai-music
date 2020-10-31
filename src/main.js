@@ -3,9 +3,6 @@ import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
 
-// 阿里矢量图标
-import './assets/icon/iconfont.css'
-
 // 全局过滤器（时间）
 import filters from '../src/utils/filters.js'
 Vue.use(filters)

@@ -25,19 +25,18 @@
                         <div class="home-login">
                             <!-- 搜索框 -->
                             <el-autocomplete
+                                class="search"
                                 prefix-icon="el-icon-search"
                                 size="medium"
                                 popper-class="my-autocomplete"
                                 v-model="searchContent"
                                 :fetch-suggestions="querySearch"
-                                placeholder="搜索歌曲"
+                                placeholder="搜索歌曲、歌手"
                                 @select="handleSelect"
                                 clearable
                             >
                                 <template slot-scope="{ item }">
-                                    <el-avatar shape="square" :size="50" src="squareUrl"></el-avatar>
-                                    <div class="name">{{ item.searchWord }}</div>
-                                    <span class="addr">{{ item.content }}</span>
+                                    <div class="name">{{ item.name }}</div>
                                 </template>
                             </el-autocomplete>
                             <!-- 分割线 -->
@@ -82,7 +81,9 @@
                 </div>
             </el-footer>
         </el-container>
+        <!-- 登录 -->
         <Login :openLogin.sync="openLogin" @getUserInfo="getUserInfo" />
+        <!-- 音乐播放器 -->
         <Player />
     </div>
 </template>
@@ -106,14 +107,14 @@ export default {
             searchContent: '',
             restaurants: [],
             timeout: null,
-            // 火热歌曲
+            // 热搜
             hotSearch: []
         }
     },
     created() {
         // 页面刷新重新加载用户信息
         this.getUserInfo()
-        // 加载火热搜索
+        // 加载热搜
         this.loadHotSearch()
     },
     mounted() {
@@ -137,7 +138,6 @@ export default {
             this.userInfo = res.profile
             this.loginStatus = true
         },
-
         // 退出登录
         async logout() {
             const { data: res } = await this.$axios.get('/logout')
@@ -152,14 +152,24 @@ export default {
         goHome() {
             this.$router.push('/')
         },
-        // 加载火热搜索
+        // 加载热搜
         async loadHotSearch() {
             const { data: res } = await this.$axios.get('/search/hot/detail')
             this.hotSearch = res.data.splice(0, 10)
             console.log(this.hotSearch)
         },
         loadAll() {
-            return this.hotSearch
+            return [
+                { name: '三全鲜食（北新泾店）' },
+                { name: 'Hot honey 首尔炸鸡（仙霞路）' },
+                { name: '新旺角茶餐厅' },
+                { name: '泷千家(天山西路店)' },
+                { name: '胖仙女纸杯蛋糕（上海凌空店）' },
+                { name: '贡茶' },
+                { name: '豪大大香鸡排超级奶爸' },
+                { name: '茶芝兰（奶茶，手抓饼）' },
+                { name: '十二泷町' }
+            ]
         },
         querySearch(queryString, cb) {
             let restaurants = this.restaurants
@@ -169,6 +179,7 @@ export default {
         },
         createFilter(queryString) {
             return restaurant => {
+                console.log(restaurant)
                 return restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
             }
         },
@@ -247,6 +258,10 @@ export default {
                         margin-right: 10px;
                     }
                 }
+                // 搜索框
+                .search {
+                    width: 300px;
+                }
             }
         }
     }
@@ -301,7 +316,7 @@ export default {
     }
 }
 
-// 搜索框
+// 搜索框返回自定义内容
 .my-autocomplete {
     li {
         line-height: normal;

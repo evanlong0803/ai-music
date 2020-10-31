@@ -9,6 +9,7 @@ import Vocalists from '../components/Vocalists.vue'
 import Video from '../components/Video.vue'
 import MV from '../components/MV.vue'
 import Detail from '../components/detail/songDetail.vue'
+import Search from '../components/Search.vue'
 
 const routes = [
     { path: '/', name: 'Find', component: Find },
@@ -17,7 +18,8 @@ const routes = [
     { path: '/vocalists', name: 'Vocalists', component: Vocalists },
     { path: '/video', name: 'Video', component: Video },
     { path: '/mv', name: 'MV', component: MV },
-    { path: '/detail', name: 'Detail', component: Detail }
+    { path: '/detail', name: 'Detail', component: Detail },
+    { path: '/search', name: 'Search', component: Search }
 ]
 
 const router = new VueRouter({
