@@ -27,6 +27,7 @@
                         v-for="(item, index) in searchHistory"
                         :key="index"
                         @close="handleClose(item)"
+                        @click="searchTag(item)"
                         :disable-transitions="false"
                         closable
                     >
@@ -69,18 +70,24 @@ export default {
     // 接收父组件的数据
     props: ['showSearchBox'],
     created() {
-        // 加载热搜
+        // 请求热搜
         this.loadHotSearch()
         // 页面重新获取历史
         this.getSearchHistory()
     },
     mounted() {},
     methods: {
+        // 当搜索历史被点击的时候
+        searchTag(item) {
+            this.searchContent = item
+            // // 开始搜索
+            this.goSearch()
+        },
+        // 关闭搜索框
         close() {
             this.$emit('update:showSearchBox', false)
-            this.searchContent = ''
         },
-        // 加载热搜
+        // 请求热搜
         async loadHotSearch() {
             const { data: res } = await this.$axios.get('/search/hot')
             this.hotSearch = res.result.hots.map(item => {
@@ -88,6 +95,20 @@ export default {
                     name: item.first
                 }
             })
+        },
+        // 请求搜索结果
+        async loadSearchRes() {
+            const { data: res } = await this.$axios.post('/search', {
+                keywords: this.searchContent,
+                type: 1018
+            })
+            if (res.code !== 200) {
+                return this.$message.error('搜索失败')
+            }
+            // 存储搜索内容
+            localStorage.setItem('searchContent', this.searchContent)
+            // 将数据传递给Search组件
+            this.$root.$emit('getSearchRes', res.result)
         },
         // 页面重新获取历史
         getSearchHistory() {
@@ -126,11 +147,13 @@ export default {
             this.saveSearchHistory()
             // 已经是搜索页就不跳转页面
             if (this.$route.path === '/search') {
-                this.close()
-                return // 这里搜索进行请求
+                // 请求搜索结果
+                this.loadSearchRes()
+                return this.close()
             }
             this.$router.push('/search')
-            // 这里搜索进行请求
+            // 请求搜索结果
+            this.loadSearchRes()
             this.close()
         },
         // 删除一个历史
