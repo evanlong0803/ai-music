@@ -150,7 +150,7 @@ export default {
             switch (tab.name) {
                 // 单曲
                 case 'single':
-                    console.log(1)
+                    this.searchSingle()
                     break
                 // 歌手
                 case 'singer':
