@@ -328,14 +328,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.songName {
-    .el-table .cell.el-tooltip {
-        display: flex;
-    }
-}
 .detail {
     width: 1200px;
     margin: 0 auto;
+    padding: 20px 0;
     // 左边
     .left-card {
         height: 100%;
@@ -531,8 +527,5 @@ export default {
         margin-bottom: 20px;
         color: #666;
     }
-}
-.goBack {
-    margin-bottom: 20px;
 }
 </style>

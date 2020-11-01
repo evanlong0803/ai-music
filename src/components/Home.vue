@@ -211,7 +211,8 @@ export default {
     }
     // 内容
     .el-main {
-        margin-top: 80px;
+        margin-top: 70px;
+        padding: 0;
         overflow-x: hidden;
     }
     // 底部

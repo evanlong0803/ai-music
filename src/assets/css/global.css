@@ -10,10 +10,6 @@ body,
     height: 100%;
 }
 
-body .el-scrollbar__wrap {
-    overflow-x: hidden;
-}
-
 /* 滚动条 */
 ::-webkit-scrollbar {
     border-radius: 7px;

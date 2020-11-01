@@ -141,6 +141,7 @@ export default {
 .find {
     width: 1200px;
     margin: 0 auto;
+    padding: 20px 0;
     // 幻灯片
     .el-carousel__item {
         border-radius: 5px;
