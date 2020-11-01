@@ -54,7 +54,9 @@ export default {
             // 视频
             video: [],
             // 歌单
-            songSheet: []
+            songSheet: [],
+            // 搜索历史
+            searchHistory: []
         }
     },
     created() {
@@ -67,16 +69,18 @@ export default {
         // 监听SearchBox组件的自定义事件
         getAction() {
             this.$root.$on('getAction', () => {
+                let searchContent = sessionStorage.getItem('searchContent')
+                this.searchContent = searchContent
                 // 搜索单曲
                 this.searchSingle()
             })
         },
         // 搜索单曲
         async searchSingle() {
-            if (this.searchContent.startsWith(' ')) {
+            if (this.searchContent === '' || this.searchContent.startsWith(' ')) {
                 return this.$notify({
                     title: '消息',
-                    message: '搜索内容最前不能为空',
+                    message: '搜索内容前不能有空格',
                     type: 'warning',
                     position: 'top-left'
                 })
@@ -99,6 +103,7 @@ export default {
             })
             // 加载音乐URL
             this.loadMusicURL(singleID)
+            this.saveSearchHistory()
         },
         // 搜索歌手
         async searchSinger() {
@@ -205,6 +210,19 @@ export default {
             let searchContent = sessionStorage.getItem('searchContent')
             this.searchContent = searchContent
             this.searchSingle()
+        },
+        // 存储用户搜索历史
+        saveSearchHistory() {
+            // 取出数组
+            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+            this.searchHistory = searchHistory
+            // 没有重复的历史就存入
+            if (this.searchHistory.indexOf(this.searchContent) === -1) {
+                // 把搜索内容添加到搜索历史当中
+                this.searchHistory.push(this.searchContent)
+                // 以字符串的方式存入
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
+            }
         }
     }
 }

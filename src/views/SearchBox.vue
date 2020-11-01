@@ -122,7 +122,7 @@ export default {
             if (this.searchContent === '' || this.searchContent.startsWith(' ')) {
                 return this.$notify({
                     title: '消息',
-                    message: '搜索内容不能为空',
+                    message: '搜索内容前不能有空格',
                     type: 'warning',
                     position: 'top-left'
                 })
@@ -160,6 +160,15 @@ export default {
         clearHistory() {
             localStorage.removeItem('searchHistory')
             this.searchHistory = []
+        }
+    },
+    watch: {
+        // 搜索每次被打开的时候都重新获取一下历史
+        showSearchBox() {
+            // 取出数组
+            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+            // 存入历史
+            this.searchHistory = searchHistory
         }
     }
 }
