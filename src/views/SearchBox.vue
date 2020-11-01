@@ -106,7 +106,7 @@ export default {
                 return this.$message.error('搜索失败')
             }
             // 存储搜索内容
-            localStorage.setItem('searchContent', this.searchContent)
+            sessionStorage.setItem('searchContent', this.searchContent)
             // 将数据传递给Search组件
             this.$root.$emit('getSearchRes', res.result)
         },
@@ -135,7 +135,7 @@ export default {
         },
         // 回车搜索
         goSearch() {
-            if (this.searchContent === '') {
+            if (this.searchContent === '' || this.searchContent.startsWith(' ')) {
                 return this.$notify({
                     title: '消息',
                     message: '搜索内容不能为空',

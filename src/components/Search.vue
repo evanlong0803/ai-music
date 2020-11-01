@@ -17,7 +17,8 @@ export default {
         // 获取搜索结果
         getSearchRes() {
             this.$root.$on('getSearchRes', SearchRes => {
-                console.log(SearchRes)
+                let searchContent = sessionStorage.getItem('searchContent')
+                console.log(SearchRes, searchContent)
             })
         }
     }

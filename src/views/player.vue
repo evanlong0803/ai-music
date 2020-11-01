@@ -15,7 +15,7 @@ export default {
         }
     },
     // 页面渲染完成后开始监听
-    mounted() {
+    created() {
         // 接收首页新歌单曲
         this.getNewSong()
         // 接收详情页单曲
@@ -44,7 +44,7 @@ export default {
                 }
                 this.list.unshift(newSong)
                 this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$refs.aplayer.play() // 开始播放
+                this.$refs.aplayer.play() // 立即播放
                 this.$notify({
                     title: '消息',
                     message: `正在播放《${newSong.name}》`,
@@ -73,7 +73,7 @@ export default {
                 }
                 this.list.unshift(Single)
                 this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$refs.aplayer.play() // 开始播放
+                this.$refs.aplayer.play() // 立即播放
                 this.$notify({
                     title: '消息',
                     message: `正在播放《${Single.name}》`,
