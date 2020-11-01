@@ -16,14 +16,14 @@ export default {
         })
         // 个位数补零
         Vue.filter('addZeros', target => {
-            return target < 10 ? '0' + target : target
+            return target.toString().padStart(2, '0')
         })
 
         // 毫秒转换为分钟
         Vue.filter('playTime', target => {
             let min = Math.floor(target / 1000 / 60)
             let sec = Math.floor((target / 1000) % 60)
-            return (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec)
+            return min.toString().padStart(2, '0') + ':' + sec.toString().padStart(2, '0')
         })
 
         // 时间戳转换

@@ -29,6 +29,7 @@
                         @close="handleClose(item)"
                         @click="searchTag(item)"
                         :disable-transitions="false"
+                        type="success"
                         closable
                     >
                         {{ item }}
@@ -40,8 +41,8 @@
                         <span class="iconfont icon-remen"></span>
                         热门搜索
                     </div>
-                    <el-tag size="medium" v-for="(item, index) in hotSearch" :key="index">
-                        {{ item.name }}
+                    <el-tag size="medium" v-for="(item, index) in hotSearch" :key="index" @click="searchTag(item)">
+                        {{ item }}
                     </el-tag>
                 </div>
                 <!-- 关闭图标 -->
@@ -75,12 +76,11 @@ export default {
         // 页面重新获取历史
         this.getSearchHistory()
     },
-    mounted() {},
     methods: {
         // 当搜索历史被点击的时候
         searchTag(item) {
             this.searchContent = item
-            // // 开始搜索
+            // 开始搜索
             this.goSearch()
         },
         // 关闭搜索框
@@ -91,24 +91,8 @@ export default {
         async loadHotSearch() {
             const { data: res } = await this.$axios.get('/search/hot')
             this.hotSearch = res.result.hots.map(item => {
-                return {
-                    name: item.first
-                }
+                return item.first
             })
-        },
-        // 请求搜索结果
-        async loadSearchRes() {
-            const { data: res } = await this.$axios.post('/search', {
-                keywords: this.searchContent,
-                type: 1018
-            })
-            if (res.code !== 200) {
-                return this.$message.error('搜索失败')
-            }
-            // 存储搜索内容
-            sessionStorage.setItem('searchContent', this.searchContent)
-            // 将数据传递给Search组件
-            this.$root.$emit('getSearchRes', res.result)
         },
         // 页面重新获取历史
         getSearchHistory() {
@@ -145,15 +129,17 @@ export default {
             }
             // 存储用户搜索历史
             this.saveSearchHistory()
+            // 存储搜索内容
+            sessionStorage.setItem('searchContent', this.searchContent)
             // 已经是搜索页就不跳转页面
             if (this.$route.path === '/search') {
-                // 请求搜索结果
-                this.loadSearchRes()
+                // 触发事件（由Search组件接收）
+                this.$root.$emit('getAction')
                 return this.close()
             }
             this.$router.push('/search')
-            // 请求搜索结果
-            this.loadSearchRes()
+            // 触发事件（由Search组件接收）
+            this.$root.$emit('getAction')
             this.close()
         },
         // 删除一个历史
