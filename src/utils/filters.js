@@ -35,7 +35,8 @@ export default {
             let hour = time.getHours()
             let minute = time.getMinutes()
             let second = time.getSeconds()
-            return `${year}-${month}-${date} ${hour}:${minute}:${second}`
+            return `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}
+            ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
         })
 
         // 时间戳转换多少月前

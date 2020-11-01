@@ -38,38 +38,8 @@
                             </el-button>
                         </div>
                         <!-- 播放歌单 -->
-                        <div class="bottom-song">
-                            <el-table
-                                :data="songDetail"
-                                v-loading="!songDetail.length"
-                                size="medium"
-                                stripe
-                                :header-cell-style="{ background: '#FAFAFA', color: '#606266' }"
-                                @row-click="rowClick"
-                            >
-                                <el-table-column label="序号" type="index" :index="indexMethod" align="center" width="70"> </el-table-column>
-                                <el-table-column label="歌曲" width="220" show-overflow-tooltip>
-                                    <template slot-scope="scope">
-                                        <div class="songName">
-                                            <el-avatar shape="square" :size="35" :src="scope.row.al.picUrl"></el-avatar>
-                                            <div>{{ scope.row.name }}</div>
-                                        </div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="歌手" width="150" show-overflow-tooltip>
-                                    <template slot-scope="scope">
-                                        <span v-for="(item, index) in scope.row.ar" :key="index">
-                                            {{ item.name }}
-                                        </span>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column prop="al.name" label="专辑" width="180" show-overflow-tooltip></el-table-column>
-                                <el-table-column label="时长" align="center">
-                                    <template slot-scope="scope">
-                                        {{ scope.row.dt | playTime }}
-                                    </template>
-                                </el-table-column>
-                            </el-table>
+                        <div class="bottom-song" v-loading="!songDetail.length">
+                            <PlayList :songDetail="songDetail" />
                         </div>
                     </div>
                 </el-card>
@@ -130,7 +100,11 @@
 </template>
 
 <script>
+import PlayList from '../../microComponents/PlayList'
 export default {
+    components: {
+        PlayList
+    },
     data() {
         return {
             // 歌单ID
@@ -241,19 +215,6 @@ export default {
                 }
             }
         },
-        // 当某一行被点击时
-        rowClick(row) {
-            // this.loadSongLyrics(row)
-            let firstSong = {
-                id: row.id,
-                name: row.name,
-                artist: row.ar[0].name,
-                url: row.url,
-                cover: row.al.picUrl
-            }
-            // 传递当前单曲歌词
-            this.$root.$emit('getSingle', firstSong)
-        },
         // 加载当前歌曲歌词
         // async loadSongLyrics(row) {
         //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
@@ -262,7 +223,8 @@ export default {
         //     } else if (!res.lrc || !res.lrc.lyric) {
         //         this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
         //     }
-        // },
+        // }
+
         // 全部播放
         allPlay() {
             // 重新定义播放器对象结构
