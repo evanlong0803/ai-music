@@ -29,7 +29,6 @@
                         @close="handleClose(item)"
                         @click="searchTag(item)"
                         :disable-transitions="false"
-                        type="success"
                         closable
                     >
                         {{ item }}
@@ -41,7 +40,7 @@
                         <span class="iconfont icon-remen"></span>
                         热门搜索
                     </div>
-                    <el-tag size="medium" v-for="(item, index) in hotSearch" :key="index" @click="searchTag(item)">
+                    <el-tag size="medium" v-for="(item, index) in hotSearch" :key="index" @click="searchTag(item)" type="warning">
                         {{ item }}
                     </el-tag>
                 </div>
