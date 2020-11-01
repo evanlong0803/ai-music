@@ -44,7 +44,7 @@ export default {
                 }
                 this.list.unshift(newSong)
                 this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$refs.aplayer.play() // 立即播放
+                // this.$refs.aplayer.play() // 立即播放
                 this.$notify({
                     title: '消息',
                     message: `正在播放《${newSong.name}》`,
@@ -73,7 +73,7 @@ export default {
                 }
                 this.list.unshift(Single)
                 this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$refs.aplayer.play() // 立即播放
+                // this.$refs.aplayer.play() // 立即播放
                 this.$notify({
                     title: '消息',
                     message: `正在播放《${Single.name}》`,
