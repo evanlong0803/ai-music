@@ -29,14 +29,13 @@ export default {
         // 时间戳转换
         Vue.filter('timeStamp', target => {
             let time = new Date(target)
-            let year = time.getFullYear()
-            let month = time.getMonth() + 1
-            let date = time.getDate()
-            let hour = time.getHours()
-            let minute = time.getMinutes()
-            let second = time.getSeconds()
-            return `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}
-            ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+            let year = time.getFullYear().toString().padStart(2, '0')
+            let month = (time.getMonth() + 1).toString().padStart(2, '0')
+            let date = time.getDate().toString().padStart(2, '0')
+            let hour = time.getHours().toString().padStart(2, '0')
+            let minute = time.getMinutes().toString().padStart(2, '0')
+            let second = time.getSeconds().toString().padStart(2, '0')
+            return `${year}-${month}-${date} ${hour}:${minute}:${second}`
         })
 
         // 时间戳转换多少月前
