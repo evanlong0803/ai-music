@@ -15,7 +15,7 @@ export default {
         }
     },
     // 页面渲染完成后开始监听
-    created() {
+    mounted() {
         // 接收首页新歌单曲
         this.getNewSong()
         // 接收详情页单曲
