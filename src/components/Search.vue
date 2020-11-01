@@ -5,13 +5,7 @@
         <!-- 上部分 -->
         <div class="search-top">
             <!-- 搜索框 -->
-            <el-input
-                placeholder="搜索关键词可以多个,以空格隔开"
-                v-model="searchContent"
-                class="search-box"
-                @keyup.enter.native="searchSingle"
-                clearable
-            >
+            <el-input placeholder="搜索关键词可以多个,以空格隔开" v-model="searchContent" @keyup.enter.native="searchSingle" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="searchSingle"></el-button>
             </el-input>
         </div>
@@ -22,7 +16,7 @@
                 <!-- 搜索选项 -->
                 <span class="options-title">搜索结果</span>
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="单曲" name="single">
+                    <el-tab-pane label="单曲" name="single" v-loading="!single.length">
                         <el-button class="single-allPlay" type="primary" round size="medium" icon="el-icon-caret-right" @click="allPlay">
                             播放全部
                         </el-button>
@@ -73,27 +67,27 @@ export default {
         // 监听SearchBox组件的自定义事件
         getAction() {
             this.$root.$on('getAction', () => {
-                // 取临时的搜索历史
-                let searchContent = sessionStorage.getItem('searchContent')
-                this.searchContent = searchContent
                 // 搜索单曲
                 this.searchSingle()
             })
         },
         // 搜索单曲
         async searchSingle() {
-            if (this.searchContent === '' || this.searchContent.startsWith(' ')) {
+            if (this.searchContent.startsWith(' ')) {
                 return this.$notify({
                     title: '消息',
-                    message: '搜索内容不能为空',
+                    message: '搜索内容最前不能为空',
                     type: 'warning',
                     position: 'top-left'
                 })
             }
+            sessionStorage.setItem('searchContent', this.searchContent)
             // 搜索时默认显示单曲选项
             this.activeName = 'single'
-            const { data: res } = await this.$axios.post('/cloudsearch', {
-                keywords: this.searchContent
+            const { data: res } = await this.$axios.get('/cloudsearch', {
+                params: {
+                    keywords: this.searchContent
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('搜索失败')
@@ -234,15 +228,16 @@ export default {
 
     // 上部分
     .search-top {
-        height: 200px;
+        height: 250px;
         width: 750px;
         display: flex;
         align-items: center;
         margin: 0 auto;
         // 搜索框
-        .search-box {
+        .el-input__inner {
             border: none;
-            outline: none;
+            height: 50px;
+            border-radius: 3px 0 0 3px;
         }
     }
     // 下部分
