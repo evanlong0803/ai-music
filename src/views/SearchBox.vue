@@ -64,7 +64,9 @@ export default {
             // 搜索历史
             searchHistory: [],
             // 热搜
-            hotSearch: []
+            hotSearch: [],
+            // 显示搜索历史
+            showHistory: false
         }
     },
     // 接收父组件的数据
@@ -72,8 +74,6 @@ export default {
     created() {
         // 请求热搜
         this.loadHotSearch()
-        // 页面重新获取历史
-        this.getSearchHistory()
     },
     methods: {
         // 当搜索历史被点击的时候
@@ -93,19 +93,10 @@ export default {
                 return item.first
             })
         },
-        // 页面重新获取历史
-        getSearchHistory() {
-            // 取出数组
-            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-            // 历史为空的时候就停止
-            if (searchHistory === null) return
-            // 存入历史
-            this.searchHistory = searchHistory
-        },
         // 存储用户搜索历史
         saveSearchHistory() {
             // 没有重复的历史就存入
-            if (this.searchHistory.indexOf(this.searchContent) === -1) {
+            if (this.searchHistory.indexOf(this.searchContent) < 0) {
                 // 把搜索内容添加到搜索历史当中
                 this.searchHistory.push(this.searchContent)
                 // 以字符串的方式存入
@@ -169,6 +160,8 @@ export default {
                 this.searchContent = ''
                 // 取出数组
                 let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+                // 历史为空的时候就停止
+                if (searchHistory === null) return
                 // 存入历史
                 this.searchHistory = searchHistory
             }

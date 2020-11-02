@@ -188,8 +188,9 @@ export default {
         },
         // 加载歌曲详情
         async loadSongDetail(trackIds) {
-            if (trackIds.length >= 300) {
-                trackIds.length = 300
+            // 限制数量
+            if (trackIds.length >= 200) {
+                trackIds.length = 200
             }
             const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
@@ -200,8 +201,9 @@ export default {
         },
         // 加载音乐URL
         async loadMusicURL(trackIds) {
-            if (trackIds.length >= 300) {
-                trackIds.length = 300
+            // 限制数量
+            if (trackIds.length >= 200) {
+                trackIds.length = 200
             }
             const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {

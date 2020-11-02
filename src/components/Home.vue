@@ -144,7 +144,7 @@ export default {
         position: fixed;
         width: 100%;
         top: 0;
-        z-index: 99;
+        z-index: 50;
         background: rgba(255, 255, 255, 0.3);
         overflow: hidden;
         backdrop-filter: blur(15px);
