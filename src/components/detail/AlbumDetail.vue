@@ -32,8 +32,8 @@
                             <el-button type="primary" round size="medium" icon="el-icon-caret-right" @click="allPlay">播放全部</el-button>
                         </div>
                         <!-- 播放歌单 -->
-                        <div class="bottom-song" v-loading="!songDetail.length">
-                            <PlayList :songDetail="songDetail" />
+                        <div class="bottom-song" v-loading="!albumDetail.length">
+                            <PlayList :albumDetail="albumDetail" />
                         </div>
                     </div>
                 </el-card>
@@ -43,13 +43,13 @@
                 <!-- 热门专辑 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">热门专辑</div>
-                    <div class="card-featured" v-for="(item, index) in featured" :key="index">
+                    <div class="card-featured" v-for="(item, index) in hotAlbum" :key="index">
                         <div class="featured-left">
-                            <el-image class="featured-avatar" :src="item.coverImgUrl" fit="cover"></el-image>
+                            <el-image class="featured-avatar" :src="item.picUrl" fit="cover"></el-image>
                         </div>
                         <div class="featured-right">
                             <div class="featured-title">{{ item.name }}</div>
-                            <div class="featured-name">By. {{ item.creator.nickname }}</div>
+                            <div class="featured-name">By. {{ item.artist.name }}</div>
                         </div>
                     </div>
                 </el-card>
@@ -92,14 +92,13 @@ export default {
             albumId: '',
             // 专辑信息
             detail: {},
-            // 歌手信息
             singerInfo: {},
-            // 相关评论
-            featured: [],
+            // 热门专辑
+            hotAlbum: [],
             // 精彩评论
             hotComments: [],
             // 专辑歌曲详情
-            songDetail: [],
+            albumDetail: [],
             // 音乐URL
             musicURL: [],
             // 歌词
@@ -115,7 +114,6 @@ export default {
     created() {
         this.albumId = this.$route.query.id
         this.loadAlbumContent()
-        this.loadFeatured()
         this.loadComments()
     },
     methods: {
@@ -123,9 +121,9 @@ export default {
         async loadAlbumContent() {
             const { data: res } = await this.$axios.get(`/album?id=${this.albumId}`)
             if (res.code !== 200) {
-                return this.$message.error('歌单详情请求失败')
+                return this.$message.error('专辑内容请求失败')
             }
-            this.songDetail = res.songs
+            this.albumDetail = res.songs
             this.detail = res.album
             this.singerInfo = res.album.artist
             // 储存音乐ID
@@ -133,23 +131,27 @@ export default {
                 return item.id
             })
             this.loadSongDetail(trackIds)
+            // 加载热门专辑
+            this.loadHotAlbum(res.album.artist)
         },
-        // 加载相关推荐
-        async loadFeatured() {
-            const { data: res } = await this.$axios.get(`/related/playlist?id=${this.albumId}`)
+        // 加载热门专辑
+        async loadHotAlbum(item) {
+            const { data: res } = await this.$axios.get(`/artist/album?id=${item.id}`)
             if (res.code !== 200) {
-                return this.$message.error('相关推荐请求失败')
+                return this.$message.error('热门专辑请求失败')
+            } else if (res.hotAlbums.length >= 5) {
+                res.hotAlbums.length = 5
             }
-            this.featured = res.playlists
+            this.hotAlbum = res.hotAlbums
         },
         // 加载精彩评论
         async loadComments() {
-            const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.albumId}`)
+            const { data: res } = await this.$axios.get(`/comment/album?id=${this.albumId}`)
             if (res.code !== 200) {
                 return this.$message.error('精彩评论请求失败')
             }
-            // 如果没有精彩评论就给普通评论，统一12条
-            this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments
+            // 如果没有精彩评论就给普通评论
+            this.hotComments = res.hotComments.length === 0 ? res.comments : res.hotComments
         },
         // 加载歌曲详情
         async loadSongDetail(trackIds) {
@@ -161,7 +163,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
             }
-            this.songDetail = res.songs
+            this.albumDetail = res.songs
             this.loadMusicURL(trackIds)
         },
         // 加载音乐URL
@@ -180,10 +182,10 @@ export default {
             })
             // 将每一个音乐URL放入对象属性中
             for (const i in musicURL) {
-                for (const j in this.songDetail) {
+                for (const j in this.albumDetail) {
                     // 如果歌单与歌单URL的ID一致，就把URL加入到对应的歌单中
-                    if (this.songDetail[j].id === musicURL[i].id) {
-                        this.$set(this.songDetail[j], 'url', musicURL[i].url)
+                    if (this.albumDetail[j].id === musicURL[i].id) {
+                        this.$set(this.albumDetail[j], 'url', musicURL[i].url)
                     }
                 }
             }
@@ -191,7 +193,7 @@ export default {
         // 全部播放
         allPlay() {
             // 重新定义播放器对象结构
-            let allSong = this.songDetail.map(item => {
+            let allSong = this.albumDetail.map(item => {
                 return {
                     id: item.id,
                     name: item.name,
@@ -247,6 +249,7 @@ export default {
                         margin-right: 10px;
                     }
                     .release-name {
+                        color: #f56c6c;
                         font-size: 14px;
                         margin-right: 20px;
                     }
