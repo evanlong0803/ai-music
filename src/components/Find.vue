@@ -240,7 +240,6 @@ export default {
     // 热门歌手
     .featured-vocalists {
         cursor: pointer;
-        width: 100px;
         text-align: center;
         .vocalists-img {
             width: 100px;

@@ -26,7 +26,7 @@
 
                     <!-- 搜索歌手 -->
                     <el-tab-pane label="歌手" name="singer">
-                        <el-row :gutter="60" v-loading="!singer.length">
+                        <el-row :gutter="40" v-loading="!singer.length" type="flex" style="flex-flow: row wrap;">
                             <el-col :span="3" v-for="(item, index) in singer" :key="index">
                                 <div class="search-singer">
                                     <el-image class="singer-img" :src="item.img1v1Url" fit="cover"></el-image>
@@ -283,7 +283,6 @@ export default {
         background: url('../assets/image/Searchbackgroun.jpg') no-repeat;
         background-size: cover;
     }
-
     // 上部分
     .search-top {
         height: 250px;
@@ -301,6 +300,7 @@ export default {
     // 下部分
     .search-bottom {
         width: 100%;
+        min-height: 617px;
         background: white;
         // 搜索结果
         .search-res {
@@ -328,7 +328,6 @@ export default {
             // 歌手
             .search-singer {
                 cursor: pointer;
-                width: 100px;
                 text-align: center;
                 .singer-img {
                     width: 100px;

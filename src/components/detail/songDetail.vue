@@ -347,6 +347,8 @@ export default {
 
                 .top-right-description {
                     width: 70%;
+                    font-size: 14px;
+                    color: #4a4a4a;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
