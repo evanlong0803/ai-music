@@ -53,6 +53,15 @@ export default {
         indexMethod(index) {
             return index + 1 < 10 ? '0' + (index + 1) : index + 1
         }
+        // 加载单曲歌词
+        // async loadSingleLyrics(row) {
+        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
+        //     if (res.code !== 200) {
+        //         return this.$message.error('请求歌词失败')
+        //     } else if (!res.lrc || !res.lrc.lyric) {
+        //         this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
+        //     }
+        // }
     }
 }
 </script>

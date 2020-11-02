@@ -188,6 +188,9 @@ export default {
         },
         // 加载歌曲详情
         async loadSongDetail(trackIds) {
+            if (trackIds.length >= 300) {
+                trackIds.length = 300
+            }
             const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
@@ -197,6 +200,9 @@ export default {
         },
         // 加载音乐URL
         async loadMusicURL(trackIds) {
+            if (trackIds.length >= 300) {
+                trackIds.length = 300
+            }
             const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
@@ -215,16 +221,6 @@ export default {
                 }
             }
         },
-        // 加载当前歌曲歌词
-        // async loadSongLyrics(row) {
-        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
-        //     if (res.code !== 200) {
-        //         return this.$message.error('请求歌词失败')
-        //     } else if (!res.lrc || !res.lrc.lyric) {
-        //         this.$message.info('当前歌曲没有歌词') // 此处不能停止函数
-        //     }
-        // }
-
         // 全部播放
         allPlay() {
             // 重新定义播放器对象结构
