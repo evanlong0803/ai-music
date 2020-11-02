@@ -1,7 +1,7 @@
 <template>
     <div class="playList">
         <el-table
-            :data="single || songDetail"
+            :data="single || songDetail || albumDetail"
             size="medium"
             stripe
             :header-cell-style="{ background: '#FAFAFA', color: '#606266' }"
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    props: ['single', 'songDetail'],
+    props: ['single', 'songDetail', 'albumDetail'],
     methods: {
         // 当某一行被点击时
         rowClick(row) {
