@@ -214,6 +214,7 @@ export default {
         margin-top: 70px;
         padding: 0;
         overflow-x: hidden;
+        min-height: 627px;
     }
     // 底部
     .el-footer {

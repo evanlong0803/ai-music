@@ -19,7 +19,7 @@
                                     <div class="release-time">发行时间：{{ detail.publishTime | timeStampTwo }}</div>
                                 </div>
                                 <div class="release-company">发行公司：{{ detail.company }}</div>
-                                <div class="top-right-description">{{ detail.description }}</div>
+                                <div class="release-description">{{ detail.description }}</div>
                                 <el-link type="danger" :underline="false" @click="descriptionDialog = true">
                                     全部<i class="el-icon-arrow-right"></i>
                                 </el-link>
@@ -255,13 +255,12 @@ export default {
                         color: #999;
                     }
                 }
-                // 发行公司
-                .release-company {
+                // 发行信息
+                .release-company,
+                .release-description {
+                    width: 70%;
                     font-size: 14px;
                     color: #4a4a4a;
-                }
-                .top-right-description {
-                    width: 70%;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
