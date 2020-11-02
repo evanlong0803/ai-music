@@ -60,7 +60,7 @@
                 <!-- 相关推荐 -->
                 <el-card class="right-card" shadow="hover" v-loading="!featured.length">
                     <div class="card-title">相关推荐</div>
-                    <div class="card-featured" v-for="(item, index) in featured" :key="index">
+                    <div class="card-featured" v-for="(item, index) in featured" :key="index" @click="reload(item.id)">
                         <div class="featured-left">
                             <el-image class="featured-avatar" :src="item.coverImgUrl" fit="cover"></el-image>
                         </div>
@@ -280,6 +280,14 @@ export default {
             //         type: 'warning'
             //     })
             // }
+        },
+        // 重新跳转详情
+        reload(id) {
+            this.songListId = id
+            this.loadDetail()
+            this.loadSubscribers()
+            this.loadFeatured()
+            this.loadComments()
         }
     }
 }
