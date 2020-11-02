@@ -14,14 +14,16 @@ export default {
             list: []
         }
     },
-    // 页面渲染完成后开始监听
-    created() {
-        // 接收首页新歌单曲
-        this.getNewSong()
-        // 接收详情页单曲
-        this.getSingle()
-        // 接收当前歌单所有歌曲
-        this.getAllSong()
+    // 一定是在页面渲染完成后开始监听
+    mounted() {
+        this.$nextTick(() => {
+            // 接收首页新歌单曲
+            this.getNewSong()
+            // 接收详情页单曲
+            this.getSingle()
+            // 接收当前歌单所有歌曲
+            this.getAllSong()
+        })
     },
     methods: {
         // 接收首页新歌单曲
