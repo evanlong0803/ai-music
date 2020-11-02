@@ -56,7 +56,6 @@
                             </el-tooltip>
                         </el-col>
                     </el-row>
-                    <div></div>
                 </el-card>
                 <!-- 相关推荐 -->
                 <el-card class="right-card" shadow="hover" v-loading="!featured.length">
@@ -90,10 +89,9 @@
                     </div>
                 </el-card>
             </el-col>
-
             <!-- 查看全部描述对话框 -->
             <el-dialog :title="detail.name" :visible.sync="descriptionDialog" width="30%">
-                <div class="dialog-content">{{ detail.description }}</div>
+                <pre class="dialog-content">{{ detail.description }}</pre>
             </el-dialog>
         </el-row>
     </div>
@@ -483,9 +481,10 @@ export default {
 
     // 对话框内容
     .dialog-content {
-        border-radius: 8px;
         margin-bottom: 20px;
         color: #666;
+        white-space: pre-wrap;
+        font-family: 'Microsoft YaHei';
     }
 }
 </style>
