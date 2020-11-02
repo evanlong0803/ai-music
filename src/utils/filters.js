@@ -38,6 +38,15 @@ export default {
             return `${year}-${month}-${date} ${hour}:${minute}:${second}`
         })
 
+        // 时间戳转换
+        Vue.filter('timeStampTwo', target => {
+            let time = new Date(target)
+            let year = time.getFullYear().toString().padStart(2, '0')
+            let month = (time.getMonth() + 1).toString().padStart(2, '0')
+            let date = time.getDate().toString().padStart(2, '0')
+            return `${year}-${month}-${date}`
+        })
+
         // 时间戳转换多少月前
         Vue.filter('time', target => {
             // 现在的时间

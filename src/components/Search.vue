@@ -23,9 +23,39 @@
                         <!-- 播放列表 -->
                         <PlayList :single="single" />
                     </el-tab-pane>
-                    <el-tab-pane label="歌手" name="singer">歌手</el-tab-pane>
-                    <el-tab-pane label="专辑" name="album">专辑</el-tab-pane>
+
+                    <!-- 搜索歌手 -->
+                    <el-tab-pane label="歌手" name="singer">
+                        <el-row :gutter="60" v-loading="!singer.length">
+                            <el-col :span="3" v-for="(item, index) in singer" :key="index">
+                                <div class="search-singer">
+                                    <el-image class="singer-img" :src="item.img1v1Url" fit="cover"></el-image>
+                                    <div class="singer-name">{{ item.name }}</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+
+                    <!-- 搜索专辑 -->
+                    <el-tab-pane label="专辑" name="album">
+                        <el-row type="flex" :gutter="30" style="flex-flow: row wrap;" v-loading="!album.length">
+                            <el-col :span="4" v-for="(item, index) in album" :key="index">
+                                <div class="search-album" @click="goDetail(item.id)">
+                                    <!-- 播放统计 -->
+                                    <el-tag><i class="el-icon-caret-right"></i>{{ item.type }}</el-tag>
+                                    <el-image class="album-img" :src="item.picUrl + '?param=175y175'" fit="cover"></el-image>
+                                    <div class="album-name">{{ item.name }}</div>
+                                    <div class="album-info">{{ item.artist.name }}</div>
+                                    <div class="album-info">{{ item.publishTime | timeStampTwo }}</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+
+                    <!-- 搜索视频 -->
                     <el-tab-pane label="视频" name="video">视频</el-tab-pane>
+
+                    <!-- 搜索歌单 -->
                     <el-tab-pane label="歌单" name="songSheet">歌单</el-tab-pane>
                 </el-tabs>
             </div>
@@ -107,23 +137,29 @@ export default {
         },
         // 搜索歌手
         async searchSinger() {
-            const { data: res } = await this.$axios.post('/search', {
-                keywords: this.searchContent
+            const { data: res } = await this.$axios.get('/cloudsearch', {
+                params: {
+                    keywords: this.searchContent,
+                    type: 100
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('搜索失败')
             }
-            console.log(res)
+            this.singer = res.result.artists
         },
         // 搜索专辑
         async searchAlbum() {
-            const { data: res } = await this.$axios.post('/search', {
-                keywords: this.searchContent
+            const { data: res } = await this.$axios.get('/cloudsearch', {
+                params: {
+                    keywords: this.searchContent,
+                    type: 10
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('搜索失败')
             }
-            console.log(res)
+            this.album = res.result.albums
         },
         // 搜索视频
         async searchVideo() {
@@ -154,11 +190,11 @@ export default {
                     break
                 // 歌手
                 case 'singer':
-                    console.log(2)
+                    this.searchSinger()
                     break
                 // 专辑
                 case 'album':
-                    console.log(3)
+                    this.searchAlbum()
                     break
                 // 视频
                 case 'video':
@@ -223,6 +259,10 @@ export default {
                 // 以字符串的方式存入
                 localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
             }
+        },
+        // 跳转专辑详情
+        goDetail(id) {
+            this.$router.push(`/albumdetail?id=${id}`)
         }
     }
 }
@@ -247,7 +287,7 @@ export default {
     // 上部分
     .search-top {
         height: 250px;
-        width: 750px;
+        width: 720px;
         display: flex;
         align-items: center;
         margin: 0 auto;
@@ -280,11 +320,62 @@ export default {
             .el-tabs__header {
                 margin-bottom: 30px;
             }
-
             // 单曲全部播放
             .single-allPlay {
                 float: right;
                 margin-bottom: 20px;
+            }
+            // 歌手
+            .search-singer {
+                cursor: pointer;
+                width: 100px;
+                text-align: center;
+                .singer-img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: 1px solid #ccc;
+                }
+                .singer-name {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin: 10px 0 30px 0;
+                }
+            }
+            // 歌单
+            .search-album {
+                cursor: pointer;
+                margin-bottom: 20px;
+                .album-img {
+                    border-radius: 5px;
+                    background: #ccc;
+                    margin-bottom: 10px;
+                }
+                // 播放总数
+                .el-tag {
+                    position: absolute;
+                    z-index: 1;
+                    margin: 8px;
+                    height: 20px;
+                    padding: 0;
+                    line-height: 18px;
+                    padding: 0 3px;
+                    text-align: center;
+                    background: black;
+                    color: white;
+                }
+                .album-name {
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .album-info {
+                    font-size: 12px;
+                    color: #666;
+                }
             }
         }
     }

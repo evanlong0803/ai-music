@@ -10,7 +10,7 @@
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <el-row type="flex" :gutter="60" style="flex-flow: row wrap;" v-loading="!FeaturedSongList.length">
+        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;" v-loading="!FeaturedSongList.length">
             <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
@@ -131,7 +131,7 @@ export default {
         },
         // 跳转详情页
         goDetail(id) {
-            this.$router.push(`/detail?id=${id}`)
+            this.$router.push(`/songdetail?id=${id}`)
         }
     }
 }
