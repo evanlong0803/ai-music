@@ -148,8 +148,8 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌单详情请求失败')
             }
-            this.detail = res.playlist
             this.creator = res.playlist.creator
+            this.detail = res.playlist
             // 储存音乐ID
             let trackIds = res.playlist.trackIds.map(item => {
                 return item.id
