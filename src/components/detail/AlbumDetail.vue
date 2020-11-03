@@ -43,7 +43,7 @@
                 <!-- 热门专辑 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">热门专辑</div>
-                    <div class="card-featured" v-for="(item, index) in hotAlbum" :key="index">
+                    <div class="card-featured" v-for="(item, index) in hotAlbum" :key="index" @click="reload(item.id)">
                         <div class="featured-left">
                             <el-image class="featured-avatar" :src="item.picUrl" fit="cover"></el-image>
                         </div>
@@ -204,6 +204,13 @@ export default {
             })
             // 传递当前歌单所有歌曲
             this.$root.$emit('getAllSong', allSong)
+        },
+        // 重新跳转详情
+        reload(id) {
+            this.albumId = id
+            this.$router.push(`/albumdetail?id=${id}`)
+            this.loadAlbumContent()
+            this.loadComments()
         }
     }
 }

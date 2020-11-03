@@ -284,6 +284,7 @@ export default {
         // 重新跳转详情
         reload(id) {
             this.songListId = id
+            this.$router.push(`/songdetail?id=${id}`)
             this.loadDetail()
             this.loadSubscribers()
             this.loadFeatured()
