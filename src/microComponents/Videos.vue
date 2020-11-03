@@ -2,7 +2,7 @@
     <div class="videos">
         <el-row :gutter="30" type="flex" style="flex-flow: row wrap;">
             <el-col :span="6" v-for="(item, index) in video" class="video" :key="index">
-                <div class="videos-box">
+                <div class="videos-box" @click="goDetail(item.vid)">
                     <el-image :src="item.coverUrl" fit="cover"></el-image>
                     <!-- 播放统计 -->
                     <el-tag><i class="el-icon-caret-right"></i>{{ item.playTime | playCount }}</el-tag>
@@ -19,8 +19,11 @@
 <script>
 export default {
     props: ['video'],
-    created() {
-        console.log(this.video)
+    methods: {
+        // 跳转详情页
+        goDetail(id) {
+            this.$router.push(`/videodetail?id=${id}`)
+        }
     }
 }
 </script>

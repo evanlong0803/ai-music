@@ -11,6 +11,7 @@ import MV from '../components/MV.vue'
 import Search from '../components/Search.vue'
 import SongDetail from '../components/detail/SongDetail.vue'
 import AlbumDetail from '../components/detail/AlbumDetail.vue'
+import VideoDetail from '../components/detail/VideoDetail.vue'
 
 const routes = [
     { path: '/', name: 'Find', component: Find },
@@ -21,7 +22,8 @@ const routes = [
     { path: '/mv', name: 'MV', component: MV },
     { path: '/search', name: 'Search', component: Search },
     { path: '/songdetail', name: 'SongDetail', component: SongDetail },
-    { path: '/albumdetail', name: 'AlbumDetail', component: AlbumDetail }
+    { path: '/albumdetail', name: 'AlbumDetail', component: AlbumDetail },
+    { path: '/videodetail', name: 'VideoDetail', component: VideoDetail }
 ]
 
 const router = new VueRouter({

@@ -128,7 +128,7 @@ export default {
                 }
             })
             if (res.code !== 200) {
-                return this.$message.error('搜索失败')
+                return this.$message.error('搜索单曲失败')
             }
             this.single = res.result.songs
             // 定义音乐ID
@@ -148,7 +148,7 @@ export default {
                 }
             })
             if (res.code !== 200) {
-                return this.$message.error('搜索失败')
+                return this.$message.error('搜索歌手失败')
             }
             this.singer = res.result.artists
         },
@@ -161,7 +161,7 @@ export default {
                 }
             })
             if (res.code !== 200) {
-                return this.$message.error('搜索失败')
+                return this.$message.error('搜索专辑失败')
             }
             this.album = res.result.albums
         },
@@ -174,7 +174,7 @@ export default {
                 }
             })
             if (res.code !== 200) {
-                return this.$message.error('搜索失败')
+                return this.$message.error('搜索视频失败')
             }
             this.video = res.result.videos
         },

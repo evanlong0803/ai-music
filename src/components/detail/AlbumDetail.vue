@@ -43,13 +43,13 @@
                 <!-- 热门专辑 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">热门专辑</div>
-                    <div class="card-featured" v-for="(item, index) in hotAlbum" :key="index" @click="reload(item.id)">
-                        <div class="featured-left">
-                            <el-image class="featured-avatar" :src="item.picUrl" fit="cover"></el-image>
+                    <div class="card-recommend" v-for="(item, index) in hotAlbum" :key="index" @click="reload(item.id)">
+                        <div class="recommend-left">
+                            <el-image class="recommend-avatar" :src="item.picUrl" fit="cover"></el-image>
                         </div>
-                        <div class="featured-right">
-                            <div class="featured-title">{{ item.name }}</div>
-                            <div class="featured-name">By. {{ item.artist.name }}</div>
+                        <div class="recommend-right">
+                            <div class="recommend-title">{{ item.name }}</div>
+                            <div class="recommend-name">By. {{ item.artist.name }}</div>
                         </div>
                     </div>
                 </el-card>
@@ -207,6 +207,8 @@ export default {
         },
         // 重新跳转详情
         reload(id) {
+            // 防止出现路由冗余
+            if (this.albumId === id) return
             this.albumId = id
             this.$router.push(`/albumdetail?id=${id}`)
             this.loadAlbumContent()
@@ -315,7 +317,7 @@ export default {
         }
 
         // 相关推荐
-        .card-featured {
+        .card-recommend {
             width: 100%;
             height: 50px;
             display: flex;
@@ -323,11 +325,11 @@ export default {
             margin-top: 20px;
 
             // 左边
-            .featured-left {
+            .recommend-left {
                 width: 50px;
                 height: 100%;
                 margin-right: 20px;
-                .featured-avatar {
+                .recommend-avatar {
                     width: 50px;
                     height: 50px;
                     border-radius: 5px;
@@ -335,10 +337,10 @@ export default {
                 }
             }
             // 右边
-            .featured-right {
+            .recommend-right {
                 cursor: pointer;
                 width: 220px;
-                .featured-title {
+                .recommend-title {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -349,7 +351,7 @@ export default {
                         color: #f56c6c;
                     }
                 }
-                .featured-name {
+                .recommend-name {
                     font-size: 12px;
                     color: #999;
                     white-space: nowrap;

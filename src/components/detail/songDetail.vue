@@ -58,15 +58,15 @@
                     </el-row>
                 </el-card>
                 <!-- 相关推荐 -->
-                <el-card class="right-card" shadow="hover" v-loading="!featured.length">
+                <el-card class="right-card" shadow="hover" v-loading="!recommend.length">
                     <div class="card-title">相关推荐</div>
-                    <div class="card-featured" v-for="(item, index) in featured" :key="index" @click="reload(item.id)">
-                        <div class="featured-left">
-                            <el-image class="featured-avatar" :src="item.coverImgUrl" fit="cover"></el-image>
+                    <div class="card-recommend" v-for="(item, index) in recommend" :key="index" @click="reload(item.id)">
+                        <div class="recommend-left">
+                            <el-image class="recommend-avatar" :src="item.coverImgUrl" fit="cover"></el-image>
                         </div>
-                        <div class="featured-right">
-                            <div class="featured-title">{{ item.name }}</div>
-                            <div class="featured-name">By. {{ item.creator.nickname }}</div>
+                        <div class="recommend-right">
+                            <div class="recommend-title">{{ item.name }}</div>
+                            <div class="recommend-name">By. {{ item.creator.nickname }}</div>
                         </div>
                     </div>
                 </el-card>
@@ -113,7 +113,7 @@ export default {
             // 喜欢歌单的伙伴
             subscribers: [],
             // 相关评论
-            featured: [],
+            recommend: [],
             // 精彩评论
             hotComments: [],
             // 歌曲详情
@@ -173,7 +173,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('相关推荐请求失败')
             }
-            this.featured = res.playlists
+            this.recommend = res.playlists
         },
         // 加载精彩评论
         async loadComments() {
@@ -283,6 +283,8 @@ export default {
         },
         // 重新跳转详情
         reload(id) {
+            // 防止出现路由冗余
+            if (this.songListId === id) return
             this.songListId = id
             this.$router.push(`/songdetail?id=${id}`)
             this.loadDetail()
@@ -412,7 +414,7 @@ export default {
         }
 
         // 相关推荐
-        .card-featured {
+        .card-recommend {
             width: 100%;
             height: 50px;
             display: flex;
@@ -420,11 +422,11 @@ export default {
             margin-top: 20px;
 
             // 左边
-            .featured-left {
+            .recommend-left {
                 width: 50px;
                 height: 100%;
                 margin-right: 20px;
-                .featured-avatar {
+                .recommend-avatar {
                     width: 50px;
                     height: 50px;
                     border-radius: 5px;
@@ -432,10 +434,10 @@ export default {
                 }
             }
             // 右边
-            .featured-right {
+            .recommend-right {
                 cursor: pointer;
                 width: 220px;
-                .featured-title {
+                .recommend-title {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -446,7 +448,7 @@ export default {
                         color: #f56c6c;
                     }
                 }
-                .featured-name {
+                .recommend-name {
                     font-size: 12px;
                     color: #999;
                     white-space: nowrap;
