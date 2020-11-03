@@ -14,8 +14,8 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-release">
-                                    <el-image class="release-avatar" :src="singerInfo.picUrl" fit="cover"></el-image>
-                                    <div class="release-name">{{ singerInfo.name }}</div>
+                                    <el-image class="release-avatar" :src="((detail || {}).artist || {}).picUrl" fit="cover"></el-image>
+                                    <div class="release-name">{{ ((detail || {}).artist || {}).name }}</div>
                                     <div class="release-time">发行时间：{{ detail.publishTime | timeStampTwo }}</div>
                                 </div>
                                 <div class="release-company">发行公司：{{ detail.company }}</div>
@@ -92,7 +92,6 @@ export default {
             albumId: '',
             // 专辑信息
             detail: {},
-            singerInfo: {},
             // 热门专辑
             hotAlbum: [],
             // 精彩评论
@@ -125,7 +124,6 @@ export default {
             }
             this.albumDetail = res.songs
             this.detail = res.album
-            this.singerInfo = res.album.artist
             // 储存音乐ID
             let trackIds = res.songs.map(item => {
                 return item.id

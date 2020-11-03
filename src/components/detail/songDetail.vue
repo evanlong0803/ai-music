@@ -14,8 +14,8 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-userInfo">
-                                    <el-image class="userInfo-avatar" :src="creator.avatarUrl" fit="cover"></el-image>
-                                    <div class="userInfo-name">{{ creator.nickname }}</div>
+                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover"></el-image>
+                                    <div class="userInfo-name">{{ ((detail || {}).creator || {}).nickname }}</div>
                                     <div class="userInfo-time">更新时间：{{ detail.updateTime | timeStamp }}</div>
                                 </div>
                                 <div class="top-right-tag">
@@ -109,7 +109,6 @@ export default {
             songListId: '',
             // 歌单详情
             detail: {},
-            creator: {},
             // 喜欢歌单的伙伴
             subscribers: [],
             // 相关评论
@@ -148,7 +147,6 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌单详情请求失败')
             }
-            this.creator = res.playlist.creator
             this.detail = res.playlist
             // 储存音乐ID
             let trackIds = res.playlist.trackIds.map(item => {
