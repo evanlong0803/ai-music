@@ -53,7 +53,9 @@
                     </el-tab-pane>
 
                     <!-- 搜索视频 -->
-                    <el-tab-pane label="视频" name="video">视频</el-tab-pane>
+                    <el-tab-pane label="视频" name="video">
+                        <Videos :video="video" />
+                    </el-tab-pane>
 
                     <!-- 搜索歌单 -->
                     <el-tab-pane label="歌单" name="songSheet">歌单</el-tab-pane>
@@ -65,9 +67,11 @@
 
 <script>
 import PlayList from '../microComponents/PlayList'
+import Videos from '../microComponents/Videos'
 export default {
     components: {
-        PlayList
+        PlayList,
+        Videos
     },
     data() {
         return {
@@ -163,13 +167,16 @@ export default {
         },
         // 搜索视频
         async searchVideo() {
-            const { data: res } = await this.$axios.post('/search', {
-                keywords: this.searchContent
+            const { data: res } = await this.$axios.get('/cloudsearch', {
+                params: {
+                    keywords: this.searchContent,
+                    type: 1014
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('搜索失败')
             }
-            console.log(res)
+            this.video = res.result.videos
         },
         // 搜索歌单
         async searchSongSheet() {
@@ -198,7 +205,7 @@ export default {
                     break
                 // 视频
                 case 'video':
-                    console.log(4)
+                    this.searchVideo()
                     break
                 // 歌单
                 case 'songSheet':
