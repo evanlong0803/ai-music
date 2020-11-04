@@ -6,7 +6,7 @@
                 <!-- 左侧卡片 -->
                 <el-card class="left-card">
                     <!-- 视频 -->
-                    <video class="left-video" :src="videoDetail.url"></video>
+                    <video class="left-video" :src="videoDetail.url" type="video/mp4" controls></video>
                     <!-- 标题 -->
                     <div class="left-title">{{ videoDetail.title }}</div>
                     <!-- 时间 -->
@@ -133,7 +133,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
-            this.videoComment = res.hotComments.concat(res.comments)
+            this.videoComment = res.hotComments
         },
         // 加载相关视频
         async loadRelevantVideo() {
@@ -166,6 +166,8 @@ export default {
         width: 100%;
         .left-video {
             width: 100%;
+            outline: none;
+            border-radius: 5px;
         }
         .left-title {
             margin: 20px 0;
