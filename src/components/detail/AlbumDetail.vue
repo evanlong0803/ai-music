@@ -14,7 +14,7 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-release">
-                                    <el-image class="release-avatar" :src="((detail || {}).artist || {}).picUrl" fit="cover"></el-image>
+                                    <el-image class="release-avatar" :src="((detail || {}).artist || {}).picUrl" fit="cover"> </el-image>
                                     <div class="release-name">{{ ((detail || {}).artist || {}).name }}</div>
                                     <div class="release-time">发行时间：{{ detail.publishTime | timeStampTwo }}</div>
                                 </div>

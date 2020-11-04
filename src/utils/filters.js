@@ -29,21 +29,42 @@ export default {
         // 时间戳转换
         Vue.filter('timeStamp', target => {
             let time = new Date(target)
-            let year = time.getFullYear().toString().padStart(2, '0')
+            let year = time
+                .getFullYear()
+                .toString()
+                .padStart(2, '0')
             let month = (time.getMonth() + 1).toString().padStart(2, '0')
-            let date = time.getDate().toString().padStart(2, '0')
-            let hour = time.getHours().toString().padStart(2, '0')
-            let minute = time.getMinutes().toString().padStart(2, '0')
-            let second = time.getSeconds().toString().padStart(2, '0')
+            let date = time
+                .getDate()
+                .toString()
+                .padStart(2, '0')
+            let hour = time
+                .getHours()
+                .toString()
+                .padStart(2, '0')
+            let minute = time
+                .getMinutes()
+                .toString()
+                .padStart(2, '0')
+            let second = time
+                .getSeconds()
+                .toString()
+                .padStart(2, '0')
             return `${year}-${month}-${date} ${hour}:${minute}:${second}`
         })
 
         // 时间戳转换
         Vue.filter('timeStampTwo', target => {
             let time = new Date(target)
-            let year = time.getFullYear().toString().padStart(2, '0')
+            let year = time
+                .getFullYear()
+                .toString()
+                .padStart(2, '0')
             let month = (time.getMonth() + 1).toString().padStart(2, '0')
-            let date = time.getDate().toString().padStart(2, '0')
+            let date = time
+                .getDate()
+                .toString()
+                .padStart(2, '0')
             return `${year}-${month}-${date}`
         })
 

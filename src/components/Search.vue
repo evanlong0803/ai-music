@@ -26,14 +26,7 @@
 
                     <!-- 搜索歌手 -->
                     <el-tab-pane label="歌手" name="singer">
-                        <el-row :gutter="40" v-loading="!singer.length" type="flex" style="flex-flow: row wrap;">
-                            <el-col :span="3" v-for="(item, index) in singer" :key="index">
-                                <div class="search-singer">
-                                    <el-image class="singer-img" :src="item.img1v1Url" fit="cover"></el-image>
-                                    <div class="singer-name">{{ item.name }}</div>
-                                </div>
-                            </el-col>
-                        </el-row>
+                        <singers :singer="singer" />
                     </el-tab-pane>
 
                     <!-- 搜索专辑 -->
@@ -71,12 +64,14 @@
 import PlayList from '../microComponents/PlayList'
 import Videos from '../microComponents/Videos'
 import SongSheets from '../microComponents/SongSheets'
+import singers from '../microComponents/singers'
 
 export default {
     components: {
         PlayList,
         Videos,
-        SongSheets
+        SongSheets,
+        singers
     },
     data() {
         return {

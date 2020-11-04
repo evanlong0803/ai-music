@@ -46,20 +46,16 @@
 
         <!-- 推荐歌手 -->
         <div class="featured-title">热门歌手</div>
-        <el-row :gutter="60" v-loading="!HotSinger.length">
-            <el-col :span="3" v-for="(item, index) in HotSinger" :key="index">
-                <div class="featured-vocalists">
-                    <el-image class="vocalists-img" :src="item.img1v1Url" fit="cover"></el-image>
-                    <div class="vocalists-name">{{ item.name }}</div>
-                    <div class="vocalists-songsNum">{{ `单曲数${item.musicSize}` }}</div>
-                </div>
-            </el-col>
-        </el-row>
+        <singers :HotSinger="HotSinger" />
     </div>
 </template>
 
 <script>
+import singers from '../microComponents/singers'
 export default {
+    components: {
+        singers
+    },
     data() {
         return {
             // 轮播图
@@ -237,27 +233,7 @@ export default {
             text-align: right;
         }
     }
-    // 热门歌手
-    .featured-vocalists {
-        cursor: pointer;
-        text-align: center;
-        .vocalists-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 1px solid #ccc;
-        }
-        .vocalists-name {
-            font-size: 14px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .vocalists-songsNum {
-            color: #fb2800;
-            font-size: 12px;
-            margin-bottom: 25px;
-        }
-    }
+
     .newSong-each {
         &:active {
             opacity: 0.7;

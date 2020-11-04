@@ -12,7 +12,7 @@
                     <!-- 时间 -->
                     <div class="left-time">
                         <span>发布：{{ videoDetail.publishTime | timeStampTwo }}</span>
-                        <span>播放次数：{{ videoDetail.playTime | playCount }}</span>
+                        <span>播放次数：{{ Number(videoDetail.playTime) | playCount }}</span>
                     </div>
                     <!-- 点赞转发评论 -->
                     <div class="left-relay">
@@ -133,7 +133,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
-            this.videoComment = res.hotComments
+            this.videoComment = res.hotComments.concat(res.comments)
         },
         // 加载相关视频
         async loadRelevantVideo() {
