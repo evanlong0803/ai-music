@@ -1,11 +1,11 @@
 <template>
     <div class="song-sheets">
         <el-row type="flex" :gutter="50" style="flex-flow: row wrap;">
-            <el-col :span="4" v-for="(item, index) in songSheet" :key="index">
+            <el-col :span="4" v-for="(item, index) in songSheet || FeaturedSongList" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
                     <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
-                    <el-image class="songList-img" :src="item.coverImgUrl" fit="cover"></el-image>
+                    <el-image class="songList-img" :src="item.coverImgUrl || item.picUrl" fit="cover"></el-image>
                     <div class="songList-name">{{ item.name }}</div>
                 </div>
             </el-col>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    props: ['songSheet'],
+    props: ['songSheet', 'FeaturedSongList'],
 
     methods: {
         // 跳转详情页

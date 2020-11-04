@@ -10,16 +10,7 @@
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;" v-loading="!FeaturedSongList.length">
-            <el-col :span="4" v-for="(item, index) in FeaturedSongList" :key="index">
-                <div class="featured-songList" @click="goDetail(item.id)">
-                    <!-- 播放统计 -->
-                    <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
-                    <el-image class="songList-img" :src="item.picUrl" fit="cover"></el-image>
-                    <div class="songList-name">{{ item.name }}</div>
-                </div>
-            </el-col>
-        </el-row>
+        <SongSheets :FeaturedSongList="FeaturedSongList" />
 
         <!-- 推荐新歌曲 -->
         <div class="featured-title">推荐新歌曲</div>
@@ -52,9 +43,11 @@
 
 <script>
 import singers from '../microComponents/singers'
+import SongSheets from '../microComponents/SongSheets'
 export default {
     components: {
-        singers
+        singers,
+        SongSheets
     },
     data() {
         return {
@@ -69,9 +62,13 @@ export default {
         }
     },
     created() {
+        // 请求banner轮播图
         this.loadBanner()
+        // 请求推荐歌单
         this.loadFeaturedSongList()
+        // 请求热门歌手
         this.loadHotSinger()
+        // 推荐新歌
         this.loadFeaturedNewSong()
     },
     methods: {
