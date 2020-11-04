@@ -58,7 +58,9 @@
                     </el-tab-pane>
 
                     <!-- 搜索歌单 -->
-                    <el-tab-pane label="歌单" name="songSheet">歌单</el-tab-pane>
+                    <el-tab-pane label="歌单" name="songSheet">
+                        <SongSheets :songSheet="songSheet" />
+                    </el-tab-pane>
                 </el-tabs>
             </div>
         </div>
@@ -68,10 +70,13 @@
 <script>
 import PlayList from '../microComponents/PlayList'
 import Videos from '../microComponents/Videos'
+import SongSheets from '../microComponents/SongSheets'
+
 export default {
     components: {
         PlayList,
-        Videos
+        Videos,
+        SongSheets
     },
     data() {
         return {
@@ -180,13 +185,16 @@ export default {
         },
         // 搜索歌单
         async searchSongSheet() {
-            const { data: res } = await this.$axios.post('/search', {
-                keywords: this.searchContent
+            const { data: res } = await this.$axios.get('/cloudsearch', {
+                params: {
+                    keywords: this.searchContent,
+                    type: 1000
+                }
             })
             if (res.code !== 200) {
-                return this.$message.error('搜索失败')
+                return this.$message.error('搜索视频失败')
             }
-            console.log(res)
+            this.songSheet = res.result.playlists
         },
         // 标签页点击
         handleClick(tab) {
@@ -209,7 +217,7 @@ export default {
                     break
                 // 歌单
                 case 'songSheet':
-                    console.log(5)
+                    this.searchSongSheet()
                     break
             }
         },

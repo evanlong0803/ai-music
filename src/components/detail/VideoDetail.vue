@@ -12,7 +12,7 @@
                     <!-- 时间 -->
                     <div class="left-time">
                         <span>发布：{{ videoDetail.publishTime | timeStampTwo }}</span>
-                        <span>播放次数：{{ videoDetail.playTime }}</span>
+                        <span>播放次数：{{ videoDetail.playTime | playCount }}</span>
                     </div>
                     <!-- 点赞转发评论 -->
                     <div class="left-relay">
