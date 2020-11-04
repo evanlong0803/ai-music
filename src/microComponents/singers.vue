@@ -1,9 +1,9 @@
 <template>
     <div class="singers">
-        <el-row :gutter="40" v-loading="!(HotSinger || singer).length" type="flex" style="flex-flow: row wrap;">
-            <el-col :span="3" v-for="(item, index) in HotSinger || singer" :key="index">
+        <el-row :gutter="40" type="flex" style="flex-flow: row wrap;">
+            <el-col :span="3" v-for="(item, index) in HotSinger || singer || artists" :key="index">
                 <div class="com-singer">
-                    <el-image class="singer-img" :src="item.img1v1Url" fit="cover"></el-image>
+                    <el-image class="singer-img" :src="item.picUrl || item.img1v1Url" fit="cover"></el-image>
                     <div class="singer-name">{{ item.name }}</div>
                 </div>
             </el-col>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    props: ['HotSinger', 'singer']
+    props: ['HotSinger', 'singer', 'artists']
 }
 </script>
 

@@ -15,8 +15,8 @@
                             <!-- router-link默认被解析为a标签 -->
                             <router-link to="/" exact-active-class="click">发现音乐</router-link>
                             <router-link to="/rank" exact-active-class="click">排行榜</router-link>
-                            <router-link to="/songlist" exact-active-class="click">歌单</router-link>
-                            <router-link to="/vocalists" exact-active-class="click">歌手</router-link>
+                            <router-link to="/songsheet" exact-active-class="click">歌单</router-link>
+                            <router-link to="/singer" exact-active-class="click">歌手</router-link>
                             <router-link to="/video" exact-active-class="click">视频</router-link>
                             <router-link to="/mv" exact-active-class="click">MV</router-link>
                         </nav>

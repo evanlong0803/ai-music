@@ -4,8 +4,8 @@ Vue.use(VueRouter)
 
 import Find from '../components/Find.vue'
 import Rank from '../components/Rank.vue'
-import SongList from '../components/SongList.vue'
-import Vocalists from '../components/Vocalists.vue'
+import SongSheet from '../components/SongSheet.vue'
+import Singer from '../components/Singer.vue'
 import Video from '../components/Video.vue'
 import MV from '../components/MV.vue'
 import Search from '../components/Search.vue'
@@ -16,8 +16,8 @@ import VideoDetail from '../components/detail/VideoDetail.vue'
 const routes = [
     { path: '/', name: 'Find', component: Find },
     { path: '/rank', name: 'Rank', component: Rank },
-    { path: '/songlist', name: 'SongList', component: SongList },
-    { path: '/vocalists', name: 'Vocalists', component: Vocalists },
+    { path: '/songsheet', name: 'SongSheet', component: SongSheet },
+    { path: '/singer', name: 'Singer', component: Singer },
     { path: '/video', name: 'Video', component: Video },
     { path: '/mv', name: 'MV', component: MV },
     { path: '/search', name: 'Search', component: Search },

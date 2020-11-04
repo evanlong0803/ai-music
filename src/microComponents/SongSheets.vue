@@ -1,7 +1,7 @@
 <template>
     <div class="song-sheets">
         <el-row type="flex" :gutter="50" style="flex-flow: row wrap;">
-            <el-col :span="4" v-for="(item, index) in songSheet || FeaturedSongList" :key="index">
+            <el-col :span="4" v-for="(item, index) in songSheet || FeaturedSongList || charaRand || globalMediaRand" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
                     <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    props: ['songSheet', 'FeaturedSongList'],
+    props: ['songSheet', 'FeaturedSongList', 'charaRand', 'globalMediaRand'],
 
     methods: {
         // 跳转详情页

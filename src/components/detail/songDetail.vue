@@ -347,7 +347,7 @@ export default {
                     font-size: 14px;
                     .el-tag {
                         height: 25px;
-                        line-height: 23px;
+                        line-height: 25px;
                         padding: 0 15px;
                         margin-right: 10px;
                         border-radius: 20px;
