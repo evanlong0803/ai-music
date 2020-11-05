@@ -38,7 +38,7 @@
             :current-page.sync="currentPage"
             :page-size="mvParams.limit"
             layout="total, prev, pager, next"
-            :total="200"
+            :total="100"
         >
         </el-pagination>
     </div>
