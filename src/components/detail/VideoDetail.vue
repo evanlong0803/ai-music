@@ -166,7 +166,6 @@ export default {
                 return this.$message.error('加载MV详情失败')
             }
             this.videoDetail = res.data
-            console.log(res)
             // 加载MV URL
             this.loadMVURL()
             // 加载MV点赞转发评论数数据
