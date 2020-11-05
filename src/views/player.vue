@@ -30,8 +30,8 @@ export default {
         getNewSong() {
             this.$root.$on('getNewSong', newSong => {
                 for (const i in this.list) {
-                    // 如果在列表中发现有重复的歌曲ID
-                    if (this.list[i].id === newSong.id) {
+                    // 如果在列表中发现有重复的歌曲名称
+                    if (this.list[i].name === newSong.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(newSong.name)
                         // 立即播放
@@ -59,8 +59,8 @@ export default {
         getSingle() {
             this.$root.$on('getSingle', Single => {
                 for (const i in this.list) {
-                    // 如果在列表中发现有重复的歌曲ID
-                    if (this.list[i].id === Single.id) {
+                    // 如果在列表中发现有重复的歌曲名称
+                    if (this.list[i].name === Single.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(Single.name)
                         // 立即播放
