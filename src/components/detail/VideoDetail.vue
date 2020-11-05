@@ -105,7 +105,7 @@ export default {
         this.videoId = this.$route.query.id
         if (this.videoId.length > 30) {
             // 加载视频详情
-            return this.loadVideoDetail()
+            this.loadVideoDetail()
         }
         // 加载MV详情
         this.loadMVDetail()
@@ -214,8 +214,10 @@ export default {
             if (this.videoId === id) return
             this.videoId = id
             this.$router.push(`/videodetail?id=${id}`)
-            // 加载视频详情
-            this.loadVideoDetail()
+            if (this.videoId.length > 30) {
+                // 加载视频详情
+                this.loadVideoDetail()
+            }
             // 加载MV详情
             this.loadMVDetail()
         }
