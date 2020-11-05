@@ -11,6 +11,9 @@ import Search from '../components/Search.vue'
 import SongDetail from '../components/detail/SongDetail.vue'
 import AlbumDetail from '../components/detail/AlbumDetail.vue'
 import VideoDetail from '../components/detail/VideoDetail.vue'
+import Personal from '../components/Personal.vue'
+import Grade from '../components/Grade.vue'
+import Setting from '../components/Setting.vue'
 
 const routes = [
     { path: '/', name: 'Find', component: Find },
@@ -21,7 +24,10 @@ const routes = [
     { path: '/search', name: 'Search', component: Search },
     { path: '/songdetail', name: 'SongDetail', component: SongDetail },
     { path: '/albumdetail', name: 'AlbumDetail', component: AlbumDetail },
-    { path: '/videodetail', name: 'VideoDetail', component: VideoDetail }
+    { path: '/videodetail', name: 'VideoDetail', component: VideoDetail },
+    { path: '/personal', name: 'Personal', component: Personal },
+    { path: '/grade', name: 'Grade', component: Grade },
+    { path: '/setting', name: 'Setting', component: Setting }
 ]
 
 const router = new VueRouter({

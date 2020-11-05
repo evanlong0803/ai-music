@@ -36,9 +36,15 @@
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item icon="el-icon-user">个人主页</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-medal">我的等级</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-user">
+                                        <router-link to="/personal" exact-active-class="click" tag="span">个人主页</router-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-medal">
+                                        <router-link to="/grade" exact-active-class="click" tag="span">我的等级</router-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-setting">
+                                        <router-link to="/setting" exact-active-class="click" tag="span">个人设置</router-link>
+                                    </el-dropdown-item>
                                     <el-dropdown-item divided icon="el-icon-switch-button" @click.native="logout">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>

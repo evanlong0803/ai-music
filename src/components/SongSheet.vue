@@ -118,7 +118,7 @@ export default {
         padding: 10px 30px;
         margin-top: 20px;
         background: rgba(255, 255, 255, 0.3);
-        box-shadow: 0 0 3px #666;
+        box-shadow: 0 0 2px #666;
         border-radius: 5px;
         display: flex;
         justify-content: space-between;
