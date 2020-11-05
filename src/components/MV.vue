@@ -29,6 +29,18 @@
         <div class="videos">
             <Videos :video="video" />
         </div>
+        <!-- 分页 -->
+        <el-pagination
+            v-show="video.length"
+            background
+            class="pagination"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="mvParams.limit"
+            layout="total, prev, pager, next"
+            :total="200"
+        >
+        </el-pagination>
     </div>
 </template>
 
@@ -49,12 +61,13 @@ export default {
             type: ['全部', '内地', '港台', '欧美', '日本', '韩国', '官方版', '原生', '现场版', '网易出品', '上升最快', '最热', '最新'],
             // 请求参数
             mvParams: {
-                limit: 12,
+                limit: 20,
                 offset: 0, // 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0
                 area: '全部', // 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部
                 type: '全部', // 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
                 order: '上升最快' // 排序,可选值为上升最快,最热,最新,不填则为上升最快
-            }
+            },
+            currentPage: 1
         }
     },
     created() {
@@ -93,6 +106,10 @@ export default {
                 this.mvParams.order = this.type[indexOrder]
                 this.loadAllMV()
             }
+        },
+        handleCurrentChange(val) {
+            this.mvParams.offset = this.mvParams.limit * (val - 1)
+            this.loadAllMV()
         }
     }
 }
@@ -110,6 +127,10 @@ export default {
     }
     .videos {
         margin-top: 50px;
+    }
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
     }
 }
 </style>

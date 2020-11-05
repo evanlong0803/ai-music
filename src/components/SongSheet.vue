@@ -28,8 +28,9 @@
         <div class="songSheet-component">
             <SongSheets :songSheet="songSheet" />
         </div>
-
+        <!-- 分页 -->
         <el-pagination
+            v-show="songSheet.length"
             background
             class="pagination"
             @current-change="handleCurrentChange"
@@ -101,7 +102,7 @@ export default {
             }
         },
         handleCurrentChange(val) {
-            this.songSheetParams.offset = 30 * (val - 1)
+            this.songSheetParams.offset = this.songSheetParams.limit * (val - 1)
             this.loadSongSheet()
         }
     }
