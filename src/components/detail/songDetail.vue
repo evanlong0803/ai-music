@@ -14,7 +14,7 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-userInfo">
-                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover" lazy> </el-image>
+                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover"></el-image>
                                     <div class="userInfo-name">{{ ((detail || {}).creator || {}).nickname }}</div>
                                     <div class="userInfo-time">更新时间：{{ detail.updateTime | timeStamp }}</div>
                                 </div>
