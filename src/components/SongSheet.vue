@@ -28,6 +28,17 @@
         <div class="songSheet-component">
             <SongSheets :songSheet="songSheet" />
         </div>
+
+        <el-pagination
+            background
+            class="pagination"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="songSheetParams.limit"
+            layout="total, prev, pager, next"
+            :total="total"
+        >
+        </el-pagination>
     </div>
 </template>
 
@@ -43,11 +54,17 @@ export default {
             typeHot: '全部',
             typeClass: '热门',
             type: ['全部', '华语', '流行', '摇滚', '民谣', '电子', '另类/独立', '轻音乐', '综艺', '影视原声', 'ACG', '热门', '最新'],
+            // order: 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
+            // cat:cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部",可从歌单分类接口获取(/playlist/catlist)
+            // limit: 取出歌单数量 , 默认为 50
+            // offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
+            total: 0,
+            currentPage: 1,
             songSheetParams: {
                 order: 'hot',
                 cat: '全部',
-                limit: 30,
-                offset: 0
+                offset: 0,
+                limit: 30
             }
         }
     },
@@ -65,11 +82,8 @@ export default {
                 return this.$message.error('退出失败')
             }
             this.songSheet = res.playlists
+            this.total = res.total
         },
-        // order: 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
-        // cat:cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部",可从歌单分类接口获取(/playlist/catlist)
-        // limit: 取出歌单数量 , 默认为 50
-        // offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
         changeLabel() {
             let indexCat = this.type.indexOf(this.typeHot)
             let indexOrder = this.type.indexOf(this.typeClass)
@@ -85,6 +99,10 @@ export default {
                 this.songSheetParams.order = 'new'
                 this.loadSongSheet()
             }
+        },
+        handleCurrentChange(val) {
+            this.songSheetParams.offset = 30 * (val - 1)
+            this.loadSongSheet()
         }
     }
 }
@@ -112,6 +130,10 @@ export default {
     }
     .songSheet-component {
         margin-top: 50px;
+    }
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
     }
 }
 </style>
