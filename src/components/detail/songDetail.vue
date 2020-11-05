@@ -227,7 +227,6 @@ export default {
             // 重新定义播放器对象结构
             let allSong = this.songDetail.map(item => {
                 return {
-                    id: item.id,
                     name: item.name,
                     artist: item.ar[0].name,
                     url: item.url,
