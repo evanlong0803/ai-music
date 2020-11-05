@@ -46,6 +46,7 @@ export default {
             typeRegion: '全部',
             typeEdition: '全部',
             typeHot: '上升最快',
+            type: ['全部', '内地', '港台', '欧美', '日本', '韩国', '官方版', '原生', '现场版', '网易出品', '上升最快', '最热', '最新'],
             // 请求参数
             mvParams: {
                 limit: 12,
@@ -74,52 +75,22 @@ export default {
         },
 
         changeLabel() {
+            let indexArea = this.type.indexOf(this.typeRegion)
+            let indexType = this.type.indexOf(this.typeEdition)
+            let indexOrder = this.type.indexOf(this.typeHot)
             //  area: '全部', // 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部
-            if (this.typeRegion === '全部') {
-                this.mvParams.area = '全部'
-                this.loadAllMV()
-            } else if (this.typeRegion === '内地') {
-                this.mvParams.area = '内地'
-                this.loadAllMV()
-            } else if (this.typeRegion === '港台') {
-                this.mvParams.area = '港台'
-                this.loadAllMV()
-            } else if (this.typeRegion === '欧美') {
-                this.mvParams.area = '欧美'
-                this.loadAllMV()
-            } else if (this.typeRegion === '日本') {
-                this.mvParams.area = '日本'
-                this.loadAllMV()
-            } else if (this.typeRegion === '韩国') {
-                this.mvParams.area = '韩国'
+            if (indexArea !== -1) {
+                this.mvParams.area = this.type[indexArea]
                 this.loadAllMV()
             }
             // type: '全部', // 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
-            if (this.typeEdition === '全部') {
-                this.mvParams.type = '全部'
-                this.loadAllMV()
-            } else if (this.typeEdition === '官方版') {
-                this.mvParams.type = '官方版'
-                this.loadAllMV()
-            } else if (this.typeEdition === '原生') {
-                this.mvParams.type = '原生'
-                this.loadAllMV()
-            } else if (this.typeEdition === '现场版') {
-                this.mvParams.type = '现场版'
-                this.loadAllMV()
-            } else if (this.typeEdition === '网易出品') {
-                this.mvParams.type = '网易出品'
+            if (indexType !== -1) {
+                this.mvParams.type = this.type[indexType]
                 this.loadAllMV()
             }
             // order: '上升最快' // 排序,可选值为上升最快,最热,最新,不填则为上升最快
-            if (this.typeHot === '上升最快') {
-                this.mvParams.order = '上升最快'
-                this.loadAllMV()
-            } else if (this.typeHot === '最热') {
-                this.mvParams.order = '最热'
-                this.loadAllMV()
-            } else if (this.typeHot === '最新') {
-                this.mvParams.order = '最新'
+            if (indexOrder !== -1) {
+                this.mvParams.order = this.type[indexOrder]
                 this.loadAllMV()
             }
         }
