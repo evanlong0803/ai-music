@@ -37,7 +37,7 @@
             :current-page.sync="currentPage"
             :page-size="singerParams.limit"
             layout="total, prev, pager, next"
-            :total="100"
+            :total="200"
         >
         </el-pagination>
     </div>
