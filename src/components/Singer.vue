@@ -28,7 +28,6 @@
         <div class="artists">
             <singers :artists="artists" />
         </div>
-        <!-- <vue-loading v-if="loading" type="bars" color="#409EFF" :size="{ width: '30px', height: '30px' }" /> -->
         <!-- 分页 -->
         <el-pagination
             v-show="artists.length"
