@@ -8,7 +8,10 @@
                     <!-- 左侧上部分 -->
                     <el-row class="card-top">
                         <el-col :span="7">
-                            <el-image class="top-left-img" :src="detail.blurPicUrl" fit="cover"></el-image>
+                            <el-image class="top-left-img" :src="detail.blurPicUrl" fit="cover">
+                                <div slot="placeholder" class="image-slot"></div>
+                                <div slot="error" class="image-slot"></div>
+                            </el-image>
                         </el-col>
                         <el-col :span="17">
                             <div class="top-right">
@@ -232,6 +235,15 @@ export default {
                 height: 200px;
                 border-radius: 8px;
                 box-shadow: 5px 5px 5px #999;
+                .image-slot {
+                    width: inherit;
+                    height: inherit;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: url('../../assets/image/rainbow.png') no-repeat;
+                    background-size: cover;
+                }
             }
 
             .top-right {

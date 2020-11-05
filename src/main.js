@@ -37,8 +37,6 @@ Vue.prototype.$axios = axios
 // 全局CSS样式
 import './assets/css/global.css'
 
-import store from './store'
-
 // 音乐播放器
 import APlayer from '@moefe/vue-aplayer'
 Vue.use(APlayer, {
@@ -51,6 +49,5 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
-    store,
     render: h => h(App)
 }).$mount('#app')

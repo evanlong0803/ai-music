@@ -10,11 +10,11 @@
         </el-row>
         <!-- 推荐歌单 -->
         <div class="featured-title">推荐歌单</div>
-        <SongSheets :FeaturedSongList="FeaturedSongList" />
+        <SongSheets :songSheet="songSheet" />
 
         <!-- 推荐新歌曲 -->
         <div class="featured-title">推荐新歌曲</div>
-        <el-row :gutter="30" v-loading="!newSong.length">
+        <el-row :gutter="30">
             <el-col :span="12" v-for="(item, index) in newSong" :key="index" style="margin-bottom: 20px;">
                 <el-card shadow="always" body-style="padding: 15px 30px;" class="newSong-each">
                     <!-- 内容 -->
@@ -54,7 +54,7 @@ export default {
             // 轮播图
             banners: [],
             // 推荐歌单
-            FeaturedSongList: [],
+            songSheet: [],
             // 推荐新歌
             newSong: [],
             // 热门歌手
@@ -65,7 +65,7 @@ export default {
         // 请求banner轮播图
         this.loadBanner()
         // 请求推荐歌单
-        this.loadFeaturedSongList()
+        this.loadsongSheet()
         // 请求热门歌手
         this.loadHotSinger()
         // 推荐新歌
@@ -81,12 +81,12 @@ export default {
             this.banners = res.banners
         },
         // 请求推荐歌单
-        async loadFeaturedSongList() {
+        async loadsongSheet() {
             const { data: res } = await this.$axios.post('/personalized', { limit: 18 })
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
-            this.FeaturedSongList = res.result
+            this.songSheet = res.result
         },
         // 推荐新歌
         async loadFeaturedNewSong() {

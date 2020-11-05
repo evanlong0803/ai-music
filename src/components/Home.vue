@@ -17,7 +17,6 @@
                             <router-link to="/rank" exact-active-class="click">排行榜</router-link>
                             <router-link to="/songsheet" exact-active-class="click">歌单</router-link>
                             <router-link to="/singer" exact-active-class="click">歌手</router-link>
-                            <router-link to="/video" exact-active-class="click">视频</router-link>
                             <router-link to="/mv" exact-active-class="click">MV</router-link>
                         </nav>
                     </el-col>
@@ -173,6 +172,7 @@ export default {
                     padding: 7px 20px;
                     border-radius: 3px;
                     font-size: 14px;
+                    margin-right: 10px;
                 }
                 .click {
                     line-height: 70px;

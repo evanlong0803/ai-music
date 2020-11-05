@@ -14,8 +14,7 @@
     "element-ui": "^2.14.0",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.8",
-    "vuex": "^3.4.0"
+    "vue-router": "^3.4.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.8",

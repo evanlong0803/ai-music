@@ -1,11 +1,14 @@
 <template>
     <div class="song-sheets">
-        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;">
-            <el-col :span="4" v-for="(item, index) in songSheet || FeaturedSongList || charaRand || globalMediaRand" :key="index">
+        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;" v-loading="!(songSheet || charaRand || globalMediaRand).length">
+            <el-col :span="4" v-for="(item, index) in songSheet || charaRand || globalMediaRand" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
                     <el-tag><i class="el-icon-caret-right"></i>{{ item.playCount | playCount }}</el-tag>
-                    <el-image class="songList-img" :src="item.coverImgUrl || item.picUrl" fit="cover"></el-image>
+                    <el-image class="songList-img" :src="item.coverImgUrl || item.picUrl" fit="cover">
+                        <div slot="placeholder" class="image-slot"></div>
+                        <div slot="error" class="image-slot"></div>
+                    </el-image>
                     <div class="songList-name">{{ item.name }}</div>
                 </div>
             </el-col>
@@ -15,7 +18,7 @@
 
 <script>
 export default {
-    props: ['songSheet', 'FeaturedSongList', 'charaRand', 'globalMediaRand'],
+    props: ['songSheet', 'charaRand', 'globalMediaRand'],
 
     methods: {
         // 跳转详情页
@@ -35,6 +38,15 @@ export default {
             border-radius: 5px;
             background: #ccc;
             margin-bottom: 10px;
+            .image-slot {
+                width: inherit;
+                height: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: url('../assets/image/rainbow.png') no-repeat;
+                background-size: cover;
+            }
         }
         // 播放总数
         .el-tag {

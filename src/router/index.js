@@ -6,7 +6,6 @@ import Find from '../components/Find.vue'
 import Rank from '../components/Rank.vue'
 import SongSheet from '../components/SongSheet.vue'
 import Singer from '../components/Singer.vue'
-import Video from '../components/Video.vue'
 import MV from '../components/MV.vue'
 import Search from '../components/Search.vue'
 import SongDetail from '../components/detail/SongDetail.vue'
@@ -18,7 +17,6 @@ const routes = [
     { path: '/rank', name: 'Rank', component: Rank },
     { path: '/songsheet', name: 'SongSheet', component: SongSheet },
     { path: '/singer', name: 'Singer', component: Singer },
-    { path: '/video', name: 'Video', component: Video },
     { path: '/mv', name: 'MV', component: MV },
     { path: '/search', name: 'Search', component: Search },
     { path: '/songdetail', name: 'SongDetail', component: SongDetail },
