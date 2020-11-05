@@ -115,9 +115,10 @@ export default {
     margin: 0 auto;
     padding: 20px 0;
     .songSheet-type {
-        padding: 10px;
+        padding: 10px 30px;
         margin-top: 20px;
-        background: #ecf5ff;
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 3px #666;
         border-radius: 5px;
         display: flex;
         justify-content: space-between;
