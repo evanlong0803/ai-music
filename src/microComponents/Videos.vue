@@ -2,15 +2,16 @@
     <div class="videos">
         <el-row :gutter="30" type="flex" style="flex-flow: row wrap;">
             <el-col :span="6" v-for="(item, index) in video" class="video" :key="index">
-                <div class="videos-box" @click="goDetail(item.vid)">
-                    <el-image :src="item.coverUrl" fit="cover"></el-image>
+                <div class="videos-box" @click="goDetail(item.vid || item.id)">
+                    <el-image :src="item.coverUrl || item.cover" fit="cover"></el-image>
                     <!-- 播放统计 -->
-                    <el-tag><i class="el-icon-caret-right"></i>{{ item.playTime | playCount }}</el-tag>
+                    <el-tag><i class="el-icon-caret-right"></i>{{ Number(item.playTime) || Number(item.playCount) | playCount }}</el-tag>
                     <div class="box-bottom">
-                        <div class="play-time">{{ item.durationms | playTime }}</div>
+                        <div class="bottom-name">{{ item.artistName || null }}</div>
+                        <div class="bottom-time">{{ item.durationms || item.duration | playTime }}</div>
                     </div>
                 </div>
-                <div class="videos-title">{{ item.title }}</div>
+                <div class="videos-title">{{ item.title || item.name }}</div>
             </el-col>
         </el-row>
     </div>
@@ -68,11 +69,16 @@ export default {
                 bottom: 0;
                 border-radius: 0 0 5px 5px;
                 background: rgba(0, 0, 0, 0.5);
-                .play-time {
-                    line-height: 30px;
-                    text-align: right;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 15px;
+                .bottom-name {
                     font-size: 14px;
-                    padding: 0 10px;
+                    color: white;
+                }
+                .bottom-time {
+                    font-size: 14px;
                     color: white;
                 }
             }

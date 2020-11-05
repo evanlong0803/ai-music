@@ -12,18 +12,24 @@
                     <!-- 时间 -->
                     <div class="left-time">
                         <span>发布：{{ videoDetail.publishTime | timeStampTwo }}</span>
-                        <span>播放次数：{{ Number(videoDetail.playTime) | playCount }}</span>
+                        <span>播放次数：{{ Number(videoDetail.playTime) || Number(videoDetail.playCount) | playCount }}</span>
                     </div>
                     <!-- 点赞转发评论 -->
                     <div class="left-relay">
                         <span>
-                            <el-button plain round size="small" icon="el-icon-thumb">{{ videoDetail.praisedCount }}</el-button>
+                            <el-button plain round size="small" icon="el-icon-thumb">
+                                {{ videoDetail.praisedCount || videoDetail.likedCount }}
+                            </el-button>
                         </span>
                         <span>
-                            <el-button plain round size="small" icon="el-icon-star-off">{{ videoDetail.subscribeCount }}</el-button>
+                            <el-button plain round size="small" icon="el-icon-star-off">
+                                {{ videoDetail.subscribeCount || videoDetail.subCount }}
+                            </el-button>
                         </span>
                         <span>
-                            <el-button plain round size="small" icon="el-icon-share">{{ videoDetail.shareCount }}</el-button>
+                            <el-button plain round size="small" icon="el-icon-share">
+                                {{ videoDetail.shareCount }}
+                            </el-button>
                         </span>
                     </div>
                     <!-- 评论总数 -->
@@ -55,19 +61,25 @@
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">视频简介</div>
                     <!-- 取用户ID：videoDetail.creator.userId -->
-                    <div class="right-author">
-                        <el-avatar :size="40" :src="videoDetail.avatarUrl"></el-avatar>
-                        <span>{{ ((videoDetail || {}).creator || {}).nickname }}</span>
+                    <div v-if="videoDetail.description">
+                        <div class="right-author">
+                            <el-avatar :size="40" :src="videoDetail.avatarUrl"></el-avatar>
+                            <span>{{ ((videoDetail || {}).creator || {}).nickname }}</span>
+                        </div>
+                        <div class="right-description">{{ videoDetail.description }}</div>
                     </div>
-                    <div class="right-description">{{ videoDetail.description }}</div>
+                    <div v-else-if="videoDetail.desc" class="right-description">{{ videoDetail.desc }}</div>
+                    <div v-else class="right-description">视频暂无简介</div>
                 </el-card>
                 <!-- 相关推荐 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">相关推荐</div>
-                    <div class="recommend-video" v-for="(item, index) in relevantVideo" :key="index" @click="reload(item.vid)">
-                        <el-image class="video-img" :src="item.coverUrl" fit="cover"></el-image>
-                        <div class="video-title">{{ item.title }}</div>
-                        <div class="video-author">By. {{ item.creator[0].userName }}</div>
+                    <div class="recommend-video" v-for="(item, index) in relevantVideo" :key="index" @click="reload(item.vid || item.id)">
+                        <el-image class="video-img" :src="item.coverUrl || item.cover" fit="cover"></el-image>
+                        <div class="video-title">{{ item.title || item.name }}</div>
+                        <span class="video-author" v-for="(item2, index2) in item.artists" :key="index2">
+                            {{ (item2.creator || []).userName || item2.name }}
+                        </span>
                     </div>
                 </el-card>
             </el-col>
@@ -91,8 +103,12 @@ export default {
     },
     created() {
         this.videoId = this.$route.query.id
-        // 加载视频详情
-        this.loadVideoDetail()
+        if (this.videoId.length > 30) {
+            // 加载视频详情
+            return this.loadVideoDetail()
+        }
+        // 加载MV详情
+        this.loadMVDetail()
     },
     methods: {
         // 加载视频详情
@@ -143,6 +159,56 @@ export default {
             }
             this.relevantVideo = res.data
         },
+        // 加载MV详情
+        async loadMVDetail() {
+            const { data: res } = await this.$axios.get(`/mv/detail?mvid=${this.videoId}`)
+            if (res.code !== 200) {
+                return this.$message.error('加载MV详情失败')
+            }
+            this.videoDetail = res.data
+            console.log(res)
+            // 加载MV URL
+            this.loadMVURL()
+            // 加载MV点赞转发评论数数据
+            this.loadMVRelay()
+            // 加载MV评论
+            this.loadMVComment()
+            // 加载相关MV
+            this.loadRelevantMV()
+        },
+        // 加载MV URL
+        async loadMVURL() {
+            const { data: res } = await this.$axios.get(`/mv/url?id=${this.videoId}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求失败')
+            }
+            this.$set(this.videoDetail, 'url', res.data.url)
+        },
+        // 加载MV点赞转发评论数数据
+        async loadMVRelay() {
+            const { data: res } = await this.$axios.get(`/mv/detail/info?mvid=${this.videoId}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求失败')
+            }
+            this.$set(this.videoDetail, 'shareCount', res.shareCount)
+            this.$set(this.videoDetail, 'likedCount', res.likedCount)
+        },
+        // 加载MV评论
+        async loadMVComment() {
+            const { data: res } = await this.$axios.get(`/comment/mv?id=${this.videoId}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求失败')
+            }
+            this.videoComment = res.hotComments.concat(res.comments)
+        },
+        // 加载相关MV
+        async loadRelevantMV() {
+            const { data: res } = await this.$axios.get(`/simi/mv?mvid=${this.videoId}`)
+            if (res.code !== 200) {
+                return this.$message.error('请求失败')
+            }
+            this.relevantVideo = res.mvs
+        },
         // 重新跳转详情
         reload(id) {
             // 防止出现路由冗余
@@ -151,6 +217,8 @@ export default {
             this.$router.push(`/videodetail?id=${id}`)
             // 加载视频详情
             this.loadVideoDetail()
+            // 加载MV详情
+            this.loadMVDetail()
         }
     }
 }
