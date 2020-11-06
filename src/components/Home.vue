@@ -36,7 +36,7 @@
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item icon="el-icon-user" @click.native="goPersonal">个人主页</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-user" @click.native="goPersonal(userInfo.userId)">个人主页</el-dropdown-item>
                                     <el-dropdown-item icon="el-icon-medal" @click.native="goGrade">我的等级</el-dropdown-item>
                                     <el-dropdown-item icon="el-icon-setting" @click.native="goSetting">个人设置</el-dropdown-item>
                                     <el-dropdown-item divided icon="el-icon-switch-button" @click.native="logout">退出登录</el-dropdown-item>
@@ -131,9 +131,12 @@ export default {
             this.$router.push('/')
         },
         // 跳转个人主页
-        goPersonal() {
+        goPersonal(userId) {
             if (this.$route.path === '/personal') return
-            this.$router.push('/personal')
+            this.$router.push({
+                path: '/personal',
+                query: { userId }
+            })
         },
         // 跳转我的等级
         goGrade() {

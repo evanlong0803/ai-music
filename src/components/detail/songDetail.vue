@@ -23,9 +23,13 @@
                                 </div>
                                 <div class="top-right-tag">
                                     标签：
-                                    <el-tag v-for="(item, index) in detail.tags" :key="index">{{ item }}</el-tag>
+                                    <span v-if="detail.tags.length">
+                                        <el-tag v-for="(item, index) in detail.tags" :key="index">{{ item }}</el-tag>
+                                    </span>
+                                    <el-tag v-else>暂无标签</el-tag>
                                 </div>
-                                <div class="top-right-description">{{ detail.description }}</div>
+                                <div class="top-right-description" v-if="detail.description">{{ detail.description }}</div>
+                                <div class="top-right-description" v-else>暂无描述</div>
                                 <el-link type="danger" :underline="false" @click="descriptionDialog = true">
                                     全部<i class="el-icon-arrow-right"></i>
                                 </el-link>
@@ -52,13 +56,14 @@
                 <!-- 喜欢歌单 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">喜欢这个歌单的伙伴</div>
-                    <el-row class="card-users" :gutter="15" type="flex" v-loading="!subscribers.length">
+                    <el-row class="card-users" :gutter="15" type="flex" v-loading="!subscribers.length" v-if="subscribers.length">
                         <el-col :span="4" v-for="(item, index) in subscribers" :key="index">
                             <el-tooltip effect="dark" :content="item.nickname" placement="top" :open-delay="260">
                                 <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
                             </el-tooltip>
                         </el-col>
                     </el-row>
+                    <div v-else class="noMore">还没有人喜欢</div>
                 </el-card>
                 <!-- 相关推荐 -->
                 <el-card class="right-card" shadow="hover" v-loading="!recommend.length">
@@ -76,20 +81,23 @@
                 <!-- 精彩评论 -->
                 <el-card class="right-card" shadow="hover">
                     <div class="card-title">精彩评论</div>
-                    <div class="card-comments" v-for="(item, index) in hotComments" :key="index">
-                        <!-- 左侧 -->
-                        <div class="comments-left">
-                            <el-avatar :size="40" :src="item.user.avatarUrl"></el-avatar>
-                        </div>
-                        <!-- 右侧 -->
-                        <div class="comments-right">
-                            <div class="right-name">
-                                {{ item.user.nickname }}
-                                <span>{{ item.time | time }}</span>
+                    <div v-if="hotComments.length">
+                        <div class="card-comments" v-for="(item, index) in hotComments" :key="index">
+                            <!-- 左侧 -->
+                            <div class="comments-left">
+                                <el-avatar :size="40" :src="item.user.avatarUrl"></el-avatar>
                             </div>
-                            <div class="right-content">{{ item.content }}</div>
+                            <!-- 右侧 -->
+                            <div class="comments-right">
+                                <div class="right-name">
+                                    {{ item.user.nickname }}
+                                    <span>{{ item.time | time }}</span>
+                                </div>
+                                <div class="right-content">{{ item.content }}</div>
+                            </div>
                         </div>
                     </div>
+                    <div v-else class="noMore">还没有人评论</div>
                 </el-card>
             </el-col>
             <!-- 查看全部描述对话框 -->
@@ -508,5 +516,9 @@ export default {
         white-space: pre-wrap;
         font-family: 'Microsoft YaHei';
     }
+}
+.noMore {
+    color: #666;
+    font-size: 14px;
 }
 </style>
