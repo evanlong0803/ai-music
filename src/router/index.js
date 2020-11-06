@@ -11,9 +11,9 @@ import Search from '../components/Search.vue'
 import SongDetail from '../components/detail/SongDetail.vue'
 import AlbumDetail from '../components/detail/AlbumDetail.vue'
 import VideoDetail from '../components/detail/VideoDetail.vue'
-import Personal from '../components/Personal.vue'
-import Grade from '../components/Grade.vue'
-import Setting from '../components/Setting.vue'
+import Personal from '../components/user/Personal.vue'
+import Grade from '../components/user/Grade.vue'
+import Setting from '../components/user/Setting.vue'
 
 const routes = [
     { path: '/', name: 'Find', component: Find },

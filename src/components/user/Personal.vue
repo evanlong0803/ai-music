@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import SongSheets from '../microComponents/SongSheets'
+import SongSheets from '../../microComponents/SongSheets'
 
 export default {
     components: {
@@ -103,12 +103,13 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
+            // 如果不是订阅的歌单
             res.playlist.forEach(item => {
                 if (!item.subscribed) {
                     this.createdSongSheet.push(item)
                 }
             })
-
+            // 如果是订阅的歌单
             res.playlist.forEach(item => {
                 if (item.subscribed) {
                     this.collectSongSheet.push(item)
@@ -131,7 +132,7 @@ export default {
         bottom: 0;
         right: 0;
         z-index: -10;
-        background: url('../assets/image/Searchbackgroun.jpg') no-repeat;
+        background: url('../../assets/image/Searchbackgroun.jpg') no-repeat;
         background-size: cover;
     }
     // 上部分
@@ -165,7 +166,7 @@ export default {
             height: 450px;
             width: 350px;
             margin-top: -100px;
-            background: url('http://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg') no-repeat;
+            background: url('https://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg') no-repeat;
             background-size: cover;
 
             .right-top {

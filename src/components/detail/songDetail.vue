@@ -17,13 +17,16 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-userInfo">
-                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover"></el-image>
+                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover">
+                                        <div slot="placeholder" class="image-slot"></div>
+                                        <div slot="error" class="image-slot"></div>
+                                    </el-image>
                                     <div class="userInfo-name">{{ ((detail || {}).creator || {}).nickname }}</div>
                                     <div class="userInfo-time">更新时间：{{ detail.updateTime | timeStamp }}</div>
                                 </div>
                                 <div class="top-right-tag">
                                     标签：
-                                    <span v-if="detail.tags.length">
+                                    <span v-if="(detail.tags || {}).length">
                                         <el-tag v-for="(item, index) in detail.tags" :key="index">{{ item }}</el-tag>
                                     </span>
                                     <el-tag v-else>暂无标签</el-tag>
