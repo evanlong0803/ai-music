@@ -36,15 +36,9 @@
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item icon="el-icon-user">
-                                        <router-link to="/personal" exact-active-class="click" tag="span">个人主页</router-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-medal">
-                                        <router-link to="/grade" exact-active-class="click" tag="span">我的等级</router-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-setting">
-                                        <router-link to="/setting" exact-active-class="click" tag="span">个人设置</router-link>
-                                    </el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-user" @click.native="goPersonal">个人主页</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-medal" @click.native="goGrade">我的等级</el-dropdown-item>
+                                    <el-dropdown-item icon="el-icon-setting" @click.native="goSetting">个人设置</el-dropdown-item>
                                     <el-dropdown-item divided icon="el-icon-switch-button" @click.native="logout">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
@@ -135,6 +129,21 @@ export default {
         goHome() {
             if (this.$route.path === '/') return
             this.$router.push('/')
+        },
+        // 跳转个人主页
+        goPersonal() {
+            if (this.$route.path === '/personal') return
+            this.$router.push('/personal')
+        },
+        // 跳转我的等级
+        goGrade() {
+            if (this.$route.path === '/grade') return
+            this.$router.push('/grade')
+        },
+        // 跳转个人设置
+        goSetting() {
+            if (this.$route.path === '/setting') return
+            this.$router.push('/setting')
         }
     }
 }

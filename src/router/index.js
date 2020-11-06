@@ -35,6 +35,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    const cookie = localStorage.getItem('cookie')
+    if (!cookie) {
+        if (to.path === '/personal' || to.path === '/grade' || to.path === '/setting') {
+            return next('/')
+        }
+    }
     next()
 })
 
