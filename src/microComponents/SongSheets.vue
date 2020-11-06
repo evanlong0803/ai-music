@@ -1,6 +1,6 @@
 <template>
     <div class="song-sheets">
-        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;" v-loading="!(songSheet || charaRand || globalMediaRand).length">
+        <el-row type="flex" :gutter="50" style="flex-flow: row wrap;">
             <el-col :span="4" v-for="(item, index) in songSheet || charaRand || globalMediaRand" :key="index">
                 <div class="featured-songList" @click="goDetail(item.id)">
                     <!-- 播放统计 -->
@@ -35,12 +35,14 @@ export default {
     .featured-songList {
         cursor: pointer;
         .songList-img {
+            width: 100%;
+            height: 100%;
             border-radius: 5px;
             background: #ccc;
             margin-bottom: 10px;
             .image-slot {
-                width: inherit;
-                height: inherit;
+                width: 158px;
+                height: 158px;
                 display: flex;
                 justify-content: center;
                 align-items: center;

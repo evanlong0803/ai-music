@@ -36,7 +36,10 @@
                                 <div class="search-album" @click="goDetail(item.id)">
                                     <!-- 播放统计 -->
                                     <el-tag><i class="el-icon-caret-right"></i>{{ item.type }}</el-tag>
-                                    <el-image class="album-img" :src="item.picUrl + '?param=175y175'" fit="cover"></el-image>
+                                    <el-image class="album-img" :src="item.picUrl + '?param=175y175'" fit="cover">
+                                        <div slot="placeholder" class="image-slot"></div>
+                                        <div slot="error" class="image-slot"></div>
+                                    </el-image>
                                     <div class="album-name">{{ item.name }}</div>
                                     <div class="album-info">{{ item.artist.name }}</div>
                                     <div class="album-info">{{ item.publishTime | timeStampTwo }}</div>
@@ -356,9 +359,20 @@ export default {
                 cursor: pointer;
                 margin-bottom: 20px;
                 .album-img {
+                    width: 175px;
+                    height: 175px;
                     border-radius: 5px;
                     background: #ccc;
                     margin-bottom: 10px;
+                    .image-slot {
+                        width: inherit;
+                        height: inherit;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background: url('../assets/image/rainbow.png') no-repeat;
+                        background-size: cover;
+                    }
                 }
                 // 播放总数
                 .el-tag {
