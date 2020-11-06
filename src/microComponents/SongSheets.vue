@@ -36,7 +36,7 @@ export default {
         cursor: pointer;
         .songList-img {
             width: 100%;
-            height: 100%;
+            height: 158px;
             border-radius: 5px;
             background: #ccc;
             margin-bottom: 10px;
