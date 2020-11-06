@@ -6,7 +6,9 @@
                 <!-- 左侧卡片 -->
                 <el-card class="left-card">
                     <!-- 视频 -->
-                    <video class="left-video" :src="videoDetail.url" type="video/mp4" controls></video>
+                    <div class="left-video">
+                        <video autoplay class="video" :src="videoDetail.url" type="video/mp4" controls></video>
+                    </div>
                     <!-- 标题 -->
                     <div class="left-title">{{ videoDetail.title }}</div>
                     <!-- 时间 -->
@@ -36,7 +38,8 @@
                     <div class="left-total">
                         <i class="el-icon-chat-dot-round"></i>Comments <el-divider direction="vertical"></el-divider>{{ videoComment.length }} 条评论
                     </div>
-
+                    <!-- 分割线 -->
+                    <el-divider></el-divider>
                     <!-- 精彩评论 -->
                     <div class="comments-title">精彩评论</div>
                     <div class="card-comments" v-for="(item, index) in videoComment" :key="index">
@@ -234,9 +237,12 @@ export default {
     .left-card {
         width: 100%;
         .left-video {
-            width: 100%;
-            outline: none;
-            border-radius: 5px;
+            margin: -20px -20px 20px -20px;
+            .video {
+                width: 100%;
+                outline: none;
+                border-radius: 5px 5px 0 0;
+            }
         }
         .left-title {
             margin: 20px 0;
@@ -245,7 +251,7 @@ export default {
         .left-time {
             font-size: 12px;
             color: #666;
-            margin-bottom: 20px;
+            margin: 0 0 25px 5px;
             span {
                 margin-right: 20px;
             }
@@ -258,8 +264,6 @@ export default {
         }
         .left-total {
             font-size: 14px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
             // 图标
             .el-icon-chat-dot-round {
                 margin-right: 5px;
