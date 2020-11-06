@@ -57,7 +57,7 @@ export default {
             margin: 8px;
             height: 20px;
             padding: 0;
-            line-height: 18px;
+            line-height: 20px;
             padding: 0 3px;
             text-align: center;
             background: black;
