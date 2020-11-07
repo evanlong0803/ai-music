@@ -46,7 +46,7 @@
                             </span>
                         </div>
                         <div class="bottom-button" v-if="independent">
-                            <el-button type="danger" size="medium" @click="goSetting">个人设置</el-button>
+                            <el-button type="danger" size="medium" @click="goSetting(userId)">个人设置</el-button>
                             <el-button type="danger" size="medium" @click="goGrade">我的等级</el-button>
                         </div>
                     </div>
@@ -180,9 +180,9 @@ export default {
             this.$router.push('/grade')
         },
         // 跳转个人设置
-        goSetting() {
+        goSetting(userId) {
             if (this.$route.path === '/setting') return
-            this.$router.push('/setting')
+            this.$router.push({ path: '/setting', query: { userId } })
         }
     }
 }
