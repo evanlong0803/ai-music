@@ -29,7 +29,7 @@
                             <li>等级：<i :class="`iconfont icon-icon-test${userDetail.level}`"></i></li>
                             <li>生日： {{ (userDetail.profile || {}).birthday | timeStampTwo }}</li>
                             <!-- 地区：{{ (userDetail.profile || {}).province }} {{ (userDetail.profile || {}).city }} -->
-                            <li>地区：-</li>
+                            <li>地区：{{ (regionProvince||{}).region }} {{ regionCity }}</li>
                         </ul>
                         <div class="bottom-trend">
                             <span>
@@ -58,6 +58,8 @@
 
 <script>
 import SongSheets from '../../microComponents/SongSheets'
+// 城市数据
+import region from '../../utils/region'
 
 export default {
     components: {
@@ -65,10 +67,11 @@ export default {
     },
     data() {
         return {
+            region,
             // 用户ID
             userId: null,
             // 用户详情
-            userDetail: [],
+            userDetail: {},
             // 创建的歌单
             createdSongSheet: [],
             // 收藏的歌单
@@ -79,7 +82,29 @@ export default {
             independent: null
         }
     },
-
+    computed: {
+        // 获得省份
+        regionProvince() {
+            this.region.forEach(item => {
+                if (item.code == (this.userDetail.profile || {}).province) {
+                    (this.userDetail.profile || {}).province = item
+                }
+            })
+            return (this.userDetail.profile || {}).province
+        },
+        // 获得城市
+        regionCity() {
+            // 拿到省份数据
+            let one = this.regionProvince || {};
+            // 拿到市
+            (one.regionEntitys||[]).forEach(item => {
+                if (item.code == (this.userDetail.profile || {}).city) {
+                    (this.userDetail.profile || {}).city = item.region
+                }
+            })
+            return (this.userDetail.profile || {}).city
+        }
+    },
     created() {
         this.userId = this.$route.query.userId
         this.independent = this.$route.query.independent
@@ -158,15 +183,6 @@ export default {
         goSetting() {
             if (this.$route.path === '/setting') return
             this.$router.push('/setting')
-        }
-    },
-    watch: {
-        userId() {
-            let cookie = localStorage.getItem('cookie')
-            // 加载用户详情
-            this.loadUserDetail(cookie)
-            // 加载用户歌单
-            this.loadUserSong(cookie)
         }
     }
 }
