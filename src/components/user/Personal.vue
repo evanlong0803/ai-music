@@ -7,11 +7,16 @@
             <div>
                 <el-card class="personal-left">
                     <!-- 创建的歌单 -->
-                    <div class="title">我创建的歌单</div>
-                    <SongSheets :createdSongSheet="createdSongSheet" />
-                    <!-- 收藏的歌单 -->
-                    <div class="title">我收藏的歌单</div>
-                    <SongSheets :collectSongSheet="collectSongSheet" />
+                    <div v-if="createdSongSheet.length">
+                        <div class="title">我创建的歌单</div>
+                        <SongSheets :createdSongSheet="createdSongSheet" />
+                    </div>
+
+                    <div v-if="collectSongSheet.length">
+                        <!-- 收藏的歌单 -->
+                        <div class="title">我收藏的歌单</div>
+                        <SongSheets :collectSongSheet="collectSongSheet" />
+                    </div>
                 </el-card>
                 <el-card class="personal-right">
                     <!-- 上部分 -->
@@ -29,7 +34,7 @@
                             <li>等级：<i :class="`iconfont icon-icon-test${userDetail.level}`"></i></li>
                             <li>生日： {{ (userDetail.profile || {}).birthday | timeStampTwo }}</li>
                             <!-- 地区：{{ (userDetail.profile || {}).province }} {{ (userDetail.profile || {}).city }} -->
-                            <li>地区：{{ (regionProvince||{}).region }} {{ regionCity }}</li>
+                            <li>地区：{{ (regionProvince || {}).region }} {{ regionCity }}</li>
                         </ul>
                         <div class="bottom-trend">
                             <span>
@@ -95,9 +100,9 @@ export default {
         // 获得城市
         regionCity() {
             // 拿到省份数据
-            let one = this.regionProvince || {};
+            let one = this.regionProvince || {}
             // 拿到市
-            (one.regionEntitys||[]).forEach(item => {
+            ;(one.regionEntitys || []).forEach(item => {
                 if (item.code == (this.userDetail.profile || {}).city) {
                     (this.userDetail.profile || {}).city = item.region
                 }
