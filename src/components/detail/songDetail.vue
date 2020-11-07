@@ -62,7 +62,7 @@
                     <el-row class="card-users" :gutter="15" type="flex" v-loading="!subscribers.length" v-if="subscribers.length">
                         <el-col :span="4" v-for="(item, index) in subscribers" :key="index">
                             <el-tooltip effect="dark" :content="item.nickname" placement="top" :open-delay="260">
-                                <el-image class="users-avatar" :src="item.avatarUrl" fit="cover"></el-image>
+                                <el-image class="users-avatar" :src="item.avatarUrl" fit="cover" @click="goPersonal(item.userId)"></el-image>
                             </el-tooltip>
                         </el-col>
                     </el-row>
@@ -170,9 +170,11 @@ export default {
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
-            const { data: res } = await this.$axios.post('/playlist/subscribers', {
-                id: this.songListId,
-                limit: 30
+            const { data: res } = await this.$axios.get('/playlist/subscribers', {
+                params: {
+                    id: this.songListId,
+                    limit: 30
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('歌单收藏的用户请求失败')
@@ -291,6 +293,10 @@ export default {
             //         type: 'warning'
             //     })
             // }
+        },
+        // 跳转用户主页
+        goPersonal(userId) {
+            this.$router.push({ path: '/personal', query: { userId } })
         },
         // 重新跳转详情
         reload(id) {

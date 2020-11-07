@@ -89,23 +89,28 @@ export default {
     methods: {
         // 加载用户详情
         async loadUserDetail(cookie) {
-            const { data: res } = await this.$axios.post('/user/detail', {
-                uid: this.userId,
-                cookie
+            const { data: res } = await this.$axios.get('/user/detail', {
+                params: {
+                    uid: this.userId,
+                    cookie
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
             this.userDetail = res
+            // 如果已经签到
             if (res.pcSign) {
                 this.signIn = true
             }
         },
         // 加载用户歌单
         async loadUserSong(cookie) {
-            const { data: res } = await this.$axios.post('/user/playlist', {
-                uid: this.userId,
-                cookie
+            const { data: res } = await this.$axios.get('/user/playlist', {
+                params: {
+                    uid: this.userId,
+                    cookie
+                }
             })
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
