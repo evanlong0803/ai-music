@@ -21,31 +21,32 @@
                         <div class="bottom-header">
                             <el-avatar shape="square" :size="60" :src="(userDetail.profile || {}).avatarUrl"></el-avatar>
                             <span class="title">{{ (userDetail.profile || {}).nickname }}</span>
-
-                            <el-button type="primary" size="mini" round>签到</el-button>
+                            <el-button type="primary" size="mini" round @click="goSignIn" :disabled="signIn">
+                                {{ signIn ? '已签到' : '签到' }}
+                            </el-button>
                         </div>
                         <ul class="bottom-info">
                             <li>等级：<i :class="`iconfont icon-icon-test${userDetail.level}`"></i></li>
-                            <li>年龄： 00后 - 魔羯座</li>
-                            <li>地区：-</li>
+                            <li>生日： {{ (userDetail.profile || {}).birthday | timeStampTwo }}</li>
+                            <li>地区：{{ (userDetail.profile || {}).province }} {{ (userDetail.profile || {}).city }}</li>
                         </ul>
                         <div class="bottom-trend">
                             <span>
                                 <div>动态</div>
-                                <div>0</div>
+                                <div>{{ (userDetail.profile || {}).eventCount }}</div>
                             </span>
                             <span>
                                 <div>关注</div>
-                                <div>3</div>
+                                <div>{{ (userDetail.profile || {}).follows }}</div>
                             </span>
                             <span>
                                 <div>粉丝</div>
-                                <div>4</div>
+                                <div>{{ (userDetail.profile || {}).followeds }}</div>
                             </span>
                         </div>
                         <div class="bottom-button">
-                            <el-button type="danger" size="medium">个人设置</el-button>
-                            <el-button type="danger" size="medium">我的等级</el-button>
+                            <el-button type="danger" size="medium" @click="goSetting">个人设置</el-button>
+                            <el-button type="danger" size="medium" @click="goGrade">我的等级</el-button>
                         </div>
                     </div>
                 </el-card>
@@ -70,7 +71,9 @@ export default {
             // 创建的歌单
             createdSongSheet: [],
             // 收藏的歌单
-            collectSongSheet: []
+            collectSongSheet: [],
+            // 是否签到
+            signIn: false
         }
     },
 
@@ -93,6 +96,9 @@ export default {
                 return this.$message.error('请求失败')
             }
             this.userDetail = res
+            if (res.pcSign) {
+                this.signIn = true
+            }
         },
         // 加载用户歌单
         async loadUserSong(cookie) {
@@ -115,6 +121,34 @@ export default {
                     this.collectSongSheet.push(item)
                 }
             })
+        },
+        // 签到
+        async goSignIn() {
+            let cookie = localStorage.getItem('cookie')
+            const { data: res } = await this.$axios.post('/daily_signin', {
+                type: 1,
+                cookie
+            })
+            if (res.code !== 200) {
+                return this.$message.error('签到失败')
+            }
+            this.signIn = true
+            this.$notify({
+                title: '消息',
+                message: '签到成功',
+                position: 'top-left',
+                type: 'success'
+            })
+        },
+        // 跳转我的等级
+        goGrade() {
+            if (this.$route.path === '/grade') return
+            this.$router.push('/grade')
+        },
+        // 跳转个人设置
+        goSetting() {
+            if (this.$route.path === '/setting') return
+            this.$router.push('/setting')
         }
     }
 }
