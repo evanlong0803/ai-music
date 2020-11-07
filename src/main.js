@@ -18,7 +18,7 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'https://musicapi.123mtr.top'
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true
 
 // axios开始拦截
 axios.interceptors.request.use(config => {
