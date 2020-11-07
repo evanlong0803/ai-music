@@ -7,13 +7,11 @@
                     <el-form-item label="修改头像">
                         <el-upload
                             class="avatar-uploader"
-                            action="https://musicapi.123mtr.top/avatar/upload"
-                            :data="{
-                                imgSize: 200,
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
+                            :action="uploadUrl()"
+                            :headers="{
+                                'Content-Type': 'multipart/form-data'
                             }"
+                            with-credentials
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload"
@@ -91,6 +89,11 @@ export default {
         this.loadUserDetail(cookie)
     },
     methods: {
+        // 更新头像
+        uploadUrl() {
+            let cookie = localStorage.getItem('cookie')
+            return `https://musicapi.123mtr.top/avatar/upload?cookie=${cookie}`
+        },
         // 加载用户详情
         async loadUserDetail(cookie) {
             const { data: res } = await this.$axios.get('/user/detail', {
@@ -123,10 +126,13 @@ export default {
                     }
                     this.$notify({
                         title: '更新成功',
-                        message: '数据响应时间较为缓慢，请等待几分钟后查看',
+                        message: `数据响应时间较为缓慢，请等待几分钟后查看，5秒后跳转至首页`,
                         type: 'success',
                         position: 'top-left'
                     })
+                    setTimeout(() => {
+                        this.$router.push('/')
+                    }, 5000)
                 } else {
                     return false
                 }
