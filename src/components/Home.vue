@@ -133,10 +133,7 @@ export default {
         // 跳转个人主页
         goPersonal(userId) {
             if (this.$route.path === '/personal') return
-            this.$router.push({
-                path: '/personal',
-                query: { userId }
-            })
+            this.$router.push({ path: '/personal', query: { userId, independent: true } })
         },
         // 跳转我的等级
         goGrade() {

@@ -21,7 +21,7 @@
                         <div class="bottom-header">
                             <el-avatar shape="square" :size="60" :src="(userDetail.profile || {}).avatarUrl"></el-avatar>
                             <span class="title">{{ (userDetail.profile || {}).nickname }}</span>
-                            <el-button type="primary" size="mini" round @click="goSignIn" :disabled="signIn">
+                            <el-button type="primary" size="mini" round @click="goSignIn" :disabled="signIn" v-if="independent">
                                 {{ signIn ? '已签到' : '签到' }}
                             </el-button>
                         </div>
@@ -45,7 +45,7 @@
                                 <div>{{ (userDetail.profile || {}).followeds }}</div>
                             </span>
                         </div>
-                        <div class="bottom-button">
+                        <div class="bottom-button" v-if="independent">
                             <el-button type="danger" size="medium" @click="goSetting">个人设置</el-button>
                             <el-button type="danger" size="medium" @click="goGrade">我的等级</el-button>
                         </div>
@@ -74,12 +74,15 @@ export default {
             // 收藏的歌单
             collectSongSheet: [],
             // 是否签到
-            signIn: false
+            signIn: false,
+            // 个人专属
+            independent: null
         }
     },
 
     created() {
         this.userId = this.$route.query.userId
+        this.independent = this.$route.query.independent
         let cookie = localStorage.getItem('cookie')
         // 加载用户详情
         this.loadUserDetail(cookie)
@@ -156,6 +159,15 @@ export default {
             if (this.$route.path === '/setting') return
             this.$router.push('/setting')
         }
+    },
+    watch: {
+        userId() {
+            let cookie = localStorage.getItem('cookie')
+            // 加载用户详情
+            this.loadUserDetail(cookie)
+            // 加载用户歌单
+            this.loadUserSong(cookie)
+        }
     }
 }
 </script>
@@ -206,16 +218,17 @@ export default {
             height: 450px;
             width: 350px;
             margin-top: -100px;
-            background: url('https://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg') no-repeat;
             background-size: cover;
+            overflow: hidden;
 
             .right-top {
                 height: 150px;
-                width: 100%;
+                background: url('https://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg') no-repeat;
+                margin: -20px -20px 0;
             }
             .right-bottom {
+                height: 280px;
                 background: white;
-                margin: -10px -20px -20px -20px;
                 .bottom-header {
                     padding: 0 20px;
                     font-size: 15px;
