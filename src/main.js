@@ -16,8 +16,10 @@ import 'nprogress/nprogress.css'
 // axios
 import axios from 'axios'
 
+// 配置基础路径
 axios.defaults.baseURL = 'https://musicapi.123mtr.top'
 
+// 跨域请求时要使用凭证
 axios.defaults.withCredentials = true
 
 // axios开始拦截
@@ -32,6 +34,7 @@ axios.interceptors.response.use(config => {
     return config
 })
 
+// 将axios添加至Vue的原型中的
 Vue.prototype.$axios = axios
 
 // 全局CSS样式
@@ -46,6 +49,8 @@ Vue.use(APlayer, {
 
 // 关闭生产提示
 Vue.config.productionTip = false
+// 关闭调试工具的版本提示
+Vue.config.devtools = false
 
 new Vue({
     router,
