@@ -28,7 +28,8 @@
                         <ul class="bottom-info">
                             <li>等级：<i :class="`iconfont icon-icon-test${userDetail.level}`"></i></li>
                             <li>生日： {{ (userDetail.profile || {}).birthday | timeStampTwo }}</li>
-                            <li>地区：{{ (userDetail.profile || {}).province }} {{ (userDetail.profile || {}).city }}</li>
+                            <!-- 地区：{{ (userDetail.profile || {}).province }} {{ (userDetail.profile || {}).city }} -->
+                            <li>地区：-</li>
                         </ul>
                         <div class="bottom-trend">
                             <span>
