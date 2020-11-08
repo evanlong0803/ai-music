@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import singers from '../microComponents/singers'
-import SongSheets from '../microComponents/SongSheets'
+import singers from '../microComponents/singers';
+import SongSheets from '../microComponents/SongSheets';
 export default {
     components: {
         singers,
@@ -59,58 +59,62 @@ export default {
             newSong: [],
             // 热门歌手
             HotSinger: []
-        }
+        };
     },
     created() {
         // 请求banner轮播图
-        this.loadBanner()
+        this.loadBanner();
         // 请求推荐歌单
-        this.loadsongSheet()
+        this.loadsongSheet();
         // 请求热门歌手
-        this.loadHotSinger()
+        this.loadHotSinger();
         // 推荐新歌
-        this.loadFeaturedNewSong()
+        this.loadFeaturedNewSong();
     },
     methods: {
         // 请求banner轮播图
         async loadBanner() {
-            const { data: res } = await this.$axios.get('/banner')
+            const { data: res } = await this.$axios.get('/banner');
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.banners = res.banners
+            this.banners = res.banners;
         },
         // 请求推荐歌单
         async loadsongSheet() {
-            const { data: res } = await this.$axios.post('/personalized', { limit: 18 })
+            const { data: res } = await this.$axios.get('/personalized', {
+                params: { limit: 18 }
+            });
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.songSheet = res.result
+            this.songSheet = res.result;
         },
         // 推荐新歌
         async loadFeaturedNewSong() {
-            const { data: res } = await this.$axios.get('/personalized/newsong')
+            const { data: res } = await this.$axios.get('/personalized/newsong');
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.newSong = res.result
+            this.newSong = res.result;
         },
 
         // 请求热门歌手
         async loadHotSinger() {
-            const { data: res } = await this.$axios.post('/top/artists', { offset: 0, limit: 24 })
+            const { data: res } = await this.$axios.get('/top/artists', {
+                params: { offset: 0, limit: 24 }
+            });
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.HotSinger = res.artists
+            this.HotSinger = res.artists;
         },
         // 播放新音乐
         async playNewSong(item) {
             // 请求新歌URL
-            const { data: res } = await this.$axios.get(`/song/url?id=${item.id}`)
+            const { data: res } = await this.$axios.get(`/song/url?id=${item.id}`);
             if (res.code !== 200) {
-                return this.$message.error('音乐URL请求失败')
+                return this.$message.error('音乐URL请求失败');
             }
             let newSong = {
                 id: item.id,
@@ -118,16 +122,16 @@ export default {
                 artist: item.song.artists[0].name,
                 cover: item.picUrl,
                 url: res.data[0].url
-            }
+            };
             // 传递当前单曲歌词和歌曲
-            this.$root.$emit('getNewSong', newSong)
+            this.$root.$emit('getNewSong', newSong);
         },
         // 跳转详情页
         goDetail(id) {
-            this.$router.push(`/songdetail?id=${id}`)
+            this.$router.push({ path: 'songdetail', query: { id: id } });
         }
     }
-}
+};
 </script>
 
 <style lang="less" scoped>

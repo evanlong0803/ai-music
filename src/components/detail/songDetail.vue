@@ -312,6 +312,7 @@ export default {
         },
         // 加载用户歌单
         async loadUserSong(cookie, userId) {
+            if (!cookie) return;
             const { data: res } = await this.$axios.get('/user/playlist', {
                 params: {
                     uid: userId,
