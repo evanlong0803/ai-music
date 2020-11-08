@@ -126,8 +126,7 @@ export default {
             // 手机登录
             phoneForm: {
                 phone: '',
-                password: '',
-                timestamp: Date.now()
+                password: ''
             },
             phoneRules: {
                 phone: [
@@ -159,8 +158,7 @@ export default {
                 nickname: '',
                 password: '',
                 phone: '',
-                captcha: '',
-                timestamp: Date.now()
+                captcha: ''
             },
             registerRules: {
                 nickname: [
@@ -214,8 +212,7 @@ export default {
                     // 验证手机号是否被注册
                     const { data: verifyPhone } = await this.$axios.get('/cellphone/existence/check', {
                         params: {
-                            phone: this.registerForm.phone,
-                            timestamp: Date().now()
+                            phone: this.registerForm.phone
                         }
                     });
                     if (verifyPhone.exist === 1) {
@@ -303,8 +300,7 @@ export default {
                             const { data: res } = await this.$axios.get('/login', {
                                 params: {
                                     email: this.emailForm.email + '@163.com',
-                                    password: this.emailForm.password,
-                                    timestamp: Date.now()
+                                    password: this.emailForm.password
                                 }
                             });
                             // 登录失败
@@ -343,8 +339,7 @@ export default {
                                 const { data: verify } = await this.$axios.get('/captcha/verify', {
                                     params: {
                                         phone: this.registerForm.phone,
-                                        captcha: this.registerForm.captcha,
-                                        timestamp: Date.now()
+                                        captcha: this.registerForm.captcha
                                     }
                                 });
                                 if (verify.code !== 200) {
