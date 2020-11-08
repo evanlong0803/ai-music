@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import Login from '../views/Login'
-import Player from '../views/player'
-import SearchBox from '../views/SearchBox'
+import Login from '../views/Login';
+import Player from '../views/player';
+import SearchBox from '../views/SearchBox';
 
 export default {
     name: 'home', // 主组件名
@@ -93,47 +93,47 @@ export default {
             openLogin: false,
             userInfo: {},
             showSearchBox: false
-        }
+        };
     },
     created() {
         // 页面刷新重新加载用户信息
-        this.getUserInfo()
+        this.getUserInfo();
     },
     methods: {
         // 登录成功后，获取用户信息（Login组件登录后触发该函数）
         async getUserInfo() {
-            let cookie = localStorage.getItem('cookie')
+            let cookie = localStorage.getItem('cookie');
             // 取不到就停止
-            if (!cookie) return
+            if (!cookie) return;
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.post('/login/status', { cookie })
+            const { data: res } = await this.$axios.post('/login/status', { cookie });
             // 获取失败
             if (res.code !== 200) {
-                return this.$message.error(res.msg)
+                return this.$message.error(res.msg);
             }
             // 获取成功后储存用户信息
-            this.userInfo = res.profile
-            this.loginStatus = true
+            this.userInfo = res.profile;
+            this.loginStatus = true;
         },
         // 退出登录
         async logout() {
-            const { data: res } = await this.$axios.get('/logout')
+            const { data: res } = await this.$axios.get('/logout');
             if (res.code !== 200) {
-                return this.$message.error('退出失败')
+                return this.$message.error('退出失败');
             }
-            localStorage.removeItem('cookie')
-            this.userInfo = {}
-            this.loginStatus = false
+            localStorage.removeItem('cookie');
+            this.userInfo = {};
+            this.loginStatus = false;
         },
         // 点击Logo跳转首页
         goHome() {
-            if (this.$route.path === '/') return
-            this.$router.push('/')
+            if (this.$route.path === '/') return;
+            this.$router.push('/');
         },
         // 跳转个人主页
         goPersonal(userId) {
-            if (this.$route.path === '/personal') return
-            this.$router.push({ path: '/personal', query: { userId, independent: true } })
+            if (this.$route.path === '/personal') return;
+            this.$router.push({ path: '/personal', query: { userId, independent: true } });
         },
         // 跳转我的等级
         goGrade() {
@@ -141,17 +141,17 @@ export default {
                 title: '消息',
                 message: '“我的等级” 现处于开发状态',
                 type: 'info'
-            })
+            });
             // if (this.$route.path === '/grade') return
             // this.$router.push('/grade')
         },
         // 跳转个人设置
         goSetting(userId) {
-            if (this.$route.path === '/setting') return
-            this.$router.push({ path: '/setting', query: { userId } })
+            if (this.$route.path === '/setting') return;
+            this.$router.push({ path: '/setting', query: { userId } });
         }
     }
-}
+};
 </script>
 
 <style lang="less" scoped>

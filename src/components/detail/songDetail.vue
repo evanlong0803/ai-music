@@ -147,6 +147,8 @@ export default {
             ifFavorite: false,
             // 歌词
             songLyrics: [],
+            // 用户ID
+            userId: 0,
             // 查看全部描述对话框
             descriptionDialog: false,
             // 自定义索引
@@ -163,9 +165,24 @@ export default {
         this.loadFeatured();
         this.loadComments();
         // 加载用户歌单
-        this.loadUserSong(cookie);
+        this.loadUserSong(cookie, this.userId);
+        // 登录成功后，获取用户信息
+        this.getUserInfo(cookie);
     },
     methods: {
+        // 登录成功后，获取用户信息
+        async getUserInfo(cookie) {
+            // 取不到就停止
+            if (!cookie) return;
+            // 获取登录状态，返回用户信息
+            const { data: res } = await this.$axios.post('/login/status', { cookie });
+            // 获取失败
+            if (res.code !== 200) {
+                return this.$message.error(res.msg);
+            }
+            // 获取成功后储存用户信息
+            this.userId = res.profile.userId;
+        },
         // 加载歌单详情
         async loadDetail() {
             const { data: res } = await this.$axios.get(`/playlist/detail?id=${this.songListId}`);
@@ -294,10 +311,10 @@ export default {
             });
         },
         // 加载用户歌单
-        async loadUserSong(cookie) {
+        async loadUserSong(cookie, userId) {
             const { data: res } = await this.$axios.get('/user/playlist', {
                 params: {
-                    uid: '499200237',
+                    uid: userId,
                     cookie,
                     timestamp: Date.now()
                 }
