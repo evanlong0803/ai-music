@@ -17,8 +17,8 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-release">
-                                    <el-image class="release-avatar" :src="((detail || {}).artist || {}).picUrl" fit="cover"> </el-image>
-                                    <div class="release-name">{{ ((detail || {}).artist || {}).name }}</div>
+                                    <el-image class="release-avatar" :src="(detail.artist || {}).picUrl" fit="cover"> </el-image>
+                                    <div class="release-name">{{ (detail.artist || {}).name }}</div>
                                     <div class="release-time">发行时间：{{ detail.publishTime | timeStampTwo }}</div>
                                 </div>
                                 <div class="release-company">发行公司：{{ detail.company }}</div>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import PlayList from '../../microComponents/PlayList'
+import PlayList from '../../microComponents/PlayList';
 export default {
     components: {
         PlayList
@@ -109,84 +109,84 @@ export default {
             descriptionDialog: false,
             // 自定义索引
             indexMethod(index) {
-                return index + 1 < 10 ? '0' + (index + 1) : index + 1
+                return index + 1 < 10 ? '0' + (index + 1) : index + 1;
             }
-        }
+        };
     },
     created() {
-        this.albumId = this.$route.query.id
-        this.loadAlbumContent()
-        this.loadComments()
+        this.albumId = this.$route.query.id;
+        this.loadAlbumContent();
+        this.loadComments();
     },
     methods: {
         // 加载专辑内容
         async loadAlbumContent() {
-            const { data: res } = await this.$axios.get(`/album?id=${this.albumId}`)
+            const { data: res } = await this.$axios.get(`/album?id=${this.albumId}`);
             if (res.code !== 200) {
-                return this.$message.error('专辑内容请求失败')
+                return this.$message.error('专辑内容请求失败');
             }
-            this.albumDetail = res.songs
-            this.detail = res.album
+            this.albumDetail = res.songs;
+            this.detail = res.album;
             // 储存音乐ID
             let trackIds = res.songs.map(item => {
-                return item.id
-            })
-            this.loadSongDetail(trackIds)
+                return item.id;
+            });
+            this.loadSongDetail(trackIds);
             // 加载热门专辑
-            this.loadHotAlbum(res.album.artist)
+            this.loadHotAlbum(res.album.artist);
         },
         // 加载热门专辑
         async loadHotAlbum(item) {
-            const { data: res } = await this.$axios.get(`/artist/album?id=${item.id}`)
+            const { data: res } = await this.$axios.get(`/artist/album?id=${item.id}`);
             if (res.code !== 200) {
-                return this.$message.error('热门专辑请求失败')
+                return this.$message.error('热门专辑请求失败');
             } else if (res.hotAlbums.length >= 5) {
-                res.hotAlbums.length = 5
+                res.hotAlbums.length = 5;
             }
-            this.hotAlbum = res.hotAlbums
+            this.hotAlbum = res.hotAlbums;
         },
         // 加载精彩评论
         async loadComments() {
-            const { data: res } = await this.$axios.get(`/comment/album?id=${this.albumId}`)
+            const { data: res } = await this.$axios.get(`/comment/album?id=${this.albumId}`);
             if (res.code !== 200) {
-                return this.$message.error('精彩评论请求失败')
+                return this.$message.error('精彩评论请求失败');
             }
             // 如果没有精彩评论就给普通评论
-            this.hotComments = res.hotComments.length === 0 ? res.comments : res.hotComments
+            this.hotComments = res.hotComments.length === 0 ? res.comments : res.hotComments;
         },
         // 加载歌曲详情
         async loadSongDetail(trackIds) {
             // 限制数量
             if (trackIds.length >= 200) {
-                trackIds.length = 200
+                trackIds.length = 200;
             }
-            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
+            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`);
             if (res.code !== 200) {
-                return this.$message.error('歌曲详情请求失败')
+                return this.$message.error('歌曲详情请求失败');
             }
-            this.albumDetail = res.songs
-            this.loadMusicURL(trackIds)
+            this.albumDetail = res.songs;
+            this.loadMusicURL(trackIds);
         },
         // 加载音乐URL
         async loadMusicURL(trackIds) {
             // 限制数量
             if (trackIds.length >= 200) {
-                trackIds.length = 200
+                trackIds.length = 200;
             }
-            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
+            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`);
             if (res.code !== 200) {
-                return this.$message.error('音乐URL请求失败')
+                return this.$message.error('音乐URL请求失败');
             }
             // 储存每首音乐的RUL
             let musicURL = res.data.map(item => {
-                return { url: item.url, id: item.id }
-            })
+                return { url: item.url, id: item.id };
+            });
             // 将每一个音乐URL放入对象属性中
             for (const i in musicURL) {
                 for (const j in this.albumDetail) {
                     // 如果歌单与歌单URL的ID一致，就把URL加入到对应的歌单中
                     if (this.albumDetail[j].id === musicURL[i].id) {
-                        this.$set(this.albumDetail[j], 'url', musicURL[i].url)
+                        this.$set(this.albumDetail[j], 'url', musicURL[i].url);
                     }
                 }
             }
@@ -200,22 +200,22 @@ export default {
                     artist: item.ar[0].name,
                     url: item.url,
                     cover: item.al.picUrl
-                }
-            })
+                };
+            });
             // 传递当前歌单所有歌曲
-            this.$root.$emit('getAllSong', allSong)
+            this.$root.$emit('getAllSong', allSong);
         },
         // 重新跳转详情
         reload(id) {
             // 防止出现路由冗余
-            if (this.albumId === id) return
-            this.albumId = id
-            this.$router.push(`/albumdetail?id=${id}`)
-            this.loadAlbumContent()
-            this.loadComments()
+            if (this.albumId === id) return;
+            this.albumId = id;
+            this.$router.push(`/albumdetail?id=${id}`);
+            this.loadAlbumContent();
+            this.loadComments();
         }
     }
-}
+};
 </script>
 
 <style lang="less" scoped>

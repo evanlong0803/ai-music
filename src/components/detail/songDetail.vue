@@ -17,11 +17,11 @@
                             <div class="top-right">
                                 <h2 class="top-right-title">{{ detail.name }}</h2>
                                 <div class="top-right-userInfo">
-                                    <el-image class="userInfo-avatar" :src="((detail || {}).creator || {}).avatarUrl" fit="cover">
+                                    <el-image class="userInfo-avatar" :src="(detail.creator || {}).avatarUrl" fit="cover">
                                         <div slot="placeholder" class="image-slot"></div>
                                         <div slot="error" class="image-slot"></div>
                                     </el-image>
-                                    <div class="userInfo-name">{{ ((detail || {}).creator || {}).nickname }}</div>
+                                    <div class="userInfo-name">{{ (detail.creator || {}).nickname }}</div>
                                     <div class="userInfo-time">更新时间：{{ detail.updateTime | timeStamp }}</div>
                                 </div>
                                 <div class="top-right-tag">
@@ -167,11 +167,11 @@ export default {
         // 加载用户歌单
         this.loadUserSong(cookie, this.userId);
         // 登录成功后，获取用户信息
-        this.getUserInfo(cookie);
+        this.getUserId(cookie);
     },
     methods: {
         // 登录成功后，获取用户信息
-        async getUserInfo(cookie) {
+        async getUserId(cookie) {
             // 取不到就停止
             if (!cookie) return;
             // 获取登录状态，返回用户信息
