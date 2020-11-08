@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import SongSheets from '../../microComponents/SongSheets'
+import SongSheets from '../../microComponents/SongSheets';
 // 城市数据
-import region from '../../utils/region'
+import region from '../../utils/region';
 
 export default {
     components: {
@@ -85,39 +85,39 @@ export default {
             signIn: false,
             // 个人专属
             independent: null
-        }
+        };
     },
     computed: {
         // 获得省份
         regionProvince() {
             this.region.forEach(item => {
                 if (item.code == (this.userDetail.profile || {}).province) {
-                    (this.userDetail.profile || {}).province = item
+                    (this.userDetail.profile || {}).province = item;
                 }
-            })
-            return (this.userDetail.profile || {}).province
+            });
+            return (this.userDetail.profile || {}).province;
         },
         // 获得城市
         regionCity() {
             // 拿到省份数据
-            let one = this.regionProvince || {}
+            let one = this.regionProvince || {}; // 此处必须加分号
             // 拿到市
-            ;(one.regionEntitys || []).forEach(item => {
+            (one.regionEntitys || []).forEach(item => {
                 if (item.code == (this.userDetail.profile || {}).city) {
-                    (this.userDetail.profile || {}).city = item.region
+                    (this.userDetail.profile || {}).city = item.region;
                 }
-            })
-            return (this.userDetail.profile || {}).city
+            });
+            return (this.userDetail.profile || {}).city;
         }
     },
     created() {
-        this.userId = this.$route.query.userId
-        this.independent = this.$route.query.independent
-        let cookie = localStorage.getItem('cookie')
+        this.userId = this.$route.query.userId;
+        this.independent = this.$route.query.independent;
+        let cookie = localStorage.getItem('cookie');
         // 加载用户详情
-        this.loadUserDetail(cookie)
+        this.loadUserDetail(cookie);
         // 加载用户歌单
-        this.loadUserSong(cookie)
+        this.loadUserSong(cookie);
     },
     methods: {
         // 加载用户详情
@@ -127,14 +127,14 @@ export default {
                     uid: this.userId,
                     cookie
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.userDetail = res
+            this.userDetail = res;
             // 如果已经签到
             if (res.pcSign) {
-                this.signIn = true
+                this.signIn = true;
             }
         },
         // 加载用户歌单
@@ -142,55 +142,63 @@ export default {
             const { data: res } = await this.$axios.get('/user/playlist', {
                 params: {
                     uid: this.userId,
-                    cookie
+                    cookie,
+                    timestamp: Date.now()
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            // 如果不是订阅的歌单
+            // 如果不是收藏的歌单
             res.playlist.forEach(item => {
                 if (!item.subscribed) {
-                    this.createdSongSheet.push(item)
+                    this.createdSongSheet.push(item);
                 }
-            })
-            // 如果是订阅的歌单
+            });
+            // 如果是收藏的歌单
             res.playlist.forEach(item => {
                 if (item.subscribed) {
-                    this.collectSongSheet.push(item)
+                    this.collectSongSheet.push(item);
                 }
-            })
+            });
         },
         // 签到
         async goSignIn() {
-            let cookie = localStorage.getItem('cookie')
+            let cookie = localStorage.getItem('cookie');
             const { data: res } = await this.$axios.post('/daily_signin', {
                 type: 1,
                 cookie
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('签到失败')
+                return this.$message.error('签到失败');
             }
-            this.signIn = true
+            this.signIn = true;
+            // 更新用户详情
+            this.loadUserDetail();
             this.$notify({
                 title: '消息',
                 message: '签到成功',
                 position: 'top-left',
                 type: 'success'
-            })
+            });
         },
         // 跳转我的等级
         goGrade() {
-            if (this.$route.path === '/grade') return
-            this.$router.push('/grade')
+            return this.$notify({
+                title: '消息',
+                message: '“我的等级” 现处于开发状态',
+                type: 'info'
+            });
+            // if (this.$route.path === '/grade') return
+            // this.$router.push('/grade')
         },
         // 跳转个人设置
         goSetting(userId) {
-            if (this.$route.path === '/setting') return
-            this.$router.push({ path: '/setting', query: { userId } })
+            if (this.$route.path === '/setting') return;
+            this.$router.push({ path: '/setting', query: { userId } });
         }
     }
-}
+};
 </script>
 
 <style lang="less" scoped>
