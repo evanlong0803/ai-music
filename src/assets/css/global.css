@@ -18,7 +18,7 @@ body,
     height: 7px;
     background: #eee;
 }
-/* 滚动条滑块儿 */
+/* 滚动条轨道 */
 ::-webkit-scrollbar-thumb {
     background-color: #acacac;
     border-radius: 7px;

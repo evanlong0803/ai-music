@@ -137,8 +137,13 @@ export default {
         },
         // 跳转我的等级
         goGrade() {
-            if (this.$route.path === '/grade') return
-            this.$router.push('/grade')
+            return this.$notify({
+                title: '消息',
+                message: '“我的等级” 现处于开发状态',
+                type: 'info'
+            })
+            // if (this.$route.path === '/grade') return
+            // this.$router.push('/grade')
         },
         // 跳转个人设置
         goSetting(userId) {

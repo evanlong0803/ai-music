@@ -4,6 +4,7 @@
         <el-tabs type="border-card">
             <el-tab-pane label="基本设置">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="small">
+                    <!-- 头像功能暂未完成 -->
                     <el-form-item label="修改头像">
                         <el-upload
                             class="avatar-uploader"
@@ -11,6 +12,7 @@
                             :headers="{
                                 'Content-Type': 'multipart/form-data'
                             }"
+                            :data="updata()"
                             with-credentials
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
@@ -46,7 +48,7 @@
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
-            <el-tab-pane label="绑定设置">绑定设置</el-tab-pane>
+            <el-tab-pane label="绑定设置">开发中</el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -94,6 +96,14 @@ export default {
             let cookie = localStorage.getItem('cookie')
             return `https://musicapi.123mtr.top/avatar/upload?cookie=${cookie}`
         },
+        // 携带额外参数
+        updata(file) {
+            var formData = new FormData()
+            formData.append('imgFile', file)
+            return {
+                formData
+            }
+        },
         // 加载用户详情
         async loadUserDetail(cookie) {
             const { data: res } = await this.$axios.get('/user/detail', {
@@ -131,6 +141,7 @@ export default {
                         position: 'top-left'
                     })
                     setTimeout(() => {
+                        if (this.$route.path === '/') return
                         this.$router.push('/')
                     }, 5000)
                 } else {
@@ -145,7 +156,6 @@ export default {
         async beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg'
             const isLt2M = file.size / 1024 / 1024 < 2
-
             if (!isJPG) {
                 this.$message.error('上传头像图片只能是 JPG 格式！')
             }
