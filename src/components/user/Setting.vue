@@ -82,27 +82,27 @@ export default {
                     { min: 3, max: 16, message: '用户名长度应为3～16个字符', trigger: 'blur' }
                 ]
             }
-        }
+        };
     },
     created() {
-        this.userId = this.$route.query.userId
-        let cookie = localStorage.getItem('cookie')
+        this.userId = this.$route.query.userId;
+        let cookie = localStorage.getItem('cookie');
         // 加载用户详情
-        this.loadUserDetail(cookie)
+        this.loadUserDetail(cookie);
     },
     methods: {
         // 更新头像
         uploadUrl() {
-            let cookie = localStorage.getItem('cookie')
-            return `https://musicapi.123mtr.top/avatar/upload?cookie=${cookie}`
+            let cookie = localStorage.getItem('cookie');
+            return `https://musicapi.123mtr.top/avatar/upload?cookie=${cookie}`;
         },
         // 携带额外参数
         updata(file) {
-            var formData = new FormData()
-            formData.append('imgFile', file)
+            var formData = new FormData();
+            formData.append('imgFile', file);
             return {
                 formData
-            }
+            };
         },
         // 加载用户详情
         async loadUserDetail(cookie) {
@@ -111,62 +111,64 @@ export default {
                     uid: this.userId,
                     cookie
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('请求失败')
+                return this.$message.error('请求失败');
             }
-            this.ruleForm = res.profile
+            this.ruleForm = res.profile;
         },
         // 保存
         submitForm(formName) {
-            let cookie = localStorage.getItem('cookie')
+            let cookie = localStorage.getItem('cookie');
             this.$refs[formName].validate(async valid => {
                 if (valid) {
-                    const { data: res } = await this.$axios.post('/user/update', {
-                        // 介绍
-                        signature: this.ruleForm.signature,
-                        // 昵称
-                        nickname: this.ruleForm.nickname,
-                        // 性别
-                        gender: this.ruleForm.gender,
-                        cookie
-                    })
+                    const { data: res } = await this.$axios.get('/user/update', {
+                        params: {
+                            // 介绍
+                            signature: this.ruleForm.signature,
+                            // 昵称
+                            nickname: this.ruleForm.nickname,
+                            // 性别
+                            gender: this.ruleForm.gender,
+                            cookie
+                        }
+                    });
                     if (res.code !== 200) {
-                        return this.$message.error('更新失败')
+                        return this.$message.error('更新失败');
                     }
                     this.$notify({
                         title: '更新成功',
-                        message: `数据响应时间较为缓慢，请等待几分钟后查看，5秒后跳转至首页`,
+                        message: `数据更新时间较为缓慢，5秒后跳转至首页`,
                         type: 'success',
                         position: 'top-left'
-                    })
+                    });
                     setTimeout(() => {
-                        if (this.$route.path === '/') return
-                        this.$router.push('/')
-                    }, 5000)
+                        if (this.$route.path === '/') return;
+                        this.$router.push('/');
+                    }, 5000);
                 } else {
-                    return false
+                    return false;
                 }
-            })
+            });
         },
         handleAvatarSuccess(res, file) {
-            this.ruleForm.avatarUrl = URL.createObjectURL(file.raw)
-            console.log('头像更新成功')
+            this.ruleForm.avatarUrl = URL.createObjectURL(file.raw);
+            console.log('头像更新成功');
         },
         async beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg'
-            const isLt2M = file.size / 1024 / 1024 < 2
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
             if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式！')
+                this.$message.error('上传头像图片只能是 JPG 格式！');
             }
             if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB！')
+                this.$message.error('上传头像图片大小不能超过 2MB！');
             }
 
-            return isJPG && isLt2M
+            return isJPG && isLt2M;
         }
     }
-}
+};
 </script>
 
 <style lang="less">

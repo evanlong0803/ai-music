@@ -17,7 +17,7 @@ import 'nprogress/nprogress.css';
 import axios from 'axios';
 
 // 跨域请求时要使用凭证
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 // 配置基础路径
 axios.defaults.baseURL = 'https://musicapi.123mtr.top';
@@ -50,7 +50,7 @@ Vue.use(APlayer, {
 // 关闭生产提示
 Vue.config.productionTip = false;
 // 关闭调试工具的版本提示
-Vue.config.devtools = false;
+// Vue.config.devtools = false;
 
 new Vue({
     router,

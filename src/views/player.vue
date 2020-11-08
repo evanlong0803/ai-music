@@ -88,7 +88,6 @@ export default {
         getAllSong() {
             this.$root.$on('getAllSong', allSong => {
                 this.list = allSong;
-                // this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
                 this.$notify({
                     title: '消息',
                     message: `正在播放全部歌曲`,

@@ -106,7 +106,9 @@ export default {
             // 取不到就停止
             if (!cookie) return;
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.post('/login/status', { cookie });
+            const { data: res } = await this.$axios.get('/login/status', {
+                params: { cookie }
+            });
             // 获取失败
             if (res.code !== 200) {
                 return this.$message.error(res.msg);
@@ -124,6 +126,8 @@ export default {
             localStorage.removeItem('cookie');
             this.userInfo = {};
             this.loginStatus = false;
+            if (this.$route.path === '/') return;
+            this.$router.push('/');
         },
         // 点击Logo跳转首页
         goHome() {
