@@ -173,7 +173,7 @@ export default {
                 display: flex;
                 cursor: pointer;
                 img {
-                    height: 30px;
+                    height: 24px;
                 }
             }
             // 导航
