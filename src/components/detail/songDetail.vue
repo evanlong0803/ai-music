@@ -286,7 +286,8 @@ export default {
                 return this.$notify({
                     title: '消息',
                     message: '请先登录再进行收藏',
-                    type: 'warning'
+                    type: 'warning',
+                    position: 'top-left'
                 });
             }
             // 取反
@@ -307,7 +308,8 @@ export default {
             return this.$notify({
                 title: '消息',
                 message: this.ifFavorite ? '已收藏' : '已取消收藏',
-                type: 'success'
+                type: 'success',
+                position: 'top-left'
             });
         },
         // 加载用户歌单
