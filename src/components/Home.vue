@@ -144,7 +144,8 @@ export default {
             return this.$notify({
                 title: '消息',
                 message: '“我的等级” 现处于开发状态',
-                type: 'info'
+                type: 'info',
+                position: 'top-left'
             });
             // if (this.$route.path === '/grade') return
             // this.$router.push('/grade')
