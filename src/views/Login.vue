@@ -240,7 +240,8 @@ export default {
                         return this.$notify({
                             title: '提示',
                             message: '该手机号一天只能收5条验证码',
-                            type: 'warning'
+                            type: 'warning',
+                            position: 'top-left'
                         });
                     }
                 }
@@ -263,7 +264,8 @@ export default {
                                     this.inLogin = false;
                                     return this.$notify.error({
                                         title: '登录失败',
-                                        message: res.msg
+                                        message: res.msg,
+                                        position: 'top-left'
                                     });
                                 }
                                 // 登录成功
@@ -278,13 +280,15 @@ export default {
                                 this.$notify({
                                     title: '登录成功',
                                     message: `欢迎${res.profile.nickname}回家`,
-                                    type: 'success'
+                                    type: 'success',
+                                    position: 'top-left'
                                 });
                             } catch (error) {
                                 this.inLogin = false;
                                 return this.$notify.error({
                                     title: '登录失败',
-                                    message: '登录太频繁，请5分钟后再试'
+                                    message: '登录太频繁，请5分钟后再试',
+                                    position: 'top-left'
                                 });
                             }
                         } else {
@@ -308,7 +312,8 @@ export default {
                                 this.inLogin = false;
                                 return this.$notify.error({
                                     title: '失败',
-                                    message: res.msg
+                                    message: res.msg,
+                                    position: 'top-left'
                                 });
                             }
                             // 登录成功
@@ -323,7 +328,8 @@ export default {
                             this.$notify({
                                 title: '登录成功',
                                 message: `欢迎${res.profile.nickname}回家`,
-                                type: 'success'
+                                type: 'success',
+                                position: 'top-left'
                             });
                         } else {
                             return false;
@@ -367,7 +373,8 @@ export default {
                                 title: '注册成功',
                                 message: `用户${res.profile.nickname}：注册后请您用手机号进行登录，本次注册将和网易云音乐账号互通哟~`,
                                 type: 'success',
-                                duration: 0
+                                duration: 5000,
+                                position: 'top-left'
                             });
                         } else {
                             return false;
