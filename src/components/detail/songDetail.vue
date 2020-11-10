@@ -307,7 +307,7 @@ export default {
             this.loadUserSong();
             return this.$notify({
                 title: '消息',
-                message: this.ifFavorite ? '已收藏' : '已取消收藏',
+                message: this.ifFavorite ? '已收藏，可在个人主页中查看' : '已取消收藏',
                 type: 'success',
                 position: 'top-left'
             });
@@ -336,6 +336,15 @@ export default {
         // 跳转用户主页
         goPersonal(userId) {
             if (this.$route.path === '/personal') return;
+            let cookie = localStorage.getItem('cookie');
+            if (!cookie) {
+                return this.$notify({
+                    title: '消息',
+                    message: '请先登录',
+                    type: 'warning',
+                    position: 'top-left'
+                });
+            }
             this.$router.push({ path: '/personal', query: { userId } });
         },
         // 重新跳转详情
@@ -343,7 +352,7 @@ export default {
             // 防止出现路由冗余
             if (this.songListId === id) return;
             this.songListId = id;
-            this.$router.push(`/songdetail?id=${id}`);
+            this.$router.push({ path: '/songdetail', query: { id } });
             this.loadDetail();
             this.loadSubscribers();
             this.loadFeatured();
