@@ -1,7 +1,7 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-show="list.length" />
+            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" />
         </transition>
     </div>
 </template>
@@ -14,23 +14,21 @@ export default {
             list: []
         };
     },
-    // 一定是在页面渲染完成后开始监听
-    mounted() {
-        this.$nextTick(() => {
-            // 接收首页新歌单曲
-            this.getNewSong();
-            // 接收详情页单曲
-            this.getSingle();
-            // 接收当前歌单所有歌曲
-            this.getAllSong();
-        });
+    // 页面渲染前开始监听
+    beforeMount() {
+        // 接收首页新歌单曲
+        this.getNewSong();
+        // 接收详情页单曲
+        this.getSingle();
+        // 接收当前歌单所有歌曲
+        this.getAllSong();
     },
     methods: {
         // 接收首页新歌单曲
         getNewSong() {
             this.$root.$on('getNewSong', newSong => {
                 for (const i in this.list) {
-                    // 如果在列表中发现有重复的歌曲ID
+                    // 如果在列表中发现有重复的歌曲名称
                     if (this.list[i].name === newSong.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(newSong.name);
@@ -43,11 +41,9 @@ export default {
                     }
                 }
                 this.list.unshift(newSong);
-                this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
-                // this.$refs.aplayer.play(); // 立即播放
                 this.$notify({
                     title: '消息',
-                    message: `正在播放《${newSong.name}》`,
+                    message: `列表已加入《${newSong.name}》`,
                     type: 'success',
                     position: 'top-left'
                 });
@@ -57,7 +53,7 @@ export default {
         getSingle() {
             this.$root.$on('getSingle', Single => {
                 for (const i in this.list) {
-                    // 如果在列表中发现有重复的歌曲ID
+                    // 如果在列表中发现有重复的歌曲名称
                     if (this.list[i].name === Single.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(Single.name);
@@ -70,11 +66,9 @@ export default {
                     }
                 }
                 this.list.unshift(Single);
-                this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
-                // this.$refs.aplayer.play(); // 立即播放
                 this.$notify({
                     title: '消息',
-                    message: `正在播放《${Single.name}》`,
+                    message: `列表已加入《${Single.name}》`,
                     type: 'success',
                     position: 'top-left'
                 });
@@ -83,13 +77,8 @@ export default {
         // 接收当前歌单所有歌曲
         getAllSong() {
             this.$root.$on('getAllSong', allSong => {
-                this.list = [];
-                allSong.forEach(item => {
-                    this.list.push(item);
-                });
-                this.$refs.aplayer.switch(allSong[0]); // 切换到播放列表中的第一首歌
-
-                // this.$refs.aplayer.play(); // 立即播放
+                this.list = allSong;
+                // this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
                 this.$notify({
                     title: '消息',
                     message: `正在播放全部歌曲`,
