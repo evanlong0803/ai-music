@@ -267,12 +267,14 @@ export default {
         allPlay() {
             // 重新定义播放器对象结构
             let allSong = this.songDetail.map(item => {
-                return {
-                    name: item.name,
-                    artist: item.ar[0].name,
-                    url: item.url,
-                    cover: item.al.picUrl
-                };
+                for (const i of item.ar) {
+                    return {
+                        name: item.name,
+                        artist: i.name,
+                        url: item.url,
+                        cover: item.al.picUrl
+                    };
+                }
             });
             // 传递当前歌单所有歌曲
             this.$root.$emit('getAllSong', allSong);

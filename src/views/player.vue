@@ -34,8 +34,6 @@ export default {
                     if (this.list[i].name === newSong.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(newSong.name);
-                        // 立即播放
-                        this.$refs.aplayer.play();
                         return this.$notify({
                             title: '消息',
                             message: `正在播放《${newSong.name}》`,
@@ -63,8 +61,6 @@ export default {
                     if (this.list[i].name === Single.name) {
                         // 切换到对应名称的歌曲
                         this.$refs.aplayer.switch(Single.name);
-                        // 立即播放
-                        this.$refs.aplayer.play();
                         return this.$notify({
                             title: '消息',
                             message: `正在播放《${Single.name}》`,
@@ -87,7 +83,10 @@ export default {
         // 接收当前歌单所有歌曲
         getAllSong() {
             this.$root.$on('getAllSong', allSong => {
-                this.list = allSong;
+                this.list = [];
+                allSong.forEach(item => {
+                    this.list.push(item);
+                });
                 this.$notify({
                     title: '消息',
                     message: `正在播放全部歌曲`,

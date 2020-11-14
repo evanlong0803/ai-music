@@ -20,7 +20,7 @@ import axios from 'axios';
 // axios.defaults.withCredentials = true;
 
 // 配置基础路径
-axios.defaults.baseURL = 'https://musicapi.123mtr.top';
+axios.defaults.baseURL = 'http://120.27.1.91:3000/';
 
 // axios开始拦截
 axios.interceptors.request.use(config => {
