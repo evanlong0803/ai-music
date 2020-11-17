@@ -253,7 +253,6 @@ export default {
             margin: 0 auto;
             .bottom-title {
                 font-size: 14px;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
                 color: white;
                 padding-left: 10px;
                 border-left: 3px solid #fa2800;
