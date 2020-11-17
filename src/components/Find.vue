@@ -128,7 +128,7 @@ export default {
         },
         // 跳转详情页
         goDetail(id) {
-            this.$router.push({ path: 'songdetail', query: { id: id } });
+            this.$router.push({ path: '/songdetail', query: { id } });
         }
     }
 };
