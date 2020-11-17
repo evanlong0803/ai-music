@@ -33,7 +33,7 @@
             <img src="../../assets/image/arrow-lr.5aa8d800.png" />
         </div>
         <div class="detail-bottom">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
                 <el-tab-pane label="作品" name="作品">作品</el-tab-pane>
                 <el-tab-pane label="专辑" name="专辑">专辑</el-tab-pane>
                 <el-tab-pane label="MV" name="MV">MV</el-tab-pane>
@@ -50,11 +50,16 @@ export default {
         return {
             activeName: '作品'
         };
+    },
+    methods: {
+        handleClick(tab) {
+            console.log(tab.name);
+        }
     }
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .detail {
     width: 100%;
     .detail-top {
@@ -131,6 +136,14 @@ export default {
         }
     }
     .detail-bottom {
+        width: 1200px;
+        margin: 20px auto;
+        .el-tabs__header {
+            left: 300px;
+            .el-tabs__nav-scroll {
+                width: 50%;
+            }
+        }
     }
 }
 </style>
