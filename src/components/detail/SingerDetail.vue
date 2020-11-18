@@ -8,7 +8,12 @@
                 <div>
                     <i v-if="userDetail.level" :class="`iconfont icon-icon-test${userDetail.level}`"></i>
                     {{ singerInfo.name }}
-                    <i class="el-icon-female"></i>
+                    <i
+                        :class="{
+                            'el-icon-male': (userDetail.profile || {}).gender === 1,
+                            'el-icon-female': (userDetail.profile || {}).gender === 2
+                        }"
+                    ></i>
                 </div>
                 <el-button round plain icon="el-icon-plus" size="medium" @click="follow()">关注ta</el-button>
             </div>
@@ -42,14 +47,38 @@
                         播放全部
                     </el-button>
                     <!-- 播放列表 -->
-                    <PlayList :single="single" />
+                    <PlayList :single="single" v-loading="!single.length" />
                 </el-tab-pane>
                 <el-tab-pane label="专辑" name="album">
-                    <Albums :album="album" />
+                    <Albums :album="album" v-loading="!album.length" />
                 </el-tab-pane>
-                <el-tab-pane label="MV" name="MV">MV</el-tab-pane>
-                <el-tab-pane label="歌手简介" name="profile">歌手简介</el-tab-pane>
-                <el-tab-pane label="相似歌手" name="similar">相似歌手</el-tab-pane>
+                <el-tab-pane label="MV" name="MV">
+                    <div>
+                        <Videos :video="video" v-loading="!video.length" v-if="video.length" />
+                        <div v-else class="noMore">暂无MV</div>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="歌手简介" name="profile">
+                    <div class="bottom-profile">
+                        <h2>歌手简介</h2>
+                        <div>{{ profile.briefDesc }}</div>
+                        <div v-for="(item, index) in profile.introduction" :key="index">
+                            <h3>{{ item.ti }}</h3>
+                            <pre>{{ item.txt }}</pre>
+                        </div>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="相似歌手" name="similar">
+                    <el-row :gutter="40" type="flex" style="flex-flow: row wrap;" class="bottom-similar" v-if="singer.length">
+                        <el-col :span="3" v-for="(item, index) in singer" :key="index">
+                            <div class="com-singer" @click="reload(item.id)">
+                                <el-image class="singer-img" :src="item.picUrl || item.img1v1Url" fit="cover"></el-image>
+                                <div class="singer-name">{{ item.name }}</div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <div v-else class="noMore">暂无相似</div>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -58,14 +87,17 @@
 <script>
 import PlayList from '../../microComponents/PlayList';
 import Albums from '../../microComponents/Albums';
+import Videos from '../../microComponents/Videos';
 export default {
     components: {
         PlayList,
-        Albums
+        Albums,
+        Videos
     },
     data() {
         return {
             activeName: 'works',
+            singerId: null,
             // 用户详情
             userDetail: {},
             // 歌手信息
@@ -73,11 +105,18 @@ export default {
             // 歌手单曲
             single: [],
             // 歌手专辑
-            album: []
+            album: [],
+            // 歌手MV
+            video: [],
+            // 歌手简介
+            profile: {},
+            // 相似歌手
+            singer: []
         };
     },
     created() {
         let cookie = localStorage.getItem('cookie');
+        this.singerId = this.$route.query.id;
         // 加载用户详情
         this.loadUserDetail(cookie);
         // 加载歌手单曲
@@ -105,7 +144,7 @@ export default {
         async loadSingerSingle() {
             const { data: res } = await this.$axios.get('/artists', {
                 params: {
-                    id: this.$route.query.id
+                    id: this.singerId
                 }
             });
             if (res.code !== 200) {
@@ -120,11 +159,11 @@ export default {
             // 加载音乐URL
             this.loadMusicURL(singleID);
         },
-        // 加载专辑
+        // 加载歌手专辑
         async loadSingerAlbum() {
             const { data: res } = await this.$axios.get('/artist/album', {
                 params: {
-                    id: this.$route.query.id,
+                    id: this.singerId,
                     limit: 30
                 }
             });
@@ -132,6 +171,42 @@ export default {
                 return this.$message.error('请求失败');
             }
             this.album = res.hotAlbums;
+        },
+        // 加载歌手MV
+        async loadSingerMV() {
+            const { data: res } = await this.$axios.get('/artist/mv', {
+                params: {
+                    id: this.singerId
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.video = res.mvs;
+        },
+        // 加载歌手简介
+        async loadSingerProfile() {
+            const { data: res } = await this.$axios.get('/artist/desc', {
+                params: {
+                    id: this.singerId
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.profile = res;
+        },
+        // 加载相似歌手
+        async loadSingerSimilar() {
+            const { data: res } = await this.$axios.get('/simi/artist', {
+                params: {
+                    id: this.singerId
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.singer = res.artists;
         },
         // 关注
         follow() {
@@ -159,12 +234,16 @@ export default {
                     break;
                 // MV
                 case 'MV':
+                    this.loadSingerMV();
                     break;
                 // 歌手简介
                 case 'profile':
+                    // 加载歌手MV
+                    this.loadSingerProfile();
                     break;
                 // 相似歌手
                 case 'similar':
+                    this.loadSingerSimilar();
                     break;
             }
         },
@@ -201,6 +280,19 @@ export default {
             });
             // 传递当前歌单所有歌曲
             this.$root.$emit('updata:getAllSong', allSong);
+        },
+        // 重新跳转详情
+        reload(id) {
+            // 防止出现路由冗余
+            if (this.singerId === id) return;
+            this.singerId = id;
+            this.$router.push({ path: '/singerdetail', query: { id } });
+            let cookie = localStorage.getItem('cookie');
+            // 加载用户详情
+            this.loadUserDetail(cookie);
+            // 加载歌手单曲
+            this.loadSingerSingle();
+            this.activeName = 'works';
         }
     }
 };
@@ -241,8 +333,13 @@ export default {
                     font-size: 20px;
                     margin-right: 5px;
                 }
-                i {
+
+                .el-icon-male {
                     color: #409eff;
+                    font-weight: bolder;
+                }
+                .el-icon-female {
+                    color: #f56c6c;
                     font-weight: bolder;
                 }
             }
@@ -291,16 +388,62 @@ export default {
     .detail-bottom {
         width: 1200px;
         margin: 20px auto;
+        // 标签页
         .el-tabs__header {
             left: 300px;
+            margin-bottom: 40px;
             .el-tabs__nav-scroll {
                 width: 50%;
             }
+        }
+        // 相似歌手
+        .bottom-similar {
+            cursor: pointer;
+            text-align: center;
+            .singer-img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                border: 1px solid #ccc;
+            }
+            .singer-name {
+                font-size: 14px;
+                font-weight: bold;
+                margin: 10px 0 30px 0;
+            }
+        }
+        // 暂无更多
+        .noMore {
+            color: #909399;
+            font-size: 14px;
+            text-align: center;
+            margin: 50px 0;
         }
         // 单曲全部播放
         .single-allPlay {
             float: right;
             margin-bottom: 20px;
+        }
+        // 歌手简介
+        .bottom-profile {
+            line-height: 2;
+            font-size: 14px;
+            h2 {
+                display: inline-block;
+                padding-bottom: 5px;
+                border-bottom: 3px solid #f56c6c;
+            }
+            h3 {
+                padding-bottom: 5px;
+                border-bottom: 3px solid #409eff;
+            }
+            > :nth-child(2) {
+                margin: 10px 0 20px 0;
+            }
+            pre {
+                margin: 10px 0 20px 0;
+                white-space: pre-wrap;
+            }
         }
     }
 }
