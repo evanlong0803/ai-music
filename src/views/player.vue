@@ -26,7 +26,7 @@ export default {
     methods: {
         // 接收首页新歌单曲
         getNewSong() {
-            this.$root.$on('getNewSong', newSong => {
+            this.$root.$on('updata:getNewSong', newSong => {
                 for (const i in this.list) {
                     // 如果在列表中发现有重复的歌曲名称
                     if (this.list[i].name === newSong.name) {
@@ -51,7 +51,7 @@ export default {
         },
         // 接收详情页单曲
         getSingle() {
-            this.$root.$on('getSingle', Single => {
+            this.$root.$on('updata:getSingle', Single => {
                 for (const i in this.list) {
                     // 如果在列表中发现有重复的歌曲名称
                     if (this.list[i].name === Single.name) {

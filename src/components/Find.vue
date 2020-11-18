@@ -124,7 +124,7 @@ export default {
                 url: res.data[0].url
             };
             // 传递当前单曲歌词和歌曲
-            this.$root.$emit('getNewSong', newSong);
+            this.$root.$emit('updata:getNewSong', newSong);
         },
         // 跳转详情页
         goDetail(id) {

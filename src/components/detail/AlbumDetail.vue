@@ -203,7 +203,7 @@ export default {
                 };
             });
             // 传递当前歌单所有歌曲
-            this.$root.$emit('getAllSong', allSong);
+            this.$root.$emit('updata:getAllSong', allSong);
         },
         // 重新跳转详情
         reload(id) {

@@ -47,7 +47,7 @@ export default {
                 cover: row.al.picUrl
             }
             // 传递当前单曲歌词
-            this.$root.$emit('getSingle', firstSong)
+            this.$root.$emit('updata:getSingle', firstSong)
         },
         // 自定义索引
         indexMethod(index) {
