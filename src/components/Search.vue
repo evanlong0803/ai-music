@@ -31,21 +31,7 @@
 
                     <!-- 搜索专辑 -->
                     <el-tab-pane label="专辑" name="album">
-                        <el-row type="flex" :gutter="30" style="flex-flow: row wrap;" v-loading="!album.length">
-                            <el-col :span="4" v-for="(item, index) in album" :key="index">
-                                <div class="search-album" @click="goDetail(item.id)">
-                                    <!-- 播放统计 -->
-                                    <el-tag><i class="el-icon-caret-right"></i>{{ item.type }}</el-tag>
-                                    <el-image class="album-img" :src="item.picUrl + '?param=175y175'" fit="cover">
-                                        <div slot="placeholder" class="image-slot"></div>
-                                        <div slot="error" class="image-slot"></div>
-                                    </el-image>
-                                    <div class="album-name">{{ item.name }}</div>
-                                    <div class="album-info">{{ item.artist.name }}</div>
-                                    <div class="album-info">{{ item.publishTime | timeStampTwo }}</div>
-                                </div>
-                            </el-col>
-                        </el-row>
+                        <Albums :album="album" />
                     </el-tab-pane>
 
                     <!-- 搜索视频 -->
@@ -64,17 +50,18 @@
 </template>
 
 <script>
-import PlayList from '../microComponents/PlayList'
-import Videos from '../microComponents/Videos'
-import SongSheets from '../microComponents/SongSheets'
-import singers from '../microComponents/singers'
-
+import PlayList from '../microComponents/PlayList';
+import Videos from '../microComponents/Videos';
+import SongSheets from '../microComponents/SongSheets';
+import singers from '../microComponents/singers';
+import Albums from '../microComponents/Albums';
 export default {
     components: {
         PlayList,
         Videos,
         SongSheets,
-        singers
+        singers,
+        Albums
     },
     data() {
         return {
@@ -94,23 +81,23 @@ export default {
             songSheet: [],
             // 搜索历史
             searchHistory: []
-        }
+        };
     },
     created() {
         // 监听SearchBox组件的自定义事件
-        this.getAction()
+        this.getAction();
         // 取临时历史
-        this.getTempHistory()
+        this.getTempHistory();
     },
     methods: {
         // 监听SearchBox组件的自定义事件
         getAction() {
             this.$root.$on('getAction', () => {
-                let searchContent = sessionStorage.getItem('searchContent')
-                this.searchContent = searchContent
+                let searchContent = sessionStorage.getItem('searchContent');
+                this.searchContent = searchContent;
                 // 搜索单曲
-                this.searchSingle()
-            })
+                this.searchSingle();
+            });
         },
         // 搜索单曲
         async searchSingle() {
@@ -120,27 +107,27 @@ export default {
                     message: '搜索内容前不能有空格',
                     type: 'warning',
                     position: 'top-left'
-                })
+                });
             }
-            sessionStorage.setItem('searchContent', this.searchContent)
+            sessionStorage.setItem('searchContent', this.searchContent);
             // 搜索时默认显示单曲选项
-            this.activeName = 'single'
+            this.activeName = 'single';
             const { data: res } = await this.$axios.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('搜索单曲失败')
+                return this.$message.error('搜索单曲失败');
             }
-            this.single = res.result.songs
+            this.single = res.result.songs;
             // 定义音乐ID
             let singleID = res.result.songs.map(item => {
-                return item.id
-            })
+                return item.id;
+            });
             // 加载音乐URL
-            this.loadMusicURL(singleID)
-            this.saveSearchHistory()
+            this.loadMusicURL(singleID);
+            this.saveSearchHistory();
         },
         // 搜索歌手
         async searchSinger() {
@@ -149,11 +136,11 @@ export default {
                     keywords: this.searchContent,
                     type: 100
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('搜索歌手失败')
+                return this.$message.error('搜索歌手失败');
             }
-            this.singer = res.result.artists
+            this.singer = res.result.artists;
         },
         // 搜索专辑
         async searchAlbum() {
@@ -162,11 +149,11 @@ export default {
                     keywords: this.searchContent,
                     type: 10
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('搜索专辑失败')
+                return this.$message.error('搜索专辑失败');
             }
-            this.album = res.result.albums
+            this.album = res.result.albums;
         },
         // 搜索视频
         async searchVideo() {
@@ -175,11 +162,11 @@ export default {
                     keywords: this.searchContent,
                     type: 1014
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('搜索视频失败')
+                return this.$message.error('搜索视频失败');
             }
-            this.video = res.result.videos
+            this.video = res.result.videos;
         },
         // 搜索歌单
         async searchSongSheet() {
@@ -188,53 +175,53 @@ export default {
                     keywords: this.searchContent,
                     type: 1000
                 }
-            })
+            });
             if (res.code !== 200) {
-                return this.$message.error('搜索视频失败')
+                return this.$message.error('搜索视频失败');
             }
-            this.songSheet = res.result.playlists
+            this.songSheet = res.result.playlists;
         },
         // 标签页点击
         handleClick(tab) {
             switch (tab.name) {
                 // 单曲
                 case 'single':
-                    this.searchSingle()
-                    break
+                    this.searchSingle();
+                    break;
                 // 歌手
                 case 'singer':
-                    this.searchSinger()
-                    break
+                    this.searchSinger();
+                    break;
                 // 专辑
                 case 'album':
-                    this.searchAlbum()
-                    break
+                    this.searchAlbum();
+                    break;
                 // 视频
                 case 'video':
-                    this.searchVideo()
-                    break
+                    this.searchVideo();
+                    break;
                 // 歌单
                 case 'songSheet':
-                    this.searchSongSheet()
-                    break
+                    this.searchSongSheet();
+                    break;
             }
         },
         // 加载音乐URL
         async loadMusicURL(singleID) {
-            const { data: res } = await this.$axios.get(`/song/url?id=${singleID.join(',')}`)
+            const { data: res } = await this.$axios.get(`/song/url?id=${singleID.join(',')}`);
             if (res.code !== 200) {
-                return this.$message.error('音乐URL请求失败')
+                return this.$message.error('音乐URL请求失败');
             }
             // 储存每首音乐的RUL
             let musicURL = res.data.map(item => {
-                return { url: item.url, id: item.id }
-            })
+                return { url: item.url, id: item.id };
+            });
             // 将每一个音乐URL放入对象属性中
             for (const i in musicURL) {
                 for (const j in this.single) {
                     // 如果歌单与歌单URL的ID一致，就把URL加入到对应的歌单中
                     if (this.single[j].id === musicURL[i].id) {
-                        this.$set(this.single[j], 'url', musicURL[i].url)
+                        this.$set(this.single[j], 'url', musicURL[i].url);
                     }
                 }
             }
@@ -248,36 +235,32 @@ export default {
                     artist: item.ar[0].name,
                     url: item.url,
                     cover: item.al.picUrl
-                }
-            })
+                };
+            });
             // 传递当前歌单所有歌曲
-            this.$root.$emit('updata:getAllSong', allSong)
+            this.$root.$emit('updata:getAllSong', allSong);
         },
         // 取临时的搜索历史
         getTempHistory() {
-            let searchContent = sessionStorage.getItem('searchContent')
-            this.searchContent = searchContent
-            this.searchSingle()
+            let searchContent = sessionStorage.getItem('searchContent');
+            this.searchContent = searchContent;
+            this.searchSingle();
         },
         // 存储用户搜索历史
         saveSearchHistory() {
             // 取出数组
-            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-            this.searchHistory = searchHistory
+            let searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+            this.searchHistory = searchHistory;
             // 没有重复的历史就存入
             if (this.searchHistory.indexOf(this.searchContent) === -1) {
                 // 把搜索内容添加到搜索历史当中
-                this.searchHistory.push(this.searchContent)
+                this.searchHistory.push(this.searchContent);
                 // 以字符串的方式存入
-                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory))
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
             }
-        },
-        // 跳转专辑详情
-        goDetail(id) {
-            this.$router.push(`/albumdetail?id=${id}`)
         }
     }
-}
+};
 </script>
 
 <style lang="less">
