@@ -53,10 +53,8 @@
                     <Albums :album="album" v-loading="!album.length" />
                 </el-tab-pane>
                 <el-tab-pane label="MV" name="MV">
-                    <div>
-                        <Videos :video="video" v-loading="!video.length" v-if="video.length" />
-                        <div v-else class="noMore">暂无MV</div>
-                    </div>
+                    <Videos :video="video" v-loading="!video.length" v-if="video.length" />
+                    <div v-else class="noMore">暂无MV</div>
                 </el-tab-pane>
                 <el-tab-pane label="歌手简介" name="profile">
                     <div class="bottom-profile">
