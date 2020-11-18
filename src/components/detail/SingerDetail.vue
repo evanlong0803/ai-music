@@ -44,7 +44,9 @@
                     <!-- 播放列表 -->
                     <PlayList :single="single" />
                 </el-tab-pane>
-                <el-tab-pane label="专辑" name="album">专辑</el-tab-pane>
+                <el-tab-pane label="专辑" name="album">
+                    <Albums :album="album" />
+                </el-tab-pane>
                 <el-tab-pane label="MV" name="MV">MV</el-tab-pane>
                 <el-tab-pane label="歌手简介" name="profile">歌手简介</el-tab-pane>
                 <el-tab-pane label="相似歌手" name="similar">相似歌手</el-tab-pane>
@@ -55,9 +57,11 @@
 
 <script>
 import PlayList from '../../microComponents/PlayList';
+import Albums from '../../microComponents/Albums';
 export default {
     components: {
-        PlayList
+        PlayList,
+        Albums
     },
     data() {
         return {
@@ -67,14 +71,15 @@ export default {
             // 歌手信息
             singerInfo: {},
             // 歌手单曲
-            single: []
+            single: [],
+            // 歌手专辑
+            album: []
         };
     },
     created() {
         let cookie = localStorage.getItem('cookie');
         // 加载用户详情
         this.loadUserDetail(cookie);
-
         // 加载歌手单曲
         this.loadSingerSingle();
     },
@@ -115,6 +120,19 @@ export default {
             // 加载音乐URL
             this.loadMusicURL(singleID);
         },
+        // 加载专辑
+        async loadSingerAlbum() {
+            const { data: res } = await this.$axios.get('/artist/album', {
+                params: {
+                    id: this.$route.query.id,
+                    limit: 30
+                }
+            });
+            if (res.code !== 200) {
+                return this.$message.error('请求失败');
+            }
+            this.album = res.hotAlbums;
+        },
         // 关注
         follow() {
             // 没有登录
@@ -130,7 +148,25 @@ export default {
             }
         },
         handleClick(tab) {
-            console.log(tab.name);
+            switch (tab.name) {
+                // 单曲
+                case 'works':
+                    this.loadSingerSingle();
+                    break;
+                // 专辑
+                case 'album':
+                    this.loadSingerAlbum();
+                    break;
+                // MV
+                case 'MV':
+                    break;
+                // 歌手简介
+                case 'profile':
+                    break;
+                // 相似歌手
+                case 'similar':
+                    break;
+            }
         },
         // 加载音乐URL
         async loadMusicURL(singleID) {

@@ -336,52 +336,6 @@ export default {
                     margin: 10px 0 30px 0;
                 }
             }
-            // 歌单
-            .search-album {
-                cursor: pointer;
-                margin-bottom: 20px;
-                .album-img {
-                    width: 175px;
-                    height: 175px;
-                    border-radius: 5px;
-                    background: #ccc;
-                    margin-bottom: 10px;
-                    .image-slot {
-                        width: inherit;
-                        height: inherit;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        background: url('../assets/image/rainbow.png') no-repeat;
-                        background-size: cover;
-                    }
-                }
-                // 播放总数
-                .el-tag {
-                    position: absolute;
-                    z-index: 1;
-                    margin: 8px;
-                    height: 20px;
-                    padding: 0;
-                    line-height: 18px;
-                    padding: 0 3px;
-                    text-align: center;
-                    background: black;
-                    color: white;
-                }
-                .album-name {
-                    font-size: 14px;
-                    font-weight: bold;
-                    margin-bottom: 5px;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                .album-info {
-                    font-size: 12px;
-                    color: #666;
-                }
-            }
         }
     }
 }
