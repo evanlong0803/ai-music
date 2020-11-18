@@ -40,7 +40,7 @@ export default {
                         });
                     }
                 }
-                this.list.push(newSong);
+                this.list.unshift(newSong);
                 this.$notify({
                     title: '消息',
                     message: `列表已加入《${newSong.name}》`,
@@ -65,7 +65,7 @@ export default {
                         });
                     }
                 }
-                this.list.push(Single);
+                this.list.unshift(Single);
                 this.$notify({
                     title: '消息',
                     message: `列表已加入《${Single.name}》`,

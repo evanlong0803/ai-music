@@ -2,7 +2,7 @@
     <el-row :gutter="30" type="flex" style="flex-flow: row wrap;">
         <el-col :span="6" v-for="(item, index) in video" class="video" :key="index">
             <div class="videos-box" @click="goDetail(item.vid || item.id)">
-                <el-image :src="item.coverUrl || item.cover" fit="cover"></el-image>
+                <el-image :src="item.coverUrl || item.cover || item.imgurl" fit="cover"></el-image>
                 <!-- 播放统计 -->
                 <el-tag><i class="el-icon-caret-right"></i>{{ Number(item.playTime) || Number(item.playCount) | playCount }}</el-tag>
                 <div class="box-bottom">
