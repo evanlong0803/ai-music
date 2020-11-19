@@ -2,7 +2,10 @@
     <el-row :gutter="40" type="flex" style="flex-flow: row wrap;">
         <el-col :span="3" v-for="(item, index) in HotSinger || singer || artists" :key="index">
             <div class="com-singer" @click="goDetail(item.id, item.accountId)">
-                <el-image class="singer-img" :src="item.picUrl || item.img1v1Url" fit="cover"></el-image>
+                <el-image class="singer-img" :src="item.picUrl || item.img1v1Url" fit="cover">
+                    <div slot="placeholder" class="image-slot"></div>
+                    <div slot="error" class="image-slot"></div>
+                </el-image>
                 <div class="singer-name">{{ item.name }}</div>
             </div>
         </el-col>
@@ -31,6 +34,15 @@ export default {
         height: 100px;
         border-radius: 50%;
         border: 1px solid #ccc;
+        .image-slot {
+            width: inherit;
+            height: inherit;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('../assets/image/rainbow.png') no-repeat;
+            background-size: cover;
+        }
     }
     .singer-name {
         font-size: 14px;

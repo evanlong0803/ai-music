@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <Home />
+        <!-- ondragstart 禁止图片拖动 -->
+        <Home ondragstart="return false" />
     </div>
 </template>
 
