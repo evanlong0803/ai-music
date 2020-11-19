@@ -93,8 +93,8 @@ export default {
         // 监听SearchBox组件的自定义事件
         getAction() {
             this.$root.$on('getAction', () => {
-                let searchContent = sessionStorage.getItem('searchContent');
-                this.searchContent = searchContent;
+                // 取出临时记录
+                this.getHistory();
                 // 搜索单曲
                 this.searchSingle();
             });
@@ -181,27 +181,50 @@ export default {
             }
             this.songSheet = res.result.playlists;
         },
+        // 取出临时记录
+        getHistory() {
+            let searchContent = sessionStorage.getItem('searchContent');
+            // 临时记录和之前的不一样
+            if (this.searchContent !== searchContent) {
+                this.searchContent = searchContent;
+            }
+        },
         // 标签页点击
         handleClick(tab) {
             switch (tab.name) {
                 // 单曲
                 case 'single':
+                    // 取出临时记录
+                    this.getHistory();
+                    // 搜索单曲
                     this.searchSingle();
                     break;
                 // 歌手
                 case 'singer':
+                    // 取出临时记录
+                    this.getHistory();
+                    // 搜索歌手
                     this.searchSinger();
                     break;
                 // 专辑
                 case 'album':
+                    // 取出临时记录
+                    this.getHistory();
+                    // 搜索专辑
                     this.searchAlbum();
                     break;
                 // 视频
                 case 'video':
+                    // 取出临时记录
+                    this.getHistory();
+                    // 搜索视频
                     this.searchVideo();
                     break;
                 // 歌单
                 case 'songSheet':
+                    // 取出临时记录
+                    this.getHistory();
+                    // 搜索歌单
                     this.searchSongSheet();
                     break;
             }
