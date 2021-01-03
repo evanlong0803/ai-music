@@ -74,8 +74,13 @@ export default {
         }
         // 没有重复的歌曲
         this.list.unshift(Single);
-        this.$nextTick(() => {
-          this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
+        this.$nextTick(async () => {
+          const { media } = await this.$refs.aplayer;
+          // 如果是暂停状态
+          if (media.paused) {
+            await this.$refs.aplayer.play();
+          }
+          await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         });
         this.$notify({
           title: "消息",
@@ -88,11 +93,16 @@ export default {
     // 接收当前歌单所有歌曲
     getAllSong() {
       this.$root.$on("updata:getAllSong", (allSong) => {
-        this.list = allSong;
-        this.$nextTick(() => {
-          this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
-          // this.$refs.aplayer.play(); // 立即播放
+        this.list.unshift(allSong[0]);
+        this.$nextTick(async () => {
+          const { media } = await this.$refs.aplayer;
+          // 如果是暂停状态
+          if (media.paused) {
+            await this.$refs.aplayer.play();
+          }
+          await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         });
+        this.list = allSong;
         this.$notify({
           title: "消息",
           message: `正在播放全部歌曲`,
