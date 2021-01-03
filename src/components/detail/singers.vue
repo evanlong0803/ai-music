@@ -40,7 +40,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('../assets/image/rainbow.png') no-repeat;
+            background: url('../../assets/image/rainbow.png') no-repeat;
             background-size: cover;
         }
     }

@@ -32,7 +32,7 @@ export default {
     margin-bottom: 30px;
     .videos-box {
         height: 175px;
-        background: url('../assets/image/rainbow.png') no-repeat;
+        background: url('../../assets/image/rainbow.png') no-repeat;
         background-size: cover;
         margin-bottom: 10px;
         cursor: pointer;

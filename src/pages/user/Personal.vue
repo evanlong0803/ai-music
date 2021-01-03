@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import SongSheets from '../../microComponents/SongSheets';
+import SongSheets from '../../components/detail/SongSheets';
 // 城市数据
 import region from '../../utils/region';
 

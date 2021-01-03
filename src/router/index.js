@@ -2,15 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-import Find from '../components/Find.vue';
-import Rank from '../components/Rank.vue';
-import SongSheet from '../components/SongSheet.vue';
-import Singer from '../components/Singer.vue';
-import MV from '../components/MV.vue';
-import Search from '../components/Search.vue';
-import Personal from '../components/user/Personal.vue';
-import Grade from '../components/user/Grade.vue';
-import Setting from '../components/user/Setting.vue';
+import Find from '../pages/home/Find.vue';
+import Rank from '../pages/home/Rank.vue';
+import SongSheet from '../pages/home/SongSheet.vue';
+import Singer from '../pages/home/Singer.vue';
+import MV from '../pages/home/MV.vue';
+import Search from '../pages/home/Search.vue';
+import Personal from '../pages/user/Personal.vue';
+import Grade from '../pages/user/Grade.vue';
+import Setting from '../pages/user/Setting.vue';
 
 const routes = [
     { path: '/', name: 'Find', component: Find },
@@ -22,10 +22,10 @@ const routes = [
     { path: '/grade', name: 'Grade', component: Grade },
     { path: '/setting', name: 'Setting', component: Setting },
     { path: '/search', name: 'Search', component: Search },
-    { path: '/songdetail', name: 'SongDetail', component: () => import('../components/detail/SongDetail.vue') },
-    { path: '/albumdetail', name: 'AlbumDetail', component: () => import('../components/detail/AlbumDetail.vue') },
-    { path: '/videodetail', name: 'VideoDetail', component: () => import('../components/detail/VideoDetail.vue') },
-    { path: '/singerdetail', name: 'SingerDetail', component: () => import('../components/detail/SingerDetail.vue') }
+    { path: '/songdetail', name: 'SongDetail', component: () => import('../pages/detail/SongDetail.vue') },
+    { path: '/albumdetail', name: 'AlbumDetail', component: () => import('../pages/detail/AlbumDetail.vue') },
+    { path: '/videodetail', name: 'VideoDetail', component: () => import('../pages/detail/VideoDetail.vue') },
+    { path: '/singerdetail', name: 'SingerDetail', component: () => import('../pages/detail/SingerDetail.vue') }
 ];
 
 const router = new VueRouter({

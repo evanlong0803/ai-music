@@ -1,4 +1,6 @@
-# netease-music
+# CookiesMusic
+
+
 
 ## Project setup
 ```

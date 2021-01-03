@@ -186,7 +186,7 @@ export default {
         // 搜索栏
         .search-bar {
             border-radius: 5px 5px 0 0;
-            background: url('../assets/image/Searchbackgroun.jpg') no-repeat;
+            background: url('../../assets/image/Searchbackgroun.jpg') no-repeat;
             background-size: cover;
             height: 200px;
             line-height: 200px;

@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import PlayList from '../../microComponents/PlayList';
+import PlayList from "../../components/detail/PlayList";
 export default {
     components: {
         PlayList
