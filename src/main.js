@@ -13,6 +13,7 @@ import './assets/icon/iconfont.css';
 // 进度条
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+
 // axios
 import axios from 'axios';
 

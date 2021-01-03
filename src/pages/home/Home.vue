@@ -123,7 +123,7 @@
 
 <script>
 import Login from "../../components/home/Login";
-import Player from "../../components/home/player";
+import Player from "../../components/player/player";
 import SearchBox from "../../components/home/SearchBox";
 
 export default {
