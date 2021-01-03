@@ -91,7 +91,6 @@ export default {
         // await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         this.$nextTick(async () => {
           const { media } = await this.$refs.aplayer;
-          console.log(media.paused);
           // 如果是暂停状态
           if (media.paused) {
             await this.$refs.aplayer.play();
