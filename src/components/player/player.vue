@@ -22,7 +22,7 @@ export default {
     };
   },
   // 页面渲染前开始监听
-  beforeMount() {
+  mounted() {
     // 接收首页新歌单曲
     this.getNewSong();
     // 接收详情页单曲
@@ -33,12 +33,12 @@ export default {
   methods: {
     // 接收首页新歌单曲
     getNewSong() {
-      this.$root.$on("updata:getNewSong", (newSong) => {
+      this.$root.$on("updata:getNewSong", async (newSong) => {
         for (const i in this.list) {
           // 如果在列表中发现有重复的歌曲名称
           if (this.list[i].name === newSong.name) {
             // 切换到对应名称的歌曲
-            this.$refs.aplayer.switch(newSong.name);
+            await this.$refs.aplayer.switch(newSong.name);
             return this.$notify({
               title: "消息",
               message: `正在播放《${newSong.name}》`,
@@ -47,7 +47,7 @@ export default {
             });
           }
         }
-        this.list.unshift(newSong);
+        await this.list.unshift(newSong);
         this.$notify({
           title: "消息",
           message: `列表已加入《${newSong.name}》`,
@@ -58,12 +58,12 @@ export default {
     },
     // 接收详情页单曲
     getSingle() {
-      this.$root.$on("updata:getSingle", (Single) => {
+      this.$root.$on("updata:getSingle", async (Single) => {
         for (const i in this.list) {
           // 如果在列表中发现有重复的歌曲名称
           if (this.list[i].name === Single.name) {
             // 切换到对应名称的歌曲
-            this.$refs.aplayer.switch(Single.name);
+            await this.$refs.aplayer.switch(Single.name);
             return this.$notify({
               title: "消息",
               message: `正在播放《${Single.name}》`,
@@ -73,15 +73,8 @@ export default {
           }
         }
         // 没有重复的歌曲
-        this.list.unshift(Single);
-        this.$nextTick(async () => {
-          const { media } = await this.$refs.aplayer;
-          // 如果是暂停状态
-          if (media.paused) {
-            await this.$refs.aplayer.play();
-          }
-          await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
-        });
+        await this.list.unshift(Single);
+        await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         this.$notify({
           title: "消息",
           message: `正在播放《${Single.name}》`,
@@ -92,17 +85,18 @@ export default {
     },
     // 接收当前歌单所有歌曲
     getAllSong() {
-      this.$root.$on("updata:getAllSong", (allSong) => {
-        this.list.unshift(allSong[0]);
+      this.$root.$on("updata:getAllSong", async (allSong) => {
+        this.list = await [];
+        this.list = await allSong;
+        // await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         this.$nextTick(async () => {
           const { media } = await this.$refs.aplayer;
+          console.log(media.paused);
           // 如果是暂停状态
           if (media.paused) {
             await this.$refs.aplayer.play();
           }
-          await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
         });
-        this.list = allSong;
         this.$notify({
           title: "消息",
           message: `正在播放全部歌曲`,
