@@ -8,7 +8,7 @@
                     <!-- 左侧上部分 -->
                     <el-row class="card-top">
                         <el-col :span="7">
-                            <el-image class="top-left-img" :src="(detail || {}).coverImgUrl" fit="cover">
+                            <el-image class="top-left-img" :src="detail.coverImgUrl" fit="cover">
                                 <div slot="placeholder" class="image-slot"></div>
                                 <div slot="error" class="image-slot"></div>
                             </el-image>
@@ -185,11 +185,11 @@ export default {
         },
         // 加载歌单详情
         async loadDetail() {
-            const { data: res } = await this.$axios.get(`/playlist/detail?id=${this.songListId}`)
+            const { data: res } = await this.$axios.post('/playlist/detail', { id: this.songListId })
             if (res.code !== 200) {
                 return this.$message.error('歌单详情请求失败')
             }
-            this.detail = res.playlist
+            this.detail = res.playlist || {}
             // 储存音乐ID
             let trackIds = res.playlist.trackIds.map(item => {
                 return item.id
