@@ -8,7 +8,7 @@
                     <!-- 左侧上部分 -->
                     <el-row class="card-top">
                         <el-col :span="7">
-                            <el-image class="top-left-img" :src="detail.coverImgUrl" fit="cover">
+                            <el-image class="top-left-img" :src="(detail || {}).coverImgUrl" fit="cover">
                                 <div slot="placeholder" class="image-slot"></div>
                                 <div slot="error" class="image-slot"></div>
                             </el-image>
