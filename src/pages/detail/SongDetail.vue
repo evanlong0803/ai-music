@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import PlayList from "../../components/detail/PlayList";
+import PlayList from '../../components/detail/PlayList'
 export default {
     components: {
         PlayList
@@ -121,9 +121,9 @@ export default {
         // 收藏图标
         iconFavorite() {
             if (this.ifFavorite) {
-                return 'el-icon-star-on';
+                return 'el-icon-star-on'
             } else {
-                return 'el-icon-star-off';
+                return 'el-icon-star-off'
             }
         }
     },
@@ -153,48 +153,48 @@ export default {
             descriptionDialog: false,
             // 自定义索引
             indexMethod(index) {
-                return index + 1 < 10 ? '0' + (index + 1) : index + 1;
+                return index + 1 < 10 ? '0' + (index + 1) : index + 1
             }
-        };
+        }
     },
     created() {
-        let cookie = localStorage.getItem('cookie');
-        this.songListId = this.$route.query.id;
-        this.loadDetail();
-        this.loadSubscribers();
-        this.loadFeatured();
-        this.loadComments();
+        let cookie = localStorage.getItem('cookie')
+        this.songListId = this.$route.query.id
+        this.loadDetail()
+        this.loadSubscribers()
+        this.loadFeatured()
+        this.loadComments()
         // 加载用户歌单
-        this.loadUserSong(cookie, this.userId);
+        this.loadUserSong(cookie, this.userId)
         // 登录成功后，获取用户信息
-        this.getUserId(cookie);
+        this.getUserId(cookie)
     },
     methods: {
         // 登录成功后，获取用户信息
         async getUserId(cookie) {
             // 取不到就停止
-            if (!cookie) return;
+            if (!cookie) return
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.post('/login/status', { cookie });
+            const { data: res } = await this.$axios.post('/login/status', { cookie })
             // 获取失败
             if (res.code !== 200) {
-                return this.$message.error(res.msg);
+                return this.$message.error(res.msg)
             }
             // 获取成功后储存用户信息
-            this.userId = res.profile.userId;
+            this.userId = res.profile.userId
         },
         // 加载歌单详情
         async loadDetail() {
-            const { data: res } = await this.$axios.get(`/playlist/detail?id=${this.songListId}`);
+            const { data: res } = await this.$axios.get(`/playlist/detail?id=${this.songListId}`)
             if (res.code !== 200) {
-                return this.$message.error('歌单详情请求失败');
+                return this.$message.error('歌单详情请求失败')
             }
-            this.detail = res.playlist;
+            this.detail = res.playlist
             // 储存音乐ID
             let trackIds = res.playlist.trackIds.map(item => {
-                return item.id;
-            });
-            this.loadSongDetail(trackIds);
+                return item.id
+            })
+            this.loadSongDetail(trackIds)
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
@@ -203,62 +203,62 @@ export default {
                     id: this.songListId,
                     limit: 30
                 }
-            });
+            })
             if (res.code !== 200) {
-                return this.$message.error('歌单收藏的用户请求失败');
+                return this.$message.error('歌单收藏的用户请求失败')
             }
-            this.subscribers = res.subscribers;
+            this.subscribers = res.subscribers
         },
         // 加载相关推荐
         async loadFeatured() {
-            const { data: res } = await this.$axios.get(`/related/playlist?id=${this.songListId}`);
+            const { data: res } = await this.$axios.get(`/related/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
-                return this.$message.error('相关推荐请求失败');
+                return this.$message.error('相关推荐请求失败')
             }
-            this.recommend = res.playlists;
+            this.recommend = res.playlists
         },
         // 加载精彩评论
         async loadComments() {
-            const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.songListId}`);
+            const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
-                return this.$message.error('精彩评论请求失败');
+                return this.$message.error('精彩评论请求失败')
             }
             // 如果没有精彩评论就给普通评论12条
-            this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments;
+            this.hotComments = res.hotComments.length === 0 ? res.comments.splice(0, 12) : res.hotComments
         },
         // 加载歌曲详情
         async loadSongDetail(trackIds) {
             // 限制数量
             if (trackIds.length >= 200) {
-                trackIds.length = 200;
+                trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`);
+            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
-                return this.$message.error('歌曲详情请求失败');
+                return this.$message.error('歌曲详情请求失败')
             }
-            this.songDetail = res.songs;
-            this.loadMusicURL(trackIds);
+            this.songDetail = res.songs
+            this.loadMusicURL(trackIds)
         },
         // 加载音乐URL
         async loadMusicURL(trackIds) {
             // 限制数量
             if (trackIds.length >= 200) {
-                trackIds.length = 200;
+                trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`);
+            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {
-                return this.$message.error('音乐URL请求失败');
+                return this.$message.error('音乐URL请求失败')
             }
             // 储存每首音乐的RUL
             let musicURL = res.data.map(item => {
-                return { url: item.url, id: item.id };
-            });
+                return { url: item.url, id: item.id }
+            })
             // 将每一个音乐URL放入对象属性中
             for (const i in musicURL) {
                 for (const j in this.songDetail) {
                     // 如果歌单与歌单URL的ID一致，就把URL加入到对应的歌单中
                     if (this.songDetail[j].id === musicURL[i].id) {
-                        this.$set(this.songDetail[j], 'url', musicURL[i].url);
+                        this.$set(this.songDetail[j], 'url', musicURL[i].url)
                     }
                 }
             }
@@ -273,16 +273,16 @@ export default {
                         artist: i.name,
                         url: item.url,
                         cover: item.al.picUrl
-                    };
+                    }
                 }
-            });
+            })
             // 传递当前歌单所有歌曲
-            this.$root.$emit('updata:getAllSong', allSong);
+            this.$root.$emit('updata:getAllSong', allSong)
         },
         // 收藏
         async favorite() {
             // 没有登录
-            let cookie = localStorage.getItem('cookie');
+            let cookie = localStorage.getItem('cookie')
             // 取不到就停止
             if (!cookie) {
                 return this.$notify({
@@ -290,10 +290,10 @@ export default {
                     message: '请先登录再进行收藏',
                     type: 'warning',
                     position: 'top-left'
-                });
+                })
             }
             // 取反
-            this.ifFavorite = !this.ifFavorite;
+            this.ifFavorite = !this.ifFavorite
             const { data: res } = await this.$axios.get('/playlist/subscribe', {
                 params: {
                     t: this.ifFavorite ? 1 : 2,
@@ -301,67 +301,67 @@ export default {
                     cookie,
                     timestamp: Date.now()
                 }
-            });
+            })
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
             // 加载用户歌单
-            this.loadUserSong();
+            this.loadUserSong()
             return this.$notify({
                 title: '消息',
                 message: this.ifFavorite ? '已收藏，可在个人主页中查看' : '已取消收藏',
                 type: 'success',
                 position: 'top-left'
-            });
+            })
         },
         // 加载用户歌单
         async loadUserSong(cookie, userId) {
-            if (!cookie) return;
+            if (!cookie) return
             const { data: res } = await this.$axios.get('/user/playlist', {
                 params: {
                     uid: userId,
                     cookie,
                     timestamp: Date.now()
                 }
-            });
+            })
             if (res.code !== 200) {
-                return this.$message.error('请求失败');
+                return this.$message.error('请求失败')
             }
             res.playlist.forEach(item => {
                 // 如果找到收藏的歌单
                 if (this.songListId == item.id) {
                     // 取反
-                    this.ifFavorite = true;
+                    this.ifFavorite = true
                 }
-            });
+            })
         },
         // 跳转用户主页
         goPersonal(userId) {
-            if (this.$route.path === '/personal') return;
-            let cookie = localStorage.getItem('cookie');
+            if (this.$route.path === '/personal') return
+            let cookie = localStorage.getItem('cookie')
             if (!cookie) {
                 return this.$notify({
                     title: '消息',
                     message: '请先登录',
                     type: 'warning',
                     position: 'top-left'
-                });
+                })
             }
-            this.$router.push({ path: '/personal', query: { userId } });
+            this.$router.push({ path: '/personal', query: { userId } })
         },
         // 重新跳转详情
         reload(id) {
             // 防止出现路由冗余
-            if (this.songListId === id) return;
-            this.songListId = id;
-            this.$router.push({ path: '/songdetail', query: { id } });
-            this.loadDetail();
-            this.loadSubscribers();
-            this.loadFeatured();
-            this.loadComments();
+            if (this.songListId === id) return
+            this.songListId = id
+            this.$router.push({ path: '/songdetail', query: { id } })
+            this.loadDetail()
+            this.loadSubscribers()
+            this.loadFeatured()
+            this.loadComments()
         }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>

@@ -22,10 +22,10 @@ export default {
     methods: {
         // 跳转专辑详情
         goDetail(id) {
-            this.$router.push(`/albumdetail?id=${id}`);
+            this.$router.push(`/albumdetail?id=${id}`)
         }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>

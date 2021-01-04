@@ -183,7 +183,7 @@ export default {
                     { pattern: /^\d{4}$/, message: '请输入4位数的验证码', trigger: 'blur' }
                 ]
             }
-        };
+        }
     },
     // 接收父组件的数据
     props: ['openLogin'],
@@ -193,16 +193,16 @@ export default {
             // 提前进行部分校验
             this.$refs.phoneForm.validateField('phone', error => {
                 if (!error) {
-                    this.loginWait = '';
+                    this.loginWait = ''
                     setInterval(() => {
                         if (this.loginWaitTime === 1) {
-                            this.loginWaitTime = 59;
-                            return (this.loginWait = '获取验证码');
+                            this.loginWaitTime = 59
+                            return (this.loginWait = '获取验证码')
                         }
-                        this.loginWaitTime--;
-                    }, 1000);
+                        this.loginWaitTime--
+                    }, 1000)
                 }
-            });
+            })
         },
         // 注册获取验证码
         registerGetCaptcha() {
@@ -214,38 +214,38 @@ export default {
                         params: {
                             phone: this.registerForm.phone
                         }
-                    });
+                    })
                     if (verifyPhone.exist === 1) {
-                        return this.$message.warning('该手机号已被注册');
+                        return this.$message.warning('该手机号已被注册')
                     }
                     // 发送验证码
                     try {
                         const { data: getCaptcha } = await this.$axios.get('/captcha/sent', {
                             params: { phone: this.registerForm.phone }
-                        });
-                        if (getCaptcha.code !== 200) return;
-                        this.$message.success('验证码已发送，请查收');
+                        })
+                        if (getCaptcha.code !== 200) return
+                        this.$message.success('验证码已发送，请查收')
 
                         // 倒计时60秒
-                        this.registerWait = '';
+                        this.registerWait = ''
                         let interval = setInterval(() => {
                             if (this.registerWaitTime === 1) {
-                                this.registerWait = '获取验证码';
-                                this.registerWaitTime = 59;
-                                return clearInterval(interval);
+                                this.registerWait = '获取验证码'
+                                this.registerWaitTime = 59
+                                return clearInterval(interval)
                             }
-                            this.registerWaitTime--;
-                        }, 1000);
+                            this.registerWaitTime--
+                        }, 1000)
                     } catch (error) {
                         return this.$notify({
                             title: '提示',
                             message: '该手机号一天只能收5条验证码',
                             type: 'warning',
                             position: 'top-left'
-                        });
+                        })
                     }
                 }
-            });
+            })
         },
         // 提交时的校验
         submitForm(formName) {
@@ -255,87 +255,87 @@ export default {
                     this.$refs.phoneForm.validate(async valid => {
                         if (valid) {
                             try {
-                                this.inLogin = true;
+                                this.inLogin = true
                                 const { data: res } = await this.$axios.get('/login/cellphone', {
                                     params: this.phoneForm
-                                });
+                                })
                                 // 登录失败
                                 if (res.code !== 200) {
-                                    this.inLogin = false;
+                                    this.inLogin = false
                                     return this.$notify.error({
                                         title: '登录失败',
                                         message: res.msg,
                                         position: 'top-left'
-                                    });
+                                    })
                                 }
                                 // 登录成功
-                                this.inLogin = false;
+                                this.inLogin = false
                                 // 永久存储cookie
-                                localStorage.setItem('cookie', res.cookie);
+                                localStorage.setItem('cookie', res.cookie)
                                 // 关闭登录框
-                                this.$emit('update:openLogin', false);
+                                this.$emit('update:openLogin', false)
                                 // 触发父组件自定义事件
-                                this.$emit('getUserInfo');
+                                this.$emit('getUserInfo')
                                 // 提示
                                 this.$notify({
                                     title: '登录成功',
                                     message: `欢迎${res.profile.nickname}回家`,
                                     type: 'success',
                                     position: 'top-left'
-                                });
+                                })
                             } catch (error) {
-                                this.inLogin = false;
+                                this.inLogin = false
                                 return this.$notify.error({
                                     title: '登录失败',
                                     message: '登录太频繁，请5分钟后再试',
                                     position: 'top-left'
-                                });
+                                })
                             }
                         } else {
-                            return false;
+                            return false
                         }
-                    });
-                    break;
+                    })
+                    break
                 // 邮箱登录
                 case 'emailForm':
                     this.$refs.emailForm.validate(async valid => {
                         if (valid) {
-                            this.inLogin = true;
+                            this.inLogin = true
                             const { data: res } = await this.$axios.get('/login', {
                                 params: {
                                     email: this.emailForm.email + '@163.com',
                                     password: this.emailForm.password
                                 }
-                            });
+                            })
                             // 登录失败
                             if (res.code !== 200) {
-                                this.inLogin = false;
+                                this.inLogin = false
                                 return this.$notify.error({
                                     title: '失败',
                                     message: res.msg,
                                     position: 'top-left'
-                                });
+                                })
                             }
                             // 登录成功
-                            this.inLogin = false;
+                            this.inLogin = false
                             // 永久存储cookie
-                            localStorage.setItem('cookie', res.cookie);
+                            localStorage.setItem('cookie', res.cookie)
                             // 关闭登录框
-                            this.$emit('update:openLogin', false);
+                            this.$emit('update:openLogin', false)
                             // 触发父组件自定义事件
-                            this.$emit('getUserInfo');
+                            this.$emit('getUserInfo')
                             // 提示
                             this.$notify({
                                 title: '登录成功',
                                 message: `欢迎${res.profile.nickname}回家`,
                                 type: 'success',
                                 position: 'top-left'
-                            });
+                            })
                         } else {
-                            return false;
+                            return false
                         }
-                    });
-                    break;
+                    })
+                    break
                 // 账号注册
                 case 'registerForm':
                     this.$refs.registerForm.validate(async valid => {
@@ -347,27 +347,27 @@ export default {
                                         phone: this.registerForm.phone,
                                         captcha: this.registerForm.captcha
                                     }
-                                });
+                                })
                                 if (verify.code !== 200) {
-                                    return this.$message.error('验证码无效，请重新获取');
+                                    return this.$message.error('验证码无效，请重新获取')
                                 }
-                                this.$message.success('验证通过');
-                                this.inRegister = true;
+                                this.$message.success('验证通过')
+                                this.inRegister = true
                             } catch (error) {
-                                return this.$message.error('验证码无效，请重新获取');
+                                return this.$message.error('验证码无效，请重新获取')
                             }
 
                             // 开始注册
                             const { data: res } = await this.$axios.get('/register/cellphone', {
                                 params: this.registerForm
-                            });
+                            })
                             if (res.code !== 200) {
-                                return this.$message.error('注册失败，请重新注册');
+                                return this.$message.error('注册失败，请重新注册')
                             }
                             // 注册成功
-                            this.inRegister = false;
+                            this.inRegister = false
                             // 关闭登录框
-                            this.$emit('update:openLogin', false);
+                            this.$emit('update:openLogin', false)
                             // 提示
                             this.$notify({
                                 title: '注册成功',
@@ -375,28 +375,28 @@ export default {
                                 type: 'success',
                                 duration: 5000,
                                 position: 'top-left'
-                            });
+                            })
                         } else {
-                            return false;
+                            return false
                         }
-                    });
-                    break;
+                    })
+                    break
             }
         },
         // 切换标签页时重置当前表单
         tabRemove(tab) {
-            this.$refs[tab.name].resetFields();
+            this.$refs[tab.name].resetFields()
         },
         // 关闭登录框时重置所有表单
         close() {
-            this.$emit('update:openLogin', false);
-            this.$refs.phoneForm.resetFields();
-            this.$refs.emailForm.resetFields();
-            this.$refs.registerForm.resetFields();
-            this.activeName = 'phoneForm';
+            this.$emit('update:openLogin', false)
+            this.$refs.phoneForm.resetFields()
+            this.$refs.emailForm.resetFields()
+            this.$refs.registerForm.resetFields()
+            this.activeName = 'phoneForm'
         }
     }
-};
+}
 </script>
 
 <style lang="less" scoped>
