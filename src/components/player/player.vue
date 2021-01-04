@@ -50,7 +50,7 @@ export default {
                         await this.$refs.aplayer.play()
                     }
                 })
-                this.$notify({
+                await this.$notify({
                     title: '消息',
                     message: `正在播放《${newSong.name}》`,
                     type: 'success',
@@ -77,7 +77,7 @@ export default {
                 // 没有重复的歌曲
                 await this.list.unshift(Single)
                 await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$notify({
+                await this.$notify({
                     title: '消息',
                     message: `正在播放《${Single.name}》`,
                     type: 'success',
@@ -88,6 +88,15 @@ export default {
         // 接收当前歌单所有歌曲
         getAllSong() {
             this.$root.$on('updata:getAllSong', async allSong => {
+                // 如果列表中已存在所有歌曲
+                // if (this.list.length == allSong.length) {
+                //     return await this.$notify({
+                //         title: '消息',
+                //         message: `正在播放全部歌曲`,
+                //         type: 'success',
+                //         position: 'top-left'
+                //     })
+                // }
                 this.list = await []
                 this.list = await allSong
                 // await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
@@ -98,7 +107,7 @@ export default {
                         await this.$refs.aplayer.play()
                     }
                 })
-                this.$notify({
+                await this.$notify({
                     title: '消息',
                     message: `正在播放全部歌曲`,
                     type: 'success',

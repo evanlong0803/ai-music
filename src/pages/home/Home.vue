@@ -59,11 +59,9 @@
                     <div class="copyright">
                         <span>Copyright © 2020</span>
                         <span> 曲奇云音乐 </span>
-                        <span><a href="#">演示站</a></span>
+                        <a href="#">演示站</a>
                         <span>Designed by </span>
-                        <span>
-                            <a href="https://gitee.com/handsomewood/CookiesMusic" target="_blank">代码仓库 </a>
-                        </span>
+                        <a href="https://gitee.com/toolse/CookiesMusic" target="_blank">代码仓库 </a>
                     </div>
                 </div>
             </el-footer>
@@ -284,6 +282,7 @@ export default {
                     margin-right: 5px;
                     &:hover {
                         color: white;
+                        transition: all 0.5s ease 0s;
                     }
                 }
             }
