@@ -97,14 +97,15 @@ export default {
                 //         position: 'top-left'
                 //     })
                 // }
-                this.list = await []
-                this.list = await allSong
-                // await this.$refs.aplayer.switch(0); // 切换到播放列表中的第一首歌
+                this.list = []
+                this.list = allSong
                 this.$nextTick(async () => {
                     const { media } = await this.$refs.aplayer
                     // 如果是暂停状态
                     if (media.paused) {
-                        await this.$refs.aplayer.play()
+                        await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+                    } else {
+                        await this.$refs.aplayer.play() // 立即播放
                     }
                 })
                 await this.$notify({

@@ -185,16 +185,18 @@ export default {
         },
         // 加载歌单详情
         async loadDetail() {
-            const { data: res } = await this.$axios.post('/playlist/detail', { id: this.songListId })
+            const { data: res } = await this.$axios.get('/playlist/detail', {
+                params: { id: this.songListId }
+            })
             if (res.code !== 200) {
                 return this.$message.error('歌单详情请求失败')
             }
-            this.detail = res.playlist || {}
+            this.detail = await res.playlist
             // 储存音乐ID
-            let trackIds = res.playlist.trackIds.map(item => {
+            let trackIds = await res.playlist.trackIds.map(item => {
                 return item.id
             })
-            this.loadSongDetail(trackIds)
+            await this.loadSongDetail(trackIds)
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
@@ -207,7 +209,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌单收藏的用户请求失败')
             }
-            this.subscribers = res.subscribers
+            this.subscribers = await res.subscribers
         },
         // 加载相关推荐
         async loadFeatured() {
@@ -215,7 +217,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('相关推荐请求失败')
             }
-            this.recommend = res.playlists
+            this.recommend = await res.playlists
         },
         // 加载精彩评论
         async loadComments() {
@@ -236,8 +238,8 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
             }
-            this.songDetail = res.songs
-            this.loadMusicURL(trackIds)
+            this.songDetail = await res.songs
+            await this.loadMusicURL(trackIds)
         },
         // 加载音乐URL
         async loadMusicURL(trackIds) {
@@ -282,7 +284,7 @@ export default {
         // 收藏
         async favorite() {
             // 没有登录
-            let cookie = localStorage.getItem('cookie')
+            let cookie = await localStorage.getItem('cookie')
             // 取不到就停止
             if (!cookie) {
                 return this.$notify({
@@ -293,7 +295,7 @@ export default {
                 })
             }
             // 取反
-            this.ifFavorite = !this.ifFavorite
+            this.ifFavorite = await !this.ifFavorite
             const { data: res } = await this.$axios.get('/playlist/subscribe', {
                 params: {
                     t: this.ifFavorite ? 1 : 2,
