@@ -32,7 +32,7 @@ export default {
                     if (this.list[i].name === newSong.name) {
                         // 切换到对应名称的歌曲
                         await this.$refs.aplayer.switch(newSong.name)
-                        return this.$notify({
+                        return await this.$notify({
                             title: '消息',
                             message: `正在播放《${newSong.name}》`,
                             type: 'success',
@@ -41,7 +41,14 @@ export default {
                     }
                 }
                 await this.list.unshift(newSong)
-                await this.$refs.aplayer.switch(0)
+                await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+                this.$nextTick(async () => {
+                    const { media } = await this.$refs.aplayer
+                    // 如果是暂停状态
+                    if (media.paused) {
+                        await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+                    }
+                })
                 // 数据更新后的
                 this.$nextTick(async () => {
                     const { media } = await this.$refs.aplayer
@@ -97,15 +104,15 @@ export default {
                 //         position: 'top-left'
                 //     })
                 // }
-                this.list = []
-                this.list = allSong
+                this.list = await []
+                this.list = await allSong
                 this.$nextTick(async () => {
                     const { media } = await this.$refs.aplayer
                     // 如果是暂停状态
                     if (media.paused) {
                         await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
                     } else {
-                        await this.$refs.aplayer.play() // 立即播放
+                        await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
                     }
                 })
                 await this.$notify({
