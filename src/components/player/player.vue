@@ -1,17 +1,7 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer
-                autoplay
-                ref="aplayer"
-                fixed
-                :audio="list"
-                theme="#409EFF"
-                v-if="list.length"
-                @playing="playing"
-                @canplay="canplay"
-                @error="error"
-            />
+            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" @error="error" />
         </transition>
     </div>
 </template>
@@ -25,7 +15,7 @@ export default {
         }
     },
     // 页面渲染前开始监听
-    mounted() {
+    beforeMount() {
         // 接收首页新歌单曲
         this.getNewSong()
         // 接收详情页单曲
@@ -78,7 +68,7 @@ export default {
                 }
                 // 没有重复的歌曲
                 await this.list.unshift(Single)
-                await this.$refs.aplayer.switch(0)
+                // await this.$refs.aplayer.switch(0)
                 await this.$notify({
                     title: '消息',
                     message: `正在播放《${Single.name}》`,
@@ -100,23 +90,15 @@ export default {
                 })
             })
         },
-        playing() {
-            console.log('正在播放')
-        },
-        canplay() {
-            console.log('文件已就绪可以开始播放')
-            this.$nextTick(async () => {
-                const { media } = await this.$refs.aplayer
-                console.log(media.paused)
-                // 如果是暂停状态
-                if (media.paused) {
-                    await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                    await this.$refs.aplayer.seek(0) // 跳转到指定时间
-                }
-            })
-        },
-        error() {
-            console.log('文件加载期间发生错误')
+        // 文件已就绪可以开始播放
+        // canplay() {
+        //     const { media } = this.$refs.aplayer
+        //     // 如果是暂停状态
+        //     if (!media.paused) return
+        //     this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+        // },
+        error(e) {
+            console.log(e, '文件加载期间发生错误')
         }
     }
 }

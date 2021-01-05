@@ -37,8 +37,7 @@ export default {
     methods: {
         // 当某一行被点击时
         async rowClick(row) {
-            let firstSong = await {
-                id: row.id,
+            let firstSong = {
                 name: row.name,
                 artist: row.ar[0].name,
                 url: row.url,
