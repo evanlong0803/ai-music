@@ -1,7 +1,7 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" @error="error" />
+            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" @canplay="canplay" @error="error" />
         </transition>
     </div>
 </template>
@@ -91,12 +91,12 @@ export default {
             })
         },
         // 文件已就绪可以开始播放
-        // canplay() {
-        //     const { media } = this.$refs.aplayer
-        //     // 如果是暂停状态
-        //     if (!media.paused) return
-        //     this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-        // },
+        canplay() {
+            const { media } = this.$refs.aplayer
+            // 如果是暂停状态
+            if (!media.paused) return
+            this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+        },
         error(e) {
             console.log(e, '文件加载期间发生错误')
         }
