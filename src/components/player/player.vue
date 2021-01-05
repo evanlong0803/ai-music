@@ -1,7 +1,17 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" />
+            <aplayer
+                autoplay
+                ref="aplayer"
+                fixed
+                :audio="list"
+                theme="#409EFF"
+                v-if="list.length"
+                @playing="playing"
+                @canplay="canplay"
+                @error="error"
+            />
         </transition>
     </div>
 </template>
@@ -32,7 +42,7 @@ export default {
                     if (this.list[i].name === newSong.name) {
                         // 切换到对应名称的歌曲
                         await this.$refs.aplayer.switch(newSong.name)
-                        return await this.$notify({
+                        return this.$notify({
                             title: '消息',
                             message: `正在播放《${newSong.name}》`,
                             type: 'success',
@@ -41,22 +51,7 @@ export default {
                     }
                 }
                 await this.list.unshift(newSong)
-                await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                this.$nextTick(async () => {
-                    const { media } = await this.$refs.aplayer
-                    // 如果是暂停状态
-                    if (media.paused) {
-                        await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                    }
-                })
-                // 数据更新后的
-                this.$nextTick(async () => {
-                    const { media } = await this.$refs.aplayer
-                    // 如果是暂停状态
-                    if (media.paused) {
-                        await this.$refs.aplayer.play()
-                    }
-                })
+                await this.$refs.aplayer.switch(0)
                 await this.$notify({
                     title: '消息',
                     message: `正在播放《${newSong.name}》`,
@@ -83,7 +78,7 @@ export default {
                 }
                 // 没有重复的歌曲
                 await this.list.unshift(Single)
-                await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+                await this.$refs.aplayer.switch(0)
                 await this.$notify({
                     title: '消息',
                     message: `正在播放《${Single.name}》`,
@@ -95,31 +90,33 @@ export default {
         // 接收当前歌单所有歌曲
         getAllSong() {
             this.$root.$on('updata:getAllSong', async allSong => {
-                // 如果列表中已存在所有歌曲
-                // if (this.list.length == allSong.length) {
-                //     return await this.$notify({
-                //         title: '消息',
-                //         message: `正在播放全部歌曲`,
-                //         type: 'success',
-                //         position: 'top-left'
-                //     })
-                // }
                 this.list = await []
                 this.list = await allSong
-                this.$nextTick(async () => {
-                    const { media } = await this.$refs.aplayer
-                    // 如果是暂停状态
-                    if (media.paused) {
-                        await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
-                    }
-                })
-                await this.$notify({
+                return this.$notify({
                     title: '消息',
                     message: `正在播放全部歌曲`,
                     type: 'success',
                     position: 'top-left'
                 })
             })
+        },
+        playing() {
+            console.log('正在播放')
+        },
+        canplay() {
+            console.log('文件已就绪可以开始播放')
+            this.$nextTick(async () => {
+                const { media } = await this.$refs.aplayer
+                console.log(media.paused)
+                // 如果是暂停状态
+                if (media.paused) {
+                    await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+                    await this.$refs.aplayer.seek(0) // 跳转到指定时间
+                }
+            })
+        },
+        error() {
+            console.log('文件加载期间发生错误')
         }
     }
 }

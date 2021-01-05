@@ -120,7 +120,7 @@ export default {
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }
-            let newSong = {
+            let newSong = await {
                 id: item.id,
                 name: item.name,
                 artist: item.song.artists[0].name,
@@ -128,7 +128,7 @@ export default {
                 url: res.data[0].url
             }
             // 传递当前单曲歌词和歌曲
-            this.$root.$emit('updata:getNewSong', newSong)
+            await this.$root.$emit('updata:getNewSong', newSong)
         },
         // 跳转详情页
         goDetail(id) {

@@ -1,17 +1,17 @@
 <template>
-  <div id="app">
-    <!-- ondragstart 禁止图片拖动 -->
-    <Home ondragstart="return false" />
-  </div>
+    <div id="app">
+        <!-- ondragstart 禁止图片拖动 -->
+        <Home ondragstart="return false" />
+    </div>
 </template>
 
 <script>
-import Home from "./pages/home/Home";
+import Home from './pages/Home'
 
 export default {
-  name: "app", // 主组件名
-  components: {
-    Home,
-  },
-};
+    name: 'app', // 主组件名
+    components: {
+        Home
+    }
+}
 </script>

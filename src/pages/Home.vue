@@ -7,7 +7,7 @@
                 <el-row class="home-top" style="width: 1200px" type="flex" align="middle">
                     <el-col :span="3">
                         <div class="home-logo" @click="goHome">
-                            <img src="../../assets/image/logo.png" />
+                            <img src="../assets/image/logo.png" />
                         </div>
                     </el-col>
                     <el-col>
@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import Login from '../../components/home/Login'
-import Player from '../../components/player/player'
-import SearchBox from '../../components/home/SearchBox'
+import Login from '../components/home/Login'
+import Player from '../components/player/player'
+import SearchBox from '../components/home/SearchBox'
 
 export default {
     name: 'home', // 主组件名
@@ -102,7 +102,7 @@ export default {
     methods: {
         // 登录成功后，获取用户信息（Login组件登录后触发该函数）
         async getUserInfo() {
-            let cookie = localStorage.getItem('cookie')
+            let cookie = await localStorage.getItem('cookie')
             // 取不到就停止
             if (!cookie) return
             // 获取登录状态，返回用户信息
@@ -114,7 +114,7 @@ export default {
                 return this.$message.error(res.msg)
             }
             // 获取成功后储存用户信息
-            this.userInfo = res.profile
+            this.userInfo = await res.profile
             this.loginStatus = true
         },
         // 退出登录

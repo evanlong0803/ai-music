@@ -36,20 +36,20 @@ export default {
     props: ['single', 'songDetail', 'albumDetail'],
     methods: {
         // 当某一行被点击时
-        rowClick(row) {
-            let firstSong = {
+        async rowClick(row) {
+            let firstSong = await {
                 id: row.id,
                 name: row.name,
                 artist: row.ar[0].name,
                 url: row.url,
                 cover: row.al.picUrl
-            };
+            }
             // 传递当前单曲歌词
-            this.$root.$emit('updata:getSingle', firstSong);
+            await this.$root.$emit('updata:getSingle', firstSong)
         },
         // 自定义索引
         indexMethod(index) {
-            return index + 1 < 10 ? '0' + (index + 1) : index + 1;
+            return index + 1 < 10 ? '0' + (index + 1) : index + 1
         }
         // 加载单曲歌词
         // async loadSingleLyrics(row) {
@@ -61,7 +61,7 @@ export default {
         //     }
         // }
     }
-};
+}
 </script>
 
 @<style lang="less" scoped>
