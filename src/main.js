@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import api from './api/req.js'; // Axios
+import api from './api/req/index'; // Axios
 import filters from '../src/utils/filters.js'; // 全局过滤器
 import APlayer from '@moefe/vue-aplayer'; // 音乐播放器
 

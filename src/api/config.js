@@ -24,15 +24,7 @@ let res = axios.create({
      */
     transformRequest: [
         data => qs.stringify(data)
-    ],
-    // headers: {
-    //     get: {
-    //         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-    //     },
-    //     post: {
-    //         'Content-Type': 'application/json;charset=utf-8'
-    //     }
-    // },
+    ]
 })
 
 res.interceptors.request.use(
@@ -50,18 +42,33 @@ res.interceptors.response.use(
     }
 );
 
-// 定义api函数
-let ajaxMethod = ['get', 'post']
-let api = {}
-ajaxMethod.forEach(method => {
-    // 数组取值的两种方式
-    api[method] = (url, params = {}, config = {}) => {
-        return new Promise((resolve, reject) => {
-            res[method](url, params, config)
-                .then(res => resolve(res))
-                .catch(err => reject(err))
-        })
-    }
-})
+/**
+ * @param {String} url // 请求路径
+ * @param {object} params // 请求参数
+ * @param {object} config // 请求配置
+ */
 
-export default api
+let get = (url, params = {}, config = {}) => {
+    return new Promise((resolve, reject) => {
+        res.get(url, params, config)
+            .then(res => {
+                if (res.status === 200) return resolve(res)
+            })
+            .catch(err => reject(err))
+    })
+}
+
+let post = (url, params = {}, config = {}) => {
+    return new Promise((resolve, reject) => {
+        res.post(url, params, config)
+            .then(res => {
+                if (res.status === 200) return resolve(res)
+            })
+            .catch(err => reject(err))
+    })
+}
+
+export default {
+    get,
+    post
+}
