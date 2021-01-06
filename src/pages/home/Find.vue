@@ -78,7 +78,7 @@ export default {
     methods: {
         // 请求banner轮播图
         async loadBanner() {
-            const { data: res } = await this.$axios.get('/banner')
+            const { data: res } = await this.$axios.getBanner()
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }

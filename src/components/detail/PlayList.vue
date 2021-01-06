@@ -36,7 +36,7 @@ export default {
     props: ['single', 'songDetail', 'albumDetail'],
     methods: {
         // 当某一行被点击时
-        async rowClick(row) {
+        rowClick(row) {
             let firstSong = {
                 name: row.name,
                 artist: row.ar[0].name,
@@ -44,7 +44,7 @@ export default {
                 cover: row.al.picUrl
             }
             // 传递当前单曲歌词
-            await this.$root.$emit('updata:getSingle', firstSong)
+            this.$root.$emit('updata:getSingle', firstSong)
         },
         // 自定义索引
         indexMethod(index) {

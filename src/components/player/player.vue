@@ -1,7 +1,17 @@
 <template>
     <div class="player">
         <transition name="el-fade-in-linear">
-            <aplayer autoplay ref="aplayer" fixed :audio="list" theme="#409EFF" v-if="list.length" @canplay="canplay" @error="error" />
+            <aplayer
+                autoplay
+                ref="aplayer"
+                fixed
+                :audio="list"
+                theme="#409EFF"
+                v-if="list.length"
+                @canplay="canplay"
+                @error="error"
+                @playing="playing"
+            />
         </transition>
     </div>
 </template>
@@ -22,6 +32,9 @@ export default {
         this.getSingle()
         // 接收当前歌单所有歌曲
         this.getAllSong()
+    },
+    beforeUpdate() {
+        console.log(123)
     },
     methods: {
         // 接收首页新歌单曲
@@ -91,11 +104,18 @@ export default {
             })
         },
         // 文件已就绪可以开始播放
-        canplay() {
-            const { media } = this.$refs.aplayer
+        async canplay() {
+            const { media } = await this.$refs.aplayer
             // 如果是暂停状态
             if (!media.paused) return
-            this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+            await this.$refs.aplayer.switch(0) // 切换到播放列表中的第一首歌
+        },
+        // 正在播放
+        async playing() {
+            const { media } = this.$refs.aplayer
+            if (!media.currentTime) return
+            // 如果不是从头播放
+            this.$refs.aplayer.seek(0)
         },
         error(e) {
             console.log(e, '文件加载期间发生错误')
