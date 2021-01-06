@@ -73,7 +73,7 @@ export default {
     props: ['showSearchBox'],
     created() {
         // 请求热搜
-        this.loadHotSearch()
+        // this.loadHotSearch()
     },
     methods: {
         // 当搜索历史被点击的时候

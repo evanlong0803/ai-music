@@ -49,6 +49,7 @@
 import singers from '../../components/detail/singers'
 import SongSheets from '../../components/detail/SongSheets'
 export default {
+    name: 'Find',
     components: {
         singers,
         SongSheets
