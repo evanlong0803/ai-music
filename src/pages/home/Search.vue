@@ -56,6 +56,7 @@ import SongSheets from '../../components/detail/SongSheets'
 import singers from '../../components/detail/singers'
 import Albums from '../../components/detail/Albums'
 export default {
+    name: 'search',
     components: {
         PlayList,
         Videos,

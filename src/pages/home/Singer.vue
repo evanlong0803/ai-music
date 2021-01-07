@@ -46,6 +46,7 @@
 <script>
 import singers from '../../components/detail/singers'
 export default {
+    name: 'singer',
     components: {
         singers
     },
@@ -57,7 +58,6 @@ export default {
             typeRegion: '全部',
             typeSinger: '全部',
             typeHot: '热门',
-            loading: false,
             currentPage: 1,
             // 请求参数
             singerParams: {
@@ -74,22 +74,9 @@ export default {
         this.loadSingerType()
     },
     methods: {
-        // 加载更多
-        loadMore() {
-            // this.singerParams.offset += 24
-            this.loading = true
-            setTimeout(() => {
-                this.loading = false
-            }, 2000)
-        },
         // 加载歌手分类列表
         async loadSingerType() {
-            const { data: res } = await this.$axios.get('/artist/list', {
-                params: this.singerParams
-            })
-            if (res.code !== 200) {
-                return this.$message.error('退出失败')
-            }
+            const { data: res } = await this.$axios.getSinger(this.singerParams)
             this.artists = res.artists
         },
         changeLabel() {

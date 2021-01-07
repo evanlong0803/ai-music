@@ -46,6 +46,7 @@
 <script>
 import SongSheets from '../../components/detail/SongSheets'
 export default {
+    name: 'songSheet',
     components: {
         SongSheets
     },
@@ -76,12 +77,7 @@ export default {
     methods: {
         // 加载歌单
         async loadSongSheet() {
-            const { data: res } = await this.$axios.get('/top/playlist', {
-                params: this.songSheetParams
-            })
-            if (res.code !== 200) {
-                return this.$message.error('退出失败')
-            }
+            const { data: res } = await this.$axios.getSongSheet(this.songSheetParams)
             this.songSheet = res.playlists
             this.total = res.total
         },

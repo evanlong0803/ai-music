@@ -1,4 +1,5 @@
-import api from "../../config";
+import URLS from '../../urls'
+import api from '../../config'
 
-// 获取新音乐
-export const getNewSong = item => api.get(`/song/url?id=${item.id}`)
+// 获取轮播图
+export const getHotSearch = () => api.get(URLS.hotSearch)

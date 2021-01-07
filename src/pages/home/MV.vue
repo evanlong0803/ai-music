@@ -48,6 +48,7 @@
 import Videos from '../../components/detail/Videos'
 
 export default {
+    name: 'MV',
     components: {
         Videos
     },
@@ -67,6 +68,7 @@ export default {
                 type: '全部', // 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
                 order: '上升最快' // 排序,可选值为上升最快,最热,最新,不填则为上升最快
             },
+            // 当前页
             currentPage: 1
         }
     },
@@ -78,12 +80,7 @@ export default {
     methods: {
         // 加载歌手分类列表
         async loadAllMV() {
-            const { data: res } = await this.$axios.get('/mv/all', {
-                params: this.mvParams
-            })
-            if (res.code !== 200) {
-                return this.$message.error('加载歌手分类列表失败')
-            }
+            const { data: res } = await this.$axios.getMV(this.mvParams)
             this.video = res.data
         },
 
@@ -91,17 +88,20 @@ export default {
             let indexArea = this.type.indexOf(this.typeRegion)
             let indexType = this.type.indexOf(this.typeEdition)
             let indexOrder = this.type.indexOf(this.typeHot)
-            //  area: '全部', // 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部
+            /**
+             * area: '全部', // 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部
+             * type: '全部', // 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
+             * order: '上升最快' // 排序,可选值为上升最快,最热,最新,不填则为上升最快
+             */
             if (indexArea !== -1) {
                 this.mvParams.area = this.type[indexArea]
                 this.loadAllMV()
             }
-            // type: '全部', // 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
+
             if (indexType !== -1) {
                 this.mvParams.type = this.type[indexType]
                 this.loadAllMV()
             }
-            // order: '上升最快' // 排序,可选值为上升最快,最热,最新,不填则为上升最快
             if (indexOrder !== -1) {
                 this.mvParams.order = this.type[indexOrder]
                 this.loadAllMV()

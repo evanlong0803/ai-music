@@ -73,7 +73,7 @@ export default {
     props: ['showSearchBox'],
     created() {
         // 请求热搜
-        // this.loadHotSearch()
+        this.loadHotSearch()
     },
     methods: {
         // 当搜索历史被点击的时候
@@ -88,7 +88,7 @@ export default {
         },
         // 请求热搜
         async loadHotSearch() {
-            const { data: res } = await this.$axios.get('/search/hot')
+            const { data: res } = await this.$axios.getHotSearch()
             this.hotSearch = res.result.hots.map(item => {
                 return item.first
             })
