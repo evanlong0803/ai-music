@@ -76,7 +76,7 @@ export default {
     methods: {
         // 加载歌手分类列表
         async loadSingerType() {
-            const { data: res } = await this.$axios.getSinger(this.singerParams)
+            const { data: res } = await this.$api.getSinger(this.singerParams)
             this.artists = res.artists
         },
         changeLabel() {

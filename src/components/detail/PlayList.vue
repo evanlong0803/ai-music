@@ -52,7 +52,7 @@ export default {
         }
         // 加载单曲歌词
         // async loadSingleLyrics(row) {
-        //     const { data: res } = await this.$axios.get(`/lyric?id=${row.id}`)
+        //     const { data: res } = await this.$api.get(`/lyric?id=${row.id}`)
         //     if (res.code !== 200) {
         //         return this.$message.error('请求歌词失败')
         //     } else if (!res.lrc || !res.lrc.lyric) {

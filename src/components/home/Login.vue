@@ -210,7 +210,7 @@ export default {
             this.$refs.registerForm.validateField('phone', async error => {
                 if (!error) {
                     // 验证手机号是否被注册
-                    const { data: verifyPhone } = await this.$axios.get('/cellphone/existence/check', {
+                    const { data: verifyPhone } = await this.$api.get('/cellphone/existence/check', {
                         params: {
                             phone: this.registerForm.phone
                         }
@@ -220,7 +220,7 @@ export default {
                     }
                     // 发送验证码
                     try {
-                        const { data: getCaptcha } = await this.$axios.get('/captcha/sent', {
+                        const { data: getCaptcha } = await this.$api.get('/captcha/sent', {
                             params: { phone: this.registerForm.phone }
                         })
                         if (getCaptcha.code !== 200) return
@@ -256,7 +256,7 @@ export default {
                         if (valid) {
                             try {
                                 this.inLogin = true
-                                const { data: res } = await this.$axios.get('/login/cellphone', {
+                                const { data: res } = await this.$api.get('/login/cellphone', {
                                     params: this.phoneForm
                                 })
                                 // 登录失败
@@ -301,7 +301,7 @@ export default {
                     this.$refs.emailForm.validate(async valid => {
                         if (valid) {
                             this.inLogin = true
-                            const { data: res } = await this.$axios.get('/login', {
+                            const { data: res } = await this.$api.get('/login', {
                                 params: {
                                     email: this.emailForm.email + '@163.com',
                                     password: this.emailForm.password
@@ -342,7 +342,7 @@ export default {
                         if (valid) {
                             // 开始验证验证码
                             try {
-                                const { data: verify } = await this.$axios.get('/captcha/verify', {
+                                const { data: verify } = await this.$api.get('/captcha/verify', {
                                     params: {
                                         phone: this.registerForm.phone,
                                         captcha: this.registerForm.captcha
@@ -358,7 +358,7 @@ export default {
                             }
 
                             // 开始注册
-                            const { data: res } = await this.$axios.get('/register/cellphone', {
+                            const { data: res } = await this.$api.get('/register/cellphone', {
                                 params: this.registerForm
                             })
                             if (res.code !== 200) {

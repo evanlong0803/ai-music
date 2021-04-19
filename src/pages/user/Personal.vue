@@ -122,7 +122,7 @@ export default {
     methods: {
         // 加载用户详情
         async loadUserDetail(cookie) {
-            const { data: res } = await this.$axios.get('/user/detail', {
+            const { data: res } = await this.$api.get('/user/detail', {
                 params: {
                     uid: this.userId,
                     cookie
@@ -139,7 +139,7 @@ export default {
         },
         // 加载用户歌单
         async loadUserSong(cookie) {
-            const { data: res } = await this.$axios.get('/user/playlist', {
+            const { data: res } = await this.$api.get('/user/playlist', {
                 params: {
                     uid: this.userId,
                     cookie,
@@ -165,7 +165,7 @@ export default {
         // 签到
         async goSignIn() {
             let cookie = localStorage.getItem('cookie');
-            const { data: res } = await this.$axios.post('/daily_signin', {
+            const { data: res } = await this.$api.post('/daily_signin', {
                 type: 1,
                 cookie
             });

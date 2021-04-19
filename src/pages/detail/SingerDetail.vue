@@ -129,7 +129,7 @@ export default {
         // 加载用户详情
         async loadUserDetail(cookie) {
             try {
-                const { data: res } = await this.$axios.get('/user/detail', {
+                const { data: res } = await this.$api.get('/user/detail', {
                     params: {
                         uid: this.$route.query.accountId,
                         cookie
@@ -145,7 +145,7 @@ export default {
         },
         // 加载歌手单曲
         async loadSingerSingle() {
-            const { data: res } = await this.$axios.get('/artists', {
+            const { data: res } = await this.$api.get('/artists', {
                 params: {
                     id: this.singerId
                 }
@@ -164,7 +164,7 @@ export default {
         },
         // 加载歌手专辑
         async loadSingerAlbum() {
-            const { data: res } = await this.$axios.get('/artist/album', {
+            const { data: res } = await this.$api.get('/artist/album', {
                 params: {
                     id: this.singerId,
                     limit: 30
@@ -177,7 +177,7 @@ export default {
         },
         // 加载歌手MV
         async loadSingerMV() {
-            const { data: res } = await this.$axios.get('/artist/mv', {
+            const { data: res } = await this.$api.get('/artist/mv', {
                 params: {
                     id: this.singerId
                 }
@@ -189,7 +189,7 @@ export default {
         },
         // 加载歌手简介
         async loadSingerProfile() {
-            const { data: res } = await this.$axios.get('/artist/desc', {
+            const { data: res } = await this.$api.get('/artist/desc', {
                 params: {
                     id: this.singerId
                 }
@@ -201,7 +201,7 @@ export default {
         },
         // 加载相似歌手
         async loadSingerSimilar() {
-            const { data: res } = await this.$axios.get('/simi/artist', {
+            const { data: res } = await this.$api.get('/simi/artist', {
                 params: {
                     id: this.singerId
                 }
@@ -252,7 +252,7 @@ export default {
         },
         // 加载音乐URL
         async loadMusicURL(singleID) {
-            const { data: res } = await this.$axios.get(`/song/url?id=${singleID.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/url?id=${singleID.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }

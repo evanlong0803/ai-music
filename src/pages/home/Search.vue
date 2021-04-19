@@ -113,7 +113,7 @@ export default {
             sessionStorage.setItem('searchContent', this.searchContent)
             // 搜索时默认显示单曲选项
             this.activeName = 'single'
-            const { data: res } = await this.$axios.get('/cloudsearch', {
+            const { data: res } = await this.$api.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent
                 }
@@ -132,7 +132,7 @@ export default {
         },
         // 搜索歌手
         async searchSinger() {
-            const { data: res } = await this.$axios.get('/cloudsearch', {
+            const { data: res } = await this.$api.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent,
                     type: 100
@@ -145,7 +145,7 @@ export default {
         },
         // 搜索专辑
         async searchAlbum() {
-            const { data: res } = await this.$axios.get('/cloudsearch', {
+            const { data: res } = await this.$api.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent,
                     type: 10
@@ -158,7 +158,7 @@ export default {
         },
         // 搜索视频
         async searchVideo() {
-            const { data: res } = await this.$axios.get('/cloudsearch', {
+            const { data: res } = await this.$api.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent,
                     type: 1014
@@ -171,7 +171,7 @@ export default {
         },
         // 搜索歌单
         async searchSongSheet() {
-            const { data: res } = await this.$axios.get('/cloudsearch', {
+            const { data: res } = await this.$api.get('/cloudsearch', {
                 params: {
                     keywords: this.searchContent,
                     type: 1000
@@ -232,7 +232,7 @@ export default {
         },
         // 加载音乐URL
         async loadMusicURL(singleID) {
-            const { data: res } = await this.$axios.get(`/song/url?id=${singleID.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/url?id=${singleID.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }

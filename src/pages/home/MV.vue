@@ -80,7 +80,7 @@ export default {
     methods: {
         // 加载歌手分类列表
         async loadAllMV() {
-            const { data: res } = await this.$axios.getMV(this.mvParams)
+            const { data: res } = await this.$api.getMV(this.mvParams)
             this.video = res.data
         },
 

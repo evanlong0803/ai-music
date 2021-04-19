@@ -77,7 +77,7 @@ export default {
     methods: {
         // 加载歌单
         async loadSongSheet() {
-            const { data: res } = await this.$axios.getSongSheet(this.songSheetParams)
+            const { data: res } = await this.$api.getSongSheet(this.songSheetParams)
             this.songSheet = res.playlists
             this.total = res.total
         },

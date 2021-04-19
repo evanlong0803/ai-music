@@ -28,7 +28,7 @@ export default {
     methods: {
         // 加载所有榜单内容摘要
         async loadAllRand() {
-            const { data: res } = await this.$axios.getRand()
+            const { data: res } = await this.$api.getRand()
             if (res.code !== 200) {
                 return this.$message.error('精彩评论请求失败')
             }

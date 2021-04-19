@@ -123,7 +123,7 @@ export default {
     methods: {
         // 加载专辑内容
         async loadAlbumContent() {
-            const { data: res } = await this.$axios.get(`/album?id=${this.albumId}`)
+            const { data: res } = await this.$api.get(`/album?id=${this.albumId}`)
             if (res.code !== 200) {
                 return this.$message.error('专辑内容请求失败')
             }
@@ -139,7 +139,7 @@ export default {
         },
         // 加载热门专辑
         async loadHotAlbum(item) {
-            const { data: res } = await this.$axios.get(`/artist/album?id=${item.id}`)
+            const { data: res } = await this.$api.get(`/artist/album?id=${item.id}`)
             if (res.code !== 200) {
                 return this.$message.error('热门专辑请求失败')
             } else if (res.hotAlbums.length >= 5) {
@@ -149,7 +149,7 @@ export default {
         },
         // 加载精彩评论
         async loadComments() {
-            const { data: res } = await this.$axios.get(`/comment/album?id=${this.albumId}`)
+            const { data: res } = await this.$api.get(`/comment/album?id=${this.albumId}`)
             if (res.code !== 200) {
                 return this.$message.error('精彩评论请求失败')
             }
@@ -162,7 +162,7 @@ export default {
             if (trackIds.length >= 200) {
                 trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
             }
@@ -175,7 +175,7 @@ export default {
             if (trackIds.length >= 200) {
                 trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }

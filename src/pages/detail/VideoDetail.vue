@@ -116,7 +116,7 @@ export default {
     methods: {
         // 加载视频详情
         async loadVideoDetail() {
-            const { data: res } = await this.$axios.get(`/video/detail?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/video/detail?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -132,7 +132,7 @@ export default {
         },
         // 加载视频播放地址
         async loadVideoURL() {
-            const { data: res } = await this.$axios.get(`/video/url?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/video/url?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -140,7 +140,7 @@ export default {
         },
         // 加载视频点赞转发评论数数据
         async loadVideoRelay() {
-            const { data: res } = await this.$axios.get(`/video/detail/info?vid=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/video/detail/info?vid=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -148,7 +148,7 @@ export default {
         },
         // 加载视频评论
         async loadVideoComment() {
-            const { data: res } = await this.$axios.get(`/comment/video?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/comment/video?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -156,7 +156,7 @@ export default {
         },
         // 加载相关视频
         async loadRelevantVideo() {
-            const { data: res } = await this.$axios.get(`/related/allvideo?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/related/allvideo?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -164,7 +164,7 @@ export default {
         },
         // 加载MV详情
         async loadMVDetail() {
-            const { data: res } = await this.$axios.get(`/mv/detail?mvid=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/mv/detail?mvid=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('加载MV详情失败')
             }
@@ -180,7 +180,7 @@ export default {
         },
         // 加载MV URL
         async loadMVURL() {
-            const { data: res } = await this.$axios.get(`/mv/url?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/mv/url?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -188,7 +188,7 @@ export default {
         },
         // 加载MV点赞转发评论数数据
         async loadMVRelay() {
-            const { data: res } = await this.$axios.get(`/mv/detail/info?mvid=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/mv/detail/info?mvid=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -197,7 +197,7 @@ export default {
         },
         // 加载MV评论
         async loadMVComment() {
-            const { data: res } = await this.$axios.get(`/comment/mv?id=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/comment/mv?id=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }
@@ -205,7 +205,7 @@ export default {
         },
         // 加载相关MV
         async loadRelevantMV() {
-            const { data: res } = await this.$axios.get(`/simi/mv?mvid=${this.videoId}`)
+            const { data: res } = await this.$api.get(`/simi/mv?mvid=${this.videoId}`)
             if (res.code !== 200) {
                 return this.$message.error('请求失败')
             }

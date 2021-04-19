@@ -79,28 +79,28 @@ export default {
     methods: {
         // 请求banner轮播图
         async loadBanner() {
-            const { data: res } = await this.$axios.getBanner()
+            const { data: res } = await this.$api.getBanner()
             this.banners = res.banners
         },
         // 请求推荐歌单
         async loadsongSheet() {
-            const { data: res } = await this.$axios.getSongList()
+            const { data: res } = await this.$api.getSongList()
             this.songSheet = res.result
         },
         // 推荐新歌
         async loadFeaturedNewSong() {
-            const { data: res } = await this.$axios.getFeaturedNewSong()
+            const { data: res } = await this.$api.getFeaturedNewSong()
             this.newSong = res.result
         },
         // 请求热门歌手
         async loadHotSinger() {
-            const { data: res } = await this.$axios.getHotSinger()
+            const { data: res } = await this.$api.getHotSinger()
             this.HotSinger = res.artists
         },
         // 播放新音乐
         async playNewSong(item) {
             // 请求新歌URL
-            const { data: res } = await this.$axios.getNewSong(item)
+            const { data: res } = await this.$api.getNewSong(item)
             let newSong = await {
                 id: item.id,
                 name: item.name,

@@ -106,7 +106,7 @@ export default {
         },
         // 加载用户详情
         async loadUserDetail(cookie) {
-            const { data: res } = await this.$axios.get('/user/detail', {
+            const { data: res } = await this.$api.get('/user/detail', {
                 params: {
                     uid: this.userId,
                     cookie
@@ -122,7 +122,7 @@ export default {
             let cookie = localStorage.getItem('cookie');
             this.$refs[formName].validate(async valid => {
                 if (valid) {
-                    const { data: res } = await this.$axios.get('/user/update', {
+                    const { data: res } = await this.$api.get('/user/update', {
                         params: {
                             // 介绍
                             signature: this.ruleForm.signature,

@@ -175,7 +175,7 @@ export default {
             // 取不到就停止
             if (!cookie) return
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.post('/login/status', { cookie })
+            const { data: res } = await this.$api.post('/login/status', { cookie })
             // 获取失败
             if (res.code !== 200) {
                 return this.$message.error(res.msg)
@@ -185,7 +185,7 @@ export default {
         },
         // 加载歌单详情
         async loadDetail() {
-            const { data: res } = await this.$axios.get('/playlist/detail', {
+            const { data: res } = await this.$api.get('/playlist/detail', {
                 params: { id: this.songListId }
             })
             if (res.code !== 200) {
@@ -200,7 +200,7 @@ export default {
         },
         // 加载喜欢歌单的人
         async loadSubscribers() {
-            const { data: res } = await this.$axios.get('/playlist/subscribers', {
+            const { data: res } = await this.$api.get('/playlist/subscribers', {
                 params: {
                     id: this.songListId,
                     limit: 30
@@ -213,7 +213,7 @@ export default {
         },
         // 加载相关推荐
         async loadFeatured() {
-            const { data: res } = await this.$axios.get(`/related/playlist?id=${this.songListId}`)
+            const { data: res } = await this.$api.get(`/related/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
                 return this.$message.error('相关推荐请求失败')
             }
@@ -221,7 +221,7 @@ export default {
         },
         // 加载精彩评论
         async loadComments() {
-            const { data: res } = await this.$axios.get(`/comment/playlist?id=${this.songListId}`)
+            const { data: res } = await this.$api.get(`/comment/playlist?id=${this.songListId}`)
             if (res.code !== 200) {
                 return this.$message.error('精彩评论请求失败')
             }
@@ -234,7 +234,7 @@ export default {
             if (trackIds.length >= 200) {
                 trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/detail?ids=${trackIds.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/detail?ids=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('歌曲详情请求失败')
             }
@@ -247,7 +247,7 @@ export default {
             if (trackIds.length >= 200) {
                 trackIds.length = 200
             }
-            const { data: res } = await this.$axios.get(`/song/url?id=${trackIds.join(',')}`)
+            const { data: res } = await this.$api.get(`/song/url?id=${trackIds.join(',')}`)
             if (res.code !== 200) {
                 return this.$message.error('音乐URL请求失败')
             }
@@ -296,7 +296,7 @@ export default {
             }
             // 取反
             this.ifFavorite = await !this.ifFavorite
-            const { data: res } = await this.$axios.get('/playlist/subscribe', {
+            const { data: res } = await this.$api.get('/playlist/subscribe', {
                 params: {
                     t: this.ifFavorite ? 1 : 2,
                     id: this.songListId,
@@ -319,7 +319,7 @@ export default {
         // 加载用户歌单
         async loadUserSong(cookie, userId) {
             if (!cookie) return
-            const { data: res } = await this.$axios.get('/user/playlist', {
+            const { data: res } = await this.$api.get('/user/playlist', {
                 params: {
                     uid: userId,
                     cookie,

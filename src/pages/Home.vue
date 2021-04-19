@@ -106,7 +106,7 @@ export default {
             // 取不到就停止
             if (!cookie) return
             // 获取登录状态，返回用户信息
-            const { data: res } = await this.$axios.get('/login/status', {
+            const { data: res } = await this.$api.get('/login/status', {
                 params: { cookie }
             })
             // 获取失败
@@ -119,7 +119,7 @@ export default {
         },
         // 退出登录
         async logout() {
-            const { data: res } = await this.$axios.get('/logout')
+            const { data: res } = await this.$api.get('/logout')
             if (res.code !== 200) {
                 return this.$message.error('退出失败')
             }
