@@ -1,43 +1,65 @@
 import api from '@/api/config';
 
-// 获取轮播图
-export const getBanner = () => api.get('/banner');
+/**
+ * 专辑页
+ * @param {*} albumId
+ * @returns
+ */
 
-// 获取推荐歌单
-export const getSongList = () =>
-	api.get('/personalized', {
-		params: { limit: 18 },
+// 获取专辑
+export const getAlbum = (albumId) => api.get(`/album?id=${albumId}`);
+
+// 获取热门专辑
+export const getHotAlbum = (item) => api.get(`/artist/album?id=${item}`);
+
+// 获取评论
+export const getComments = (item) => api.get(`/comment/album?id=${item}`);
+
+// 获取歌曲详情
+export const getSongDetail = (trackId) =>
+	api.get(`/song/detail?ids=${trackId}`);
+
+// 获取音乐URL
+export const getMusicURL = (trackId) => api.get(`/song/url?id=${trackId}`);
+
+// 获取喜欢歌单的人
+export const getSubscribers = (songListId) =>
+	api.get('/playlist/subscribers', {
+		params: {
+			id: songListId,
+			limit: 30,
+		},
 	});
 
-// 获取推荐新歌
-export const getFeaturedNewSong = () => api.get('/personalized/newsong');
+// 获取相关推荐
+export const getFeatured = (songListId) =>
+	api.get(`/related/playlist?id=${songListId}`);
 
-// 获取热门歌手
-export const getHotSinger = () =>
-	api.get('/top/artists', {
-		params: { offset: 0, limit: 24 },
+// 获取精彩评论
+export const getMarvellousComments = (songListId) =>
+	api.get(`/comment/playlist?id=${songListId}`);
+
+// 获取用户歌单
+export const getUserSong = (cookie, userId) =>
+	api.get('/user/playlist', {
+		params: {
+			uid: userId,
+			cookie,
+			timestamp: Date.now(),
+		},
 	});
 
-// 获取新音乐
-export const getNewSong = (item) => api.get(`/song/url?id=${item.id}`);
-
-// 获取排行榜
-export const getRand = () => api.get('/toplist/detail');
-
-// 获取歌单
-export const getSongSheet = (songSheetParams) =>
-	api.get('/top/playlist', {
-		params: songSheetParams,
+// 收藏歌单
+export const setFavorite = (ifFavorite, songListId, cookie) =>
+	api.get('/playlist/subscribe', {
+		params: {
+			t: ifFavorite ? 1 : 2,
+			id: songListId,
+			cookie,
+			timestamp: Date.now(),
+		},
 	});
 
-// 获取歌手
-export const getSinger = (singerParams) =>
-	api.get('/artist/list', {
-		params: singerParams,
-	});
-
-// 获取MV
-export const getMV = (mvParams) =>
-	api.get('/mv/all', {
-		params: mvParams,
-	});
+// 获取歌单详情
+export const getSongSheetDetail = (songListId) =>
+	api.get(`/playlist/detail?id=${songListId}`);
