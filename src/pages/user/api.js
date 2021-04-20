@@ -1,4 +1,22 @@
 import api from '@/api/config';
 
-// 获取轮播图
-export const getBanner = () => api.get('/banner');
+// 获取用户详情
+export const getUserDetail = (uid, cookie) =>
+	api.get('/user/detail', { params: { uid, cookie } });
+
+// 获取用户歌单
+export const loadUserSong = (uid, cookie) =>
+	api.get('/user/playlist', {
+		params: {
+			uid,
+			cookie,
+			timestamp: Date.now(),
+		},
+	});
+
+// 签到
+export const signIn = (cookie) =>
+	api.post('/daily_signin', {
+		type: 1,
+		cookie,
+	});
