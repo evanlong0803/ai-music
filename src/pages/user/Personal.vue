@@ -159,7 +159,7 @@ export default {
 		},
 		// 加载用户歌单
 		async loadUserSong(cookie) {
-			const { data: res } = await this.$api.get(this.userId, cookie);
+			const { data: res } = await this.$api.getUserSong(this.userId, cookie);
 			if (res.code !== 200) {
 				return this.$message.error('请求失败');
 			}
