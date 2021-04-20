@@ -1,8 +1,9 @@
 import api from '@/api/config';
 
-// 获取轮播图
-export const verifyPhone = (phone) =>
-	api.get('/cellphone/existence/check', { params: { phone } });
+// 获取热搜
+export const getHotSearch = () => api.get('/search/hot');
+
+// --------------------------------
 
 // 验证手机号
 export const verifyPhone = (phone) =>
