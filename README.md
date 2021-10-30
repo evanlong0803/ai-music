@@ -1,23 +1,25 @@
 # CookiesMusic
 
+升级Vue3中...
+全新UI敬请期待
 
 
-## Project setup
+## 安装依赖
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 开发环境运行
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 打包
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### 检查
 ```
 npm run lint
 ```
