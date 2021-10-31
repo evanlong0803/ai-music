@@ -1,24 +1,7 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import routes from './routes';
-Vue.use(VueRouter);
+import { routes } from './routes';
+import { createRouter, createWebHistory } from 'vue-router';
 
-const router = new VueRouter({
+export default createRouter({
+	history: createWebHistory(),
 	routes,
 });
-
-router.beforeEach((to, from, next) => {
-	const cookie = localStorage.getItem('cookie');
-	if (!cookie) {
-		if (
-			to.path === '/personal' ||
-			to.path === '/grade' ||
-			to.path === '/setting'
-		) {
-			return next('/');
-		}
-	}
-	next();
-});
-
-export default router;
