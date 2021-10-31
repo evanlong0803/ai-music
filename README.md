@@ -1,5 +1,7 @@
 # ⚡ Cookie Music
 
+项目正在开发中，全新极简玻璃风格
+
 npm:
 ```sh
 npm i
