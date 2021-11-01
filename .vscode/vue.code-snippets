@@ -1,0 +1,27 @@
+{
+  "new page": {
+    "prefix": "vue",
+    "body": [
+      "<template>",
+      "  <div>{{ msg }}</div>",
+      "</template>",
+      "<script lang=\"ts\">",
+      "import { ref, defineComponent } from 'vue';",
+      "export default defineComponent({",
+      "  name: '$TM_FILENAME_BASE',",
+      "  props: {},",
+      "  setup() {",
+      "    const msg = ref('');",
+      "    return {",
+      "      msg,",
+      "    };",
+      "  },",
+      "});",
+      "</script>",
+      "<style lang=\"less\" scoped>",
+      "</style>",
+      ""
+    ],
+    "description": "new component"
+  }
+}
