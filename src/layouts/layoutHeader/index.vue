@@ -60,44 +60,45 @@ const options = [
 		<div class="app-header">
 			<n-grid :cols="3">
 				<n-grid-item class="header-routing">
-					<n-space inline>
-						<n-icon size="25" class="routing-control" @click="() => router.back()">
-							<AngleLeft />
-						</n-icon>
-						<n-icon size="25" class="routing-control" @click="() => router.go(1)">
-							<AngleRight />
-						</n-icon>
-					</n-space>
+					<n-icon
+						size="25"
+						class="routing-control"
+						style="margin-right: 15px"
+						@click="() => router.back()"
+					>
+						<AngleLeft />
+					</n-icon>
+					<n-icon size="25" class="routing-control" @click="() => router.go(1)">
+						<AngleRight />
+					</n-icon>
 				</n-grid-item>
 				<n-grid-item class="header-links">
-					<n-space :size="30">
+					<n-space inline :size="30">
 						<router-link to="/" class="link">首页</router-link>
 						<router-link to="/find" class="link">发现</router-link>
 						<router-link to="/library" class="link">音乐库</router-link>
 					</n-space>
 				</n-grid-item>
 				<n-grid-item class="header-function">
-					<div class="search">
-						<n-input
-							:placeholder="searchStore.keyWord"
-							:theme-overrides="{ boxShadowFocus: 'none', color: 'transparent' }"
-						>
-							<template #prefix>
-								<n-icon>
-									<Search />
-								</n-icon>
-							</template>
-						</n-input>
-					</div>
-					<div>
-						<n-dropdown :options="options" placement="bottom-start">
-							<n-avatar round>
-								<n-icon>
-									<UserCircle />
-								</n-icon>
-							</n-avatar>
-						</n-dropdown>
-					</div>
+					<n-input
+						class="search"
+						:placeholder="searchStore.keyWord"
+						:theme-overrides="{ color: 'transparent' }"
+					>
+						<template #prefix>
+							<n-icon>
+								<Search />
+							</n-icon>
+						</template>
+					</n-input>
+
+					<n-dropdown :options="options" placement="bottom-start">
+						<n-avatar round>
+							<n-icon>
+								<UserCircle />
+							</n-icon>
+						</n-avatar>
+					</n-dropdown>
 				</n-grid-item>
 			</n-grid>
 		</div>
@@ -108,7 +109,6 @@ const options = [
 .header {
 	background-color: #ffffff0d;
 	backdrop-filter: blur(20px);
-	z-index: 10;
 }
 .app-header {
 	width: 80%;
@@ -116,28 +116,28 @@ const options = [
 	// padding: 20px 0;
 	line-height: 64px;
 
-	.routing-control {
-		padding: 5px;
-		transition: all 0.3s;
-		&:hover {
-			background: #cccc;
-			border-radius: 5px;
-			transition: all 0.3s;
-		}
-		&:active {
-			transform: scale(0.9);
-			transition: all 0.3s;
-		}
-	}
 	.header-routing {
 		display: flex;
 		justify-content: start;
 		align-items: center;
+		.routing-control {
+			padding: 5px;
+			transition: all 0.3s;
+			border-radius: 5px;
+			&:hover {
+				background: #cccc;
+				transition: all 0.3s;
+			}
+			&:active {
+				transform: scale(0.9);
+				transition: all 0.3s;
+			}
+		}
 	}
 	.header-links {
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		// align-items: center;
 		// 激活样式-默认class名
 		.router-link-exact-active {
 			color: #36ad6a !important;
@@ -158,10 +158,11 @@ const options = [
 	}
 	.header-function {
 		display: flex;
+		flex-flow: row nowrap;
 		justify-content: end;
 		align-items: center;
 		.search {
-			width: 220px;
+			width: 50%;
 			margin-right: 20px;
 		}
 	}
