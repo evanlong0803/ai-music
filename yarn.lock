@@ -83,6 +83,13 @@
   resolved "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.176.tgz#641150fc1cda36fbfa329de603bbb175d7ee20c0"
   integrity sha1-ZBFQ/BzaNvv6Mp3mA7uxddfuIMA=
 
+"@types/md5@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.nlark.com/@types/md5/download/@types/md5-2.3.1.tgz?cache=0&sync_timestamp=1629708552070&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fmd5%2Fdownload%2F%40types%2Fmd5-2.3.1.tgz#010bcf3bb50a2cff3a574cb1c0b4051a9c67d6bc"
+  integrity sha1-AQvPO7UKLP86V0yxwLQFGpxn1rw=
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "16.11.6"
   resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.6.tgz#6bef7a2a0ad684cf6e90fcfe31cecabd9ce0a3ae"
@@ -97,6 +104,11 @@
   version "14.14.45"
   resolved "https://registry.npmmirror.com/@types/node/download/@types/node-14.14.45.tgz#ec2dfb5566ff814d061aef7e141575aedba245cf"
   integrity sha1-7C37VWb/gU0GGu9+FBV1rtuiRc8=
+
+"@types/qs@^6.9.7":
+  version "6.9.7"
+  resolved "https://registry.nlark.com/@types/qs/download/@types/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
+  integrity sha1-Y7t9Bn2xB8weRXwwO8JdUR/r9ss=
 
 "@types/yargs-parser@*":
   version "20.2.1"
