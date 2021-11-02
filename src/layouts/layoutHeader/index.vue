@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AngleLeft, AngleRight, Search, UserCircle, SignOutAlt, User } from '@vicons/fa';
-import { h, ref } from 'vue-demi';
+import { h } from 'vue-demi';
 import { useRouter } from 'vue-router';
 import { useLoadingBar, useNotification, NIcon, NAvatar, NText } from 'naive-ui';
 import searchUseStore from '@/store/modules/search';

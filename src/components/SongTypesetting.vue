@@ -1,17 +1,25 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { Bars, CaretSquareRight, PlayCircle } from '@vicons/fa';
+import { Bars, CaretSquareRight, Play } from '@vicons/fa';
 import { playCount } from '@/utils';
-import { ref } from 'vue-demi';
+import { ref, watch } from 'vue-demi';
 const router = useRouter();
 
-const playButtonState = ref<boolean>(false);
-
-defineProps({
+const props = defineProps({
   title: String,
-  playLists: Array,
+  lists: Array,
   routerName: String,
+  listNum: Number,
 });
+
+const lists = ref<any>([]);
+
+watch(
+  () => props.lists,
+  val => {
+    lists.value = val?.map((item: any) => ({ ...item, playButtonState: false }));
+  },
+);
 </script>
 
 <template>
@@ -21,17 +29,23 @@ defineProps({
       <Bars />
     </n-icon>
   </div>
-  <n-grid :x-gap="30" :y-gap="8" :cols="5">
-    <n-grid-item v-for="item in playLists as any" :key="item.id">
+  <n-grid :x-gap="30" :y-gap="20" :cols="5">
+    <n-grid-item v-for="item in lists as any" :key="item.id">
       <div class="song-sheet">
-        <div class="image">
-          <img class="cover" :src="item.picUrl" :alt="item.name" />
-          <n-icon size="50" class="playButton" v-if="playButtonState">
-            <PlayCircle />
-          </n-icon>
+        <div
+          class="image"
+          @mouseenter="item.playButtonState = true"
+          @mouseleave="item.playButtonState = false"
+        >
+          <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
+          <div class="playButton" v-if="item.playButtonState">
+            <n-icon class="playButtonIcon">
+              <Play />
+            </n-icon>
+          </div>
         </div>
         <div class="name">{{ item.name }}</div>
-        <div class="playCount">
+        <div class="playCount" v-if="item.playCount">
           <n-icon size="16" style="margin-right: 5px">
             <CaretSquareRight />
           </n-icon>
@@ -46,6 +60,7 @@ defineProps({
 .head {
   display: flex;
   justify-content: space-between;
+  margin-top: 30px;
   .title {
     font-weight: bold;
     font-size: 24px;
@@ -79,13 +94,13 @@ defineProps({
     font-size: 17px;
   }
   .playCount {
-    color: #ccc;
+    color: #fff;
     position: absolute;
     top: 10px;
-    left: 10px;
+    right: 10px;
     background: #ffffff0d;
     backdrop-filter: blur(15px);
-    padding: 0 3px;
+    padding: 0 5px;
     border: 1px solid #ffffff0d;
     border-radius: 3px;
     display: flex;
@@ -94,11 +109,30 @@ defineProps({
   .image {
     position: relative;
     .playButton {
+      cursor: pointer;
       color: #fff;
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+      transition: all 0.3s;
+      .playButtonIcon {
+        padding: 15px;
+        padding-left: 17px;
+        background: #0000000d;
+        backdrop-filter: blur(15px);
+        border: 1px solid #ffffff0d;
+        border-radius: 50%;
+        transition: all 0.3s;
+        &:hover {
+          background: #ffffff0d;
+          transition: all 0.3s;
+        }
+        &:active {
+          background: #0000000d;
+          transition: all 0.1s;
+        }
+      }
     }
   }
 }
