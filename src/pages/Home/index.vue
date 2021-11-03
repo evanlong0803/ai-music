@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import SongTypesetting from '@/components/SongTypesetting.vue';
+import ForYou from './components/ForYou.vue';
 import homeUseStore from '@/store/modules/home';
 import { ref } from 'vue-demi';
 const homeStore = homeUseStore();
@@ -19,6 +20,7 @@ homeStore.getRankingList();
       routerName="Find"
       :listNum="listNum"
     />
+    <ForYou />
     <SongTypesetting title="新专速递" :lists="homeStore.albums" :listNum="listNum" />
     <SongTypesetting title="排行榜" :lists="homeStore.rankingList" :listNum="listNum" />
   </div>
