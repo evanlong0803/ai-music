@@ -9,7 +9,6 @@ const props = defineProps({
   title: String,
   lists: Array,
   routerName: String,
-  listNum: Number,
 });
 
 const lists = ref<any>([]);
