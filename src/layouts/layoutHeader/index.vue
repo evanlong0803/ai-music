@@ -1,17 +1,12 @@
 <script lang="ts" setup>
-import { AngleLeft, AngleRight, Search, UserCircle, SignOutAlt, User } from '@vicons/fa';
+import { RendererNode } from 'vue';
 import { h } from 'vue-demi';
 import { useRouter } from 'vue-router';
-import { useLoadingBar, useNotification, NIcon, NAvatar, NText } from 'naive-ui';
+import { NIcon, NAvatar, NText } from 'naive-ui';
+import { AngleLeft, AngleRight, Search, UserCircle, SignOutAlt, User } from '@vicons/fa';
 import searchUseStore from '@/store/modules/search';
-import { RendererNode } from 'vue';
-
-globalThis.$loadingBar = useLoadingBar();
-globalThis.$notification = useNotification();
 const router = useRouter();
-
 const searchStore = searchUseStore();
-searchStore.getDefaultKeyWord();
 
 const renderCustomHeader = () => {
   return h(

@@ -24,7 +24,7 @@ export default defineStore('home', {
       this.playLists = result;
     },
     // 获取新歌
-    async getRecommendedSong(): Promise<void> {
+    async getNewSong(): Promise<void> {
       const { result } = await request.get('/personalized/newsong');
       this.recommendedSongList = result;
     },

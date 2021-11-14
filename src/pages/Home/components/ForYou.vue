@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue-demi';
-
-// import { Play } from '@vicons/fa';
+import { Play } from '@vicons/fa';
 defineProps({
   title: String,
   lists: Array,
@@ -13,7 +11,7 @@ defineProps({
   <n-grid :x-gap="30" :y-gap="20" :cols="2">
     <n-grid-item>
       <div class="recommend">
-        <img class="cover" :src="lists[1].picUrl" :alt="lists[0]?.name" />
+        <img class="cover" :src="lists[0]?.picUrl" :alt="lists[0]?.name" />
         <div class="name">
           <n-grid :x-gap="20" :y-gap="20" :cols="2">
             <n-grid-item>每</n-grid-item>
@@ -46,34 +44,43 @@ defineProps({
   font-size: 24px;
   margin-bottom: 14px;
 }
+
 .recommend {
   height: 200px;
   position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+
+  @keyframes coverAnimation {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
   .cover {
     width: 100%;
-    height: 100%;
-    background-size: cover;
-    border-radius: 10px;
-    cursor: pointer;
+    animation: coverAnimation 30s ease-in-out 1s infinite alternate;
   }
   .name {
     color: #fff;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 50px;
     line-height: 60px;
     position: absolute;
-    z-index: 10;
     top: 0;
     left: 0;
     padding: 30px;
+    user-select: none;
   }
   .playButton {
     cursor: pointer;
     color: #fff;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    z-index: 10;
+    right: 0;
+    bottom: 0;
     transform: translate(-50%, -50%);
     transition: all 0.3s;
     .playButtonIcon {

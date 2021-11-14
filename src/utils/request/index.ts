@@ -60,17 +60,17 @@ request.interceptors.response.use(
     }
     return data;
   },
-  async error => {
-    window.$loadingBar.error();
-    // 翻译错误信息
-    const convertedMsg = await translate(error.message);
-    return window.$notification.error({
-      title: '响应失败',
-      content: convertedMsg,
-      duration: 3000,
-      closable: false,
-    });
-  },
+  // async error => {
+  //   window.$loadingBar.error();
+  //   // 翻译错误信息
+  //   const convertedMsg = await translate(error.message);
+  //   return window.$notification.error({
+  //     title: '响应失败',
+  //     content: convertedMsg,
+  //     duration: 3000,
+  //     closable: false,
+  //   });
+  // },
 );
 
 export default request;
