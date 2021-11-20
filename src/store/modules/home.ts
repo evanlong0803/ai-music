@@ -6,6 +6,7 @@ interface homeState {
   rankingList: [];
   albumsList: [];
   recommendedSongList: [];
+  night: boolean;
 }
 
 export default defineStore('home', {
@@ -14,31 +15,32 @@ export default defineStore('home', {
     rankingList: [],
     albumsList: [],
     recommendedSongList: [],
+    night: false,
   }),
   actions: {
     // 获取推荐歌单
     async getPlayLists(): Promise<void> {
-      const { result } = await request.get('/personalized', {
+      const { data } = await request.get('/personalized', {
         params: { limit: 10 },
       });
-      this.playLists = result;
+      this.playLists = data.result;
     },
     // 获取新歌
     async getNewSong(): Promise<void> {
-      const { result } = await request.get('/personalized/newsong');
-      this.recommendedSongList = result;
+      const { data } = await request.get('/personalized/newsong');
+      this.recommendedSongList = data.result;
     },
     // 获取新专辑
     async getNewAlbums(): Promise<void> {
-      const { albums } = await request.get('/album/new', {
+      const { data } = await request.get('/album/new', {
         params: { area: 'all', limit: 10 },
       });
-      this.albumsList = albums;
+      this.albumsList = data.albums;
     },
     // 获取排行榜
     async getRankingList(): Promise<void> {
-      const { list } = await request.get('/toplist');
-      this.rankingList = list?.slice(0, 5);
+      const { data } = await request.get('/toplist');
+      this.rankingList = data.list?.slice(0, 5);
     },
   },
 });

@@ -4,7 +4,7 @@ import md5 from 'md5';
 
 // 请求配置
 const http = axios.create({
-  timeout: 1000 * 3, // 请求超时
+  timeout: 1000 * 5, // 请求超时
   baseURL: (import.meta.env.MODE === 'production' ? 'https://fanyi-api.baidu.com' : null) as string, // 基础路径
   transformRequest: [data => qs.stringify(data)],
 });

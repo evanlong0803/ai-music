@@ -3,15 +3,6 @@ import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import qs from 'qs';
 import translate from '@/utils/translate';
 
-// 定义接口
-// interface PendingType {
-//   url?: string;
-//   method?: Method;
-//   params: any;
-//   data: any;
-//   cancel: Function;
-// }
-
 // 请求配置
 const request = axios.create({
   timeout: 1000 * 3, // 请求超时
@@ -29,48 +20,32 @@ request.interceptors.request.use(
   },
   async error => {
     const convertedMsg = await translate(error.message);
-    window.$notification.error({
+    return window.$notification.error({
       title: '请求失败',
       content: convertedMsg,
       duration: 3000,
       closable: false,
     });
-    return;
   },
 );
 
 // axios结束拦截
 request.interceptors.response.use(
-  async response => {
+  response => {
     window.$loadingBar.finish();
-    const {
-      data,
-      data: { message },
-      status: code,
-    } = response as AxiosResponse;
-    // 翻译错误信息
-    const convertedMsg = await translate(message);
-    if (code !== 200) {
-      window.$notification.info({
-        title: '出问题了',
-        content: convertedMsg,
-        duration: 3000,
-        closable: false,
-      });
-    }
-    return data;
+    return response;
   },
-  // async error => {
-  //   window.$loadingBar.error();
-  //   // 翻译错误信息
-  //   const convertedMsg = await translate(error.message);
-  //   return window.$notification.error({
-  //     title: '响应失败',
-  //     content: convertedMsg,
-  //     duration: 3000,
-  //     closable: false,
-  //   });
-  // },
+  async error => {
+    window.$loadingBar.error();
+    // 翻译错误信息
+    const convertedMsg = await translate(error.message);
+    return window.$notification.error({
+      title: '响应失败',
+      content: convertedMsg,
+      duration: 3000,
+      closable: false,
+    });
+  },
 );
 
 export default request;

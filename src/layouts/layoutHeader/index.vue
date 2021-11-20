@@ -3,10 +3,21 @@ import { RendererNode } from 'vue';
 import { h } from 'vue-demi';
 import { useRouter } from 'vue-router';
 import { NIcon, NAvatar, NText } from 'naive-ui';
-import { AngleLeft, AngleRight, Search, UserCircle, SignOutAlt, User } from '@vicons/fa';
+import {
+  AngleLeft,
+  AngleRight,
+  Search,
+  UserCircle,
+  SignOutAlt,
+  User,
+  MoonRegular,
+  Moon,
+} from '@vicons/fa';
 import searchUseStore from '@/store/modules/search';
+import homeUseStore from '@/store/modules/home';
 const router = useRouter();
 const searchStore = searchUseStore();
+const homeStore = homeUseStore();
 
 const renderCustomHeader = () => {
   return h(
@@ -76,6 +87,12 @@ const options = [
           </n-space>
         </n-grid-item>
         <n-grid-item class="header-function">
+          <n-button text @click="homeStore.night = !homeStore.night" style="margin-right: 20px">
+            <n-icon size="20">
+              <Moon v-if="homeStore.night" />
+              <MoonRegular v-else />
+            </n-icon>
+          </n-button>
           <n-input
             class="search"
             :placeholder="searchStore.keyWord"
