@@ -1,14 +1,14 @@
 <template>
-  <n-layout-content position="absolute" style="top: 64px; bottom: 64px">
-    <div class="app-main">
-      <router-view />
-    </div>
-  </n-layout-content>
+  <a-layout-content class="app-main">
+    <router-view />
+  </a-layout-content>
 </template>
 
 <style lang="less" scoped>
 .app-main {
+  // height: calc(100% - 64px * 2);
   width: 80%;
   margin: 30px auto;
+  padding: 64px 0;
 }
 </style>

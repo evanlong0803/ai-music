@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Play } from '@vicons/fa';
 defineProps({
   title: String,
   lists: Array,
@@ -8,23 +7,21 @@ defineProps({
 
 <template>
   <div class="title">{{ title }}</div>
-  <n-grid :x-gap="30" :y-gap="20" :cols="2">
-    <n-grid-item>
+  <a-row :gutter="30">
+    <a-col :span="12">
       <div class="recommend">
         <img class="cover" :src="lists[0]?.picUrl" :alt="lists[0]?.name" />
         <div class="name">
-          <n-grid :x-gap="20" :y-gap="20" :cols="2">
-            <n-grid-item>每</n-grid-item>
-            <n-grid-item>日</n-grid-item>
-            <n-grid-item>推</n-grid-item>
-            <n-grid-item>荐</n-grid-item>
-          </n-grid>
+          <span>每</span>
+          <span>日</span>
+          <span>推</span>
+          <span>荐</span>
         </div>
         <div class="playButton">
-          <n-icon class="playButtonIcon"><Play /></n-icon>
+          <icon-play-arrow-fill class="playButtonIcon" />
         </div>
       </div>
-    </n-grid-item>
+    </a-col>
     <!-- <n-grid-item>
       <div class="private-fm">
         <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
@@ -35,7 +32,7 @@ defineProps({
         </div>
       </div>
     </n-grid-item> -->
-  </n-grid>
+  </a-row>
 </template>
 
 <style lang="less" scoped>
@@ -84,8 +81,8 @@ defineProps({
     transform: translate(-50%, -50%);
     transition: all 0.3s;
     .playButtonIcon {
-      padding: 15px;
-      padding-left: 17px;
+      font-size: 25px;
+      padding: 10px;
       background: #0000000d;
       backdrop-filter: blur(15px);
       border: 1px solid #ffffff0d;

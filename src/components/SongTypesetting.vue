@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { Bars, CaretSquareRight, Play } from '@vicons/fa';
 import { playCount } from '@/utils';
 import { ref, watch } from 'vue-demi';
 const router = useRouter();
@@ -22,14 +21,13 @@ watch(
 </script>
 
 <template>
+  <!-- 头部 -->
   <div class="head">
     <div class="title">{{ title }}</div>
-    <n-icon size="25" class="routing-control" @click="() => router.push({ name: routerName })">
-      <Bars />
-    </n-icon>
+    <icon-align-right class="routing-control" @click="() => router.push({ name: routerName })" />
   </div>
-  <n-grid :x-gap="30" :y-gap="20" :cols="5">
-    <n-grid-item v-for="item in lists as any" :key="item.id">
+  <a-row :gutter="[30, 30]">
+    <a-col :span="4" v-for="item in lists as any" :key="item.id">
       <div class="song-sheet">
         <div
           class="image"
@@ -38,34 +36,31 @@ watch(
         >
           <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
           <div class="playButton" v-if="item.playButtonState">
-            <n-icon class="playButtonIcon">
-              <Play />
-            </n-icon>
+            <icon-play-arrow-fill class="playButtonIcon" />
           </div>
         </div>
         <div class="name">{{ item.name }}</div>
         <div class="playCount" v-if="item.playCount">
-          <n-icon size="16" style="margin-right: 5px">
-            <CaretSquareRight />
-          </n-icon>
+          <icon-music style="margin-right: 5px" />
           {{ playCount(item.playCount) }}
         </div>
       </div>
-    </n-grid-item>
-  </n-grid>
+    </a-col>
+  </a-row>
 </template>
 
 <style lang="less" scoped>
 .head {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-bottom: 5px;
   .title {
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 14px;
   }
   .routing-control {
+    font-size: 25px;
     padding: 5px;
     transition: all 0.3s;
     border-radius: 5px;
@@ -91,6 +86,7 @@ watch(
   .name {
     font-weight: bold;
     font-size: 17px;
+    margin-top: 5px;
   }
   .playCount {
     color: #fff;
@@ -99,7 +95,7 @@ watch(
     right: 10px;
     background: #ffffff0d;
     backdrop-filter: blur(15px);
-    padding: 0 5px;
+    padding: 3px 5px;
     border: 1px solid #ffffff0d;
     border-radius: 3px;
     display: flex;
@@ -116,8 +112,9 @@ watch(
       transform: translate(-50%, -50%);
       transition: all 0.3s;
       .playButtonIcon {
-        padding: 15px;
-        padding-left: 17px;
+        font-size: 25px;
+        padding: 10px;
+        // padding-left: 17px;
         background: #0000000d;
         backdrop-filter: blur(15px);
         border: 1px solid #ffffff0d;

@@ -12,7 +12,9 @@ export default defineStore('search', {
   actions: {
     // 获取默认搜索关键词
     async getDefaultKeyWord() {
-      const { data } = await request.get('/search/default');
+      const {
+        data: { data },
+      } = await request.get('/search/default');
       this.keyWord = data.showKeyword;
     },
   },

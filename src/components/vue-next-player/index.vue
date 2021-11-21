@@ -9,10 +9,6 @@ console.log(vueAudio);
 <style lang="less" scoped>
 .audio {
   width: 100%;
-  height: 64px;
-  position: absolute;
-  bottom: 0;
-  background-color: #ffffff0d;
-  backdrop-filter: blur(20px);
+  height: 100%;
 }
 </style>
