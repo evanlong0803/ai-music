@@ -2,9 +2,21 @@
 import { useRouter } from 'vue-router';
 import searchUseStore from '@/store/modules/search';
 import homeUseStore from '@/store/modules/home';
+import { watch } from 'vue-demi';
 const router = useRouter();
 const searchStore = searchUseStore();
 const homeStore = homeUseStore();
+
+watch(
+  () => homeStore.night,
+  val => {
+    if (val) {
+      document.body.setAttribute('arco-theme', 'dark');
+    } else {
+      document.body.removeAttribute('arco-theme');
+    }
+  },
+);
 </script>
 
 <template>
