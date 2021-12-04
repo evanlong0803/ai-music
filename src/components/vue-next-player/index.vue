@@ -17,9 +17,7 @@ console.log(vueAudio);
         <div>Head & Heart (feat. MNEK)</div>
         <div>Loud Luxury , Brando</div>
       </div>
-      <div class="collection">
-        <icon-heart class="icon" style="font-size: 20px" />
-      </div>
+      <icon-heart class="icon" style="font-size: 20px" />
     </a-col>
     <a-col :span="8" class="center">
       <icon-skip-previous-fill class="icon" style="font-size: 35px" />
@@ -74,8 +72,6 @@ console.log(vueAudio);
           color: #7a7a7b;
         }
       }
-    }
-    .collection {
     }
   }
   .center {
