@@ -35,7 +35,6 @@ export default defineStore('home', {
       const { data: data } = await request.get('/album/new', {
         params: { area: 'all', limit: 12 },
       });
-      console.log(data);
       this.albumsList = data.albums;
     },
     // 获取排行榜

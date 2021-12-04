@@ -25,6 +25,7 @@ request.interceptors.request.use(
     return config;
   },
   async error => {
+    console.log(error);
     const convertedMsg = await translate(error.message);
     return Notification.error({
       title: '请求失败',

@@ -24,7 +24,11 @@ watch(
   <!-- 头部 -->
   <div class="head">
     <div class="title">{{ title }}</div>
-    <icon-align-right class="routing-control" @click="() => router.push({ name: routerName })" />
+    <icon-align-right
+      class="icon"
+      style="font-size: 25px"
+      @click="() => router.push({ name: routerName })"
+    />
   </div>
   <a-row :gutter="[30, 30]">
     <a-col :span="4" v-for="item in lists as any" :key="item.id">
@@ -58,20 +62,6 @@ watch(
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 14px;
-  }
-  .routing-control {
-    font-size: 25px;
-    padding: 5px;
-    transition: all 0.3s;
-    border-radius: 5px;
-    &:hover {
-      background: #cccc;
-      transition: all 0.3s;
-    }
-    &:active {
-      transform: scale(0.9);
-      transition: all 0.3s;
-    }
   }
 }
 
@@ -114,7 +104,6 @@ watch(
       .playButtonIcon {
         font-size: 25px;
         padding: 10px;
-        // padding-left: 17px;
         background: #0000000d;
         backdrop-filter: blur(15px);
         border: 1px solid #ffffff0d;

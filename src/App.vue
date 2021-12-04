@@ -6,11 +6,12 @@ import { ref, watch } from 'vue-demi';
 const homeStore = homeUseStore();
 const color = ref<string>('');
 const backdrop = ref<string>('');
+// 临时监听，待优化
 watch(
   () => homeStore.night,
   val => {
     if (val) {
-      color.value = '#fff';
+      color.value = '#ffffff';
       backdrop.value = '#232324';
     } else {
       color.value = '#000';

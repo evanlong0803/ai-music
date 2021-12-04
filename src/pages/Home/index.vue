@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import SongTypesetting from '@/components/SongTypesetting.vue';
 import homeUseStore from '@/store/modules/home';
-import ForYou from './components/ForYou.vue';
+import ForYou from '@/components/ForYou.vue';
 const homeStore = homeUseStore();
 
 homeStore.getPlayLists();

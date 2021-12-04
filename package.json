@@ -15,12 +15,13 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@arco-design/web-vue": "^2.6.0",
+    "@arco-design/web-vue": "^2.9.0",
     "@types/md5": "^2.3.1",
     "@types/qs": "^6.9.7",
-    "@vitejs/plugin-vue": "^1.9.4",
+    "@vitejs/plugin-vue": "^1.10.1",
     "less": "^4.1.2",
-    "pinia": "2.0.2",
-    "vite": "2.6.13"
+    "npm-check-updates": "^12.0.2",
+    "pinia": "2.0.5",
+    "vite": "2.6.14"
   }
 }

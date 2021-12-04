@@ -75,7 +75,7 @@ watch(
 .header {
   width: 100%;
   background-color: #ffffff0d;
-  backdrop-filter: blur(40px);
+  backdrop-filter: blur(20px);
   position: fixed;
   top: 0;
   z-index: 10;

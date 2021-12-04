@@ -17,8 +17,8 @@ import VueNextPlayer from '@/components/vue-next-player/index.vue';
   position: fixed;
   bottom: 0;
   z-index: 10;
-  background-color: #bbbbbb0d;
-  backdrop-filter: blur(40px);
+  background-color: #6969690d;
+  backdrop-filter: blur(20px);
 }
 .player {
   width: 80%;
