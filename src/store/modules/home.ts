@@ -40,7 +40,7 @@ export default defineStore('home', {
     // 获取排行榜
     async getRankingList(): Promise<void> {
       const { data } = await request.get('/toplist');
-      this.rankingList = data.list?.slice(0, 5);
+      this.rankingList = data.list?.slice(0, 6);
     },
   },
 });

@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import { playCount } from '@/utils';
 import { ref, watch } from 'vue-demi';
+
 const router = useRouter();
 
 const props = defineProps({
@@ -11,6 +12,17 @@ const props = defineProps({
 });
 
 const lists = ref<any>([]);
+import playerUseStore from '@/store/modules/player';
+const playerStore = playerUseStore();
+
+// 播放歌单
+const playSongList = async (id: string): Promise<void> => {
+  // 获取歌单所有歌曲
+  await playerStore.getAllSongList(id);
+  // 获取歌单URL
+  await playerStore.getUrl(playerStore.playList[0].id);
+  await playerStore.playAudio();
+};
 
 watch(
   () => props.lists,
@@ -39,7 +51,7 @@ watch(
           @mouseleave="item.playButtonState = false"
         >
           <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
-          <div class="playButton" v-if="item.playButtonState">
+          <div class="playButton" v-if="item.playButtonState" @click="playSongList(item.id)">
             <icon-play-arrow-fill class="playButtonIcon" />
           </div>
         </div>

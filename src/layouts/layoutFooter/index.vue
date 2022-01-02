@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import VueNextPlayer from '@/components/vue-next-player/index.vue';
+import playerUseStore from '@/store/modules/player';
+const playerStore = playerUseStore();
 </script>
 
 <template>

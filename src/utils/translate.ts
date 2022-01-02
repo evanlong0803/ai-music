@@ -1,5 +1,4 @@
 import md5 from 'md5';
-
 import { http } from './request';
 
 const path = '/api/trans/vip/translate';

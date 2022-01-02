@@ -1,35 +1,76 @@
 <script lang="ts" setup>
-import { reactive } from 'vue-demi';
+import { Notification } from '@arco-design/web-vue';
+import PlayList from './PlayList.vue';
+import playerUseStore from '@/store/modules/player';
+const playerStore = playerUseStore();
 
-const vueAudio = new Audio();
-vueAudio.src = '';
-// vueAudio.volume = ran.value / 100;
-console.log(vueAudio);
+// 播放完毕
+playerStore.audio.onended = () => {
+  playerStore.playState = false;
+};
+
+// 播放错误
+playerStore.audio.onerror = () => {
+  playerStore.playState = false;
+  Notification.info({
+    title: '播放提示',
+    content: '该音乐有版权，暂时无法播放',
+    duration: 3000,
+    closable: false,
+  });
+};
 </script>
 <template>
-  <a-slider :default-value="0" class="progress" />
+  <a-slider :default-value="playerStore.audio.duration" class="progress" />
   <a-row class="audio">
     <a-col :span="8" class="left">
-      <img
-        src="https://p1.music.126.net/1gPM7tGeATM5LdKalyH5cg==/109951165309108733.jpg?param=224y224"
-      />
+      <img :src="playerStore.playInfo?.al?.picUrl" />
       <div class="title">
-        <div>Head & Heart (feat. MNEK)</div>
-        <div>Loud Luxury , Brando</div>
+        <div>{{ playerStore.playInfo?.name }}</div>
+        <div>{{ playerStore.playInfo?.al?.name }}</div>
       </div>
       <icon-heart class="icon" style="font-size: 20px" />
     </a-col>
     <a-col :span="8" class="center">
-      <icon-skip-previous-fill class="icon" style="font-size: 35px" />
-      <icon-play-arrow-fill class="icon" style="font-size: 35px; margin: 0 10px" />
+      <!-- 播放上一首 -->
+      <icon-skip-previous-fill
+        class="icon"
+        style="font-size: 35px"
+        @click="playerStore.playUpperAudio"
+      />
+      <!-- 播放/暂停 -->
+      <icon-play-arrow-fill
+        class="icon"
+        style="font-size: 35px; margin: 0 10px"
+        @click="playerStore.playAudio"
+        v-if="!playerStore.playState"
+      />
+      <icon-pause
+        class="icon"
+        style="font-size: 35px; margin: 0 10px"
+        @click="playerStore.suspendAudio"
+        v-else
+      />
       <!-- <icon-pause class="icon" style="font-size: 35px" /> -->
-      <icon-skip-next-fill class="icon" style="font-size: 35px" />
+      <!-- 播放下一首 -->
+      <icon-skip-next-fill
+        class="icon"
+        style="font-size: 35px"
+        @click="playerStore.playNextAudio"
+      />
     </a-col>
     <a-col :span="8" class="right">
       <a-space :size="10">
         <icon-select-all class="icon" style="font-size: 20px" />
-        <icon-sound-fill class="icon" style="font-size: 20px" />
-        <a-slider :default-value="50" :style="{ width: '100px' }" />
+        <play-list />
+        <icon-sound-fill
+          class="icon"
+          style="font-size: 20px"
+          v-if="!playerStore.mutedState"
+          @click="playerStore.disableMute"
+        />
+        <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+        <a-slider v-model:model-value="playerStore.audio.volume" :style="{ width: '100px' }" />
         <icon-up class="icon" style="font-size: 20px" />
       </a-space>
     </a-col>
@@ -37,6 +78,10 @@ console.log(vueAudio);
   </a-row>
 </template>
 <style lang="less" scoped>
+:deep(.arco-dropdown) {
+  padding: 0;
+  border: 0;
+}
 .progress {
   width: 100%;
   position: absolute;
