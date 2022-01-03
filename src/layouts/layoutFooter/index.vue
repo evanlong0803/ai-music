@@ -3,11 +3,11 @@ import VueNextPlayer from '@/components/vue-next-player/index.vue';
 </script>
 
 <template>
-  <a-layout-footer class="app-footer">
+  <footer class="app-footer">
     <div class="player">
       <vue-next-player />
     </div>
-  </a-layout-footer>
+  </footer>
 </template>
 
 <style lang="less" scoped>

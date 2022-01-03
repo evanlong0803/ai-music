@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Notification } from '@arco-design/web-vue';
 import PlayList from './PlayList.vue';
+import { Notification } from '@arco-design/web-vue';
 import playerUseStore from '@/store/modules/player';
 const playerStore = playerUseStore();
 
@@ -25,7 +25,7 @@ playerStore.audio.onended = () => {
 };
 
 // 播放错误
-playerStore.audio.onerror = e => {
+playerStore.audio.onerror = () => {
   playerStore.playState = false;
   Notification.info({
     title: '播放提示',
@@ -33,6 +33,8 @@ playerStore.audio.onerror = e => {
     duration: 3000,
     closable: false,
   });
+  // 播放下一首
+  playerStore.playNextAudio();
 };
 </script>
 <template>
@@ -45,12 +47,16 @@ playerStore.audio.onerror = e => {
   />
   <a-row class="audio">
     <a-col :span="8" class="left">
+      <!-- 播放信息 -->
       <img :src="playerStore.playInfo?.al?.picUrl" />
       <div class="title">
-        <div>{{ playerStore.playInfo?.name }}</div>
-        <div>{{ playerStore.playInfo?.al?.name }}</div>
+        <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
+          <div>{{ playerStore.playInfo?.name }}</div>
+        </a-typography-paragraph>
+        <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
+          <div>{{ playerStore.playInfo?.al?.name }}</div>
+        </a-typography-paragraph>
       </div>
-      <icon-heart class="icon" style="font-size: 20px" />
     </a-col>
     <a-col :span="8" class="center">
       <!-- 播放上一首 -->
@@ -72,7 +78,6 @@ playerStore.audio.onerror = e => {
         @click="playerStore.suspendAudio"
         v-else
       />
-      <!-- <icon-pause class="icon" style="font-size: 35px" /> -->
       <!-- 播放下一首 -->
       <icon-skip-next-fill
         class="icon"
@@ -82,8 +87,15 @@ playerStore.audio.onerror = e => {
     </a-col>
     <a-col :span="8" class="right">
       <a-space :size="10">
-        <icon-select-all class="icon" style="font-size: 20px" />
-        <play-list />
+        <!-- 收藏 -->
+        <icon-heart class="icon" style="font-size: 20px" />
+        <!-- 显示/隐藏播放列表 -->
+        <icon-select-all
+          class="icon"
+          style="font-size: 20px"
+          @click="playerStore.playListState = !playerStore.playListState"
+        />
+        <!-- 声音开关 -->
         <icon-sound-fill
           class="icon"
           style="font-size: 20px"
@@ -91,16 +103,20 @@ playerStore.audio.onerror = e => {
           @click="playerStore.disableMute"
         />
         <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+        <!-- 声音进度条 -->
         <a-slider
           :style="{ width: '100px' }"
           :default-value="50"
           @change="val => (playerStore.audio.volume = val / 100)"
         />
+        <!-- 列出歌词 -->
         <icon-up class="icon" style="font-size: 20px" />
       </a-space>
     </a-col>
     <icon-select-all />
   </a-row>
+  <!-- 播放列表 -->
+  <play-list />
 </template>
 <style lang="less" scoped>
 :deep(.arco-dropdown) {
@@ -127,6 +143,7 @@ playerStore.audio.onerror = e => {
     }
     .title {
       height: 100%;
+      width: 100%;
       display: flex;
       flex-flow: column;
       align-items: flex-start;
@@ -136,9 +153,11 @@ playerStore.audio.onerror = e => {
         font-size: 12px;
         margin: 2px 0;
         &:nth-of-type(1) {
+          width: 100%;
           font-size: 15px;
         }
         &:nth-of-type(2) {
+          width: 100%;
           color: #7a7a7b;
         }
       }

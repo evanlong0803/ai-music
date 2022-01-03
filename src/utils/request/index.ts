@@ -26,7 +26,7 @@ request.interceptors.request.use(
     return config;
   },
   async error => {
-    await delay(1000);
+    await delay(2000);
     const convertedMsg = await translate(error.message);
     return Notification.error({
       title: '网络错误',
@@ -50,7 +50,7 @@ request.interceptors.response.use(
     return response;
   },
   async error => {
-    await delay(1000);
+    await delay(2000);
     const convertedMsg = await translate(error.message);
     return Notification.error({
       title: '网络错误',
