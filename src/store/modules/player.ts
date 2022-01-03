@@ -4,6 +4,8 @@ import request from '@/utils/request';
 
 interface playerState {
   audio: HTMLAudioElement;
+  currentTime: number;
+  duration: number;
   playState: boolean;
   mutedState: boolean;
   playListState: boolean;
@@ -15,6 +17,8 @@ interface playerState {
 export default defineStore('player', {
   state: (): playerState => ({
     audio: new Audio(),
+    currentTime: 0,
+    duration: 0,
     playState: false,
     mutedState: false,
     playListState: false,
@@ -23,8 +27,11 @@ export default defineStore('player', {
     songListDetail: {},
   }),
   getters: {
-    getTime: state => {
-      console.log(state);
+    getProgressTime: (state: playerState) => {
+      // 秒转换为分钟
+      const min = Math.floor(state.currentTime / 60);
+      const sec = Math.floor(state.currentTime % 60);
+      return min.toString().padStart(2, '0') + ':' + sec.toString().padStart(2, '0');
     },
   },
   actions: {
@@ -47,8 +54,6 @@ export default defineStore('player', {
       this.playInfo = this.playList.filter(x => x.id === id)[0];
       // 预备播放
       this.audio.src = data[0].url;
-      // 获取总时间
-      // 获取当前时间
     },
     // 播放
     playAudio() {

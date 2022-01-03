@@ -4,24 +4,45 @@ import PlayList from './PlayList.vue';
 import playerUseStore from '@/store/modules/player';
 const playerStore = playerUseStore();
 
+// 设置默认值音量
+playerStore.audio.volume = 0.5;
+
+// 当总时间被改变时
+playerStore.audio.ondurationchange = e => {
+  const el = e.target as HTMLAudioElement;
+  playerStore.duration = el.duration;
+};
+
+// 当时间更新时
+playerStore.audio.ontimeupdate = e => {
+  const el = e.target as HTMLAudioElement;
+  playerStore.currentTime = el.currentTime;
+};
+
 // 播放完毕
 playerStore.audio.onended = () => {
   playerStore.playState = false;
 };
 
 // 播放错误
-playerStore.audio.onerror = () => {
+playerStore.audio.onerror = e => {
   playerStore.playState = false;
   Notification.info({
     title: '播放提示',
-    content: '该音乐有版权，暂时无法播放',
+    content: '登录后播放该歌曲',
     duration: 3000,
     closable: false,
   });
 };
 </script>
 <template>
-  <a-slider :default-value="playerStore.audio.duration" class="progress" />
+  <a-slider
+    class="progress"
+    :model-value="playerStore.currentTime"
+    :max="playerStore.duration"
+    @change="val => (playerStore.audio.currentTime = val)"
+    :format-tooltip="() => playerStore.getProgressTime"
+  />
   <a-row class="audio">
     <a-col :span="8" class="left">
       <img :src="playerStore.playInfo?.al?.picUrl" />
@@ -70,7 +91,11 @@ playerStore.audio.onerror = () => {
           @click="playerStore.disableMute"
         />
         <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
-        <a-slider v-model:model-value="playerStore.audio.volume" :style="{ width: '100px' }" />
+        <a-slider
+          :style="{ width: '100px' }"
+          :default-value="50"
+          @change="val => (playerStore.audio.volume = val / 100)"
+        />
         <icon-up class="icon" style="font-size: 20px" />
       </a-space>
     </a-col>

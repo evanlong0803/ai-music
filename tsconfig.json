@@ -16,7 +16,7 @@
     //--strictNullChecks和--strictFunctionTypes和--strictPropertyInitialization。
     "strict": true,
     // 生成相应的 .map文件
-    "sourceMap": true,
+    "sourceMap": false,
     // 忽略所有的声明文件（ *.d.ts）的类型检查。
     "skipLibCheck": true,
     // 指定ECMAScript目标版本
@@ -24,12 +24,27 @@
     "jsx": "preserve",
     "resolveJsonModule": true,
     // 编译过程中需要引入的库文件的列表。
-    "lib": ["esnext", "dom", "DOM.Iterable", "ScriptHost"],
-    "types": ["vite/client"],
+    "lib": [
+      "esnext",
+      "dom",
+      "DOM.Iterable",
+      "ScriptHost"
+    ],
+    "types": [
+      "vite/client"
+    ],
     // 模块名到基于 baseUrl的路径映射的列表。
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/main.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/main.ts",
+  ],
 }
