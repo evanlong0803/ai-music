@@ -11,6 +11,8 @@ export const http = axios.create({
   transformRequest: [data => qs.stringify(data)],
 });
 
+const source = axios.CancelToken.source();
+
 // 请求配置
 const request = axios.create({
   timeout: 1000 * 5, // 请求超时
@@ -26,38 +28,35 @@ request.interceptors.request.use(
     return config;
   },
   async error => {
-    await delay(2000);
-    const convertedMsg = await translate(error.message);
-    return Notification.error({
-      title: '网络错误',
-      content: convertedMsg,
-      duration: 3000,
-      closable: false,
-    });
-  },
-);
-
-// axios结束拦截
-request.interceptors.response.use(
-  response => {
-    // console.log(response);
+    // const convertedMsg = await translate(error.message);
     // Notification.error({
     //   title: '网络错误',
     //   content: convertedMsg,
     //   duration: 3000,
     //   closable: false,
     // });
-    return response;
+    // await delay(2000);
   },
+);
+
+// axios结束拦截
+request.interceptors.response.use(
+  response => response,
   async error => {
-    await delay(2000);
-    const convertedMsg = await translate(error.message);
-    return Notification.error({
-      title: '网络错误',
-      content: convertedMsg,
+    return Notification.info({
+      title: '播放提示',
+      content: error.response.data.message,
       duration: 3000,
       closable: false,
     });
+    // const convertedMsg = await translate(error.message);
+    // Notification.error({
+    //   title: '网络错误',
+    //   content: convertedMsg,
+    //   duration: 3000,
+    //   closable: false,
+    // });
+    // await delay(2000);
   },
 );
 

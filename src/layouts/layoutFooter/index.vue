@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import VueNextPlayer from '@/components/vue-next-player/index.vue';
+import playerUseStore from '@/store/modules/player';
+const playerStore = playerUseStore();
 </script>
 
 <template>
-  <footer class="app-footer">
-    <div class="player">
-      <vue-next-player />
-    </div>
+  <footer class="app-footer" v-if="playerStore.playInfo.name">
+    <vue-next-player />
   </footer>
 </template>
 
@@ -17,12 +17,5 @@ import VueNextPlayer from '@/components/vue-next-player/index.vue';
   position: fixed;
   bottom: 0;
   z-index: 10;
-  background-color: #6969690d;
-  backdrop-filter: blur(20px);
-}
-.player {
-  width: 80%;
-  height: 100%;
-  margin: 0 auto;
 }
 </style>

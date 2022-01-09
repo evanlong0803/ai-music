@@ -11,7 +11,7 @@ interface playerState {
   playListState: boolean;
   playList: any[];
   playInfo: any;
-  songListDetail: any;
+  lyric: string;
 }
 
 export default defineStore('player', {
@@ -24,10 +24,10 @@ export default defineStore('player', {
     playListState: false,
     playInfo: {},
     playList: [],
-    songListDetail: {},
+    lyric: '',
   }),
   getters: {
-    getProgressTime: (state: playerState) => {
+    getProgressTime: (state: playerState): string => {
       // 秒转换为分钟
       const min = Math.floor(state.currentTime / 60);
       const sec = Math.floor(state.currentTime % 60);
@@ -35,23 +35,35 @@ export default defineStore('player', {
     },
   },
   actions: {
-    // 获取歌单详情
-    async getSongListDetail(id: string): Promise<void> {
-      const { data } = await request.get('/playlist/detail', { params: { id } });
-      this.songListDetail = data;
-    },
     // 获取歌单所有歌曲
     async getAllSongList(id: string): Promise<void> {
       const { data } = await request.get('/playlist/track/all', { params: { id } });
       this.playList = data.songs;
+    },
+    // 获取歌曲详情
+    async getDetail(id: string): Promise<void> {
+      const { data } = await request.get('/song/detail', { params: { ids: id } });
+      this.playInfo = data.songs[0];
+    },
+    // 获取当前歌曲歌词
+    async getLyric(id: string): Promise<void> {
+      const { data } = await request.get('/lyric', { params: { id } });
+      this.lyric = data.lrc;
+      // console.log(data.lrc);
     },
     // 获取音乐URL
     async getUrl(id: string): Promise<void> {
       const {
         data: { data },
       } = await request.get('/song/url', { params: { id } });
+      // 如果歌曲不能被播放
+      if (data[0].code !== 200) {
+        console.log('123');
+      }
       // 寻找当前播放的信息
-      this.playInfo = this.playList.filter(x => x.id === id)[0];
+      await this.getDetail(id);
+      // 获取歌词
+      await this.getLyric(id);
       // 预备播放
       this.audio.src = data[0].url;
     },
@@ -59,7 +71,7 @@ export default defineStore('player', {
     playAudio() {
       if (!this.audio.src) return;
       this.audio.play();
-      this.audio.src && (this.playState = true);
+      this.playState = true;
     },
     // 暂停播放
     suspendAudio() {

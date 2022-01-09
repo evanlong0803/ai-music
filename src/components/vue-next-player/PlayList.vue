@@ -10,12 +10,10 @@ const playList = async (id: string): Promise<void> => {
 };
 </script>
 <template>
-  <a-card
-    class="play-card"
-    :body-style="{ padding: 0 }"
-    title="播放列表"
-    v-if="playerStore.playListState"
-  >
+  <a-card class="play-card" :body-style="{ padding: 0 }" v-if="playerStore.playListState">
+    <template #title>
+      <div class="title">播放列表</div>
+    </template>
     <template #extra>
       <icon-down
         class="icon"
@@ -49,6 +47,7 @@ const playList = async (id: string): Promise<void> => {
 :deep(.arco-list-item-meta-title) {
   font-weight: bold;
 }
+
 .play-card {
   background-color: #2e2d2d75;
   backdrop-filter: blur(20px);
@@ -58,15 +57,17 @@ const playList = async (id: string): Promise<void> => {
   position: absolute;
   bottom: 65px;
   right: 0;
-  z-index: -1;
+  .title {
+    font-weight: bold;
+  }
   .song {
     cursor: pointer;
     &:hover {
-      background-color: #cccccc6b;
+      background-color: #5a56563f;
     }
   }
 }
 .current-play {
-  background-color: #cccccc6b;
+  background-color: #5a56563f;
 }
 </style>

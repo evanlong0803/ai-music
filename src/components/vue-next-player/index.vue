@@ -26,10 +26,10 @@ playerStore.audio.onended = () => {
 
 // 播放错误
 playerStore.audio.onerror = () => {
-  playerStore.playState = false;
+  playerStore.suspendAudio();
   Notification.info({
     title: '播放提示',
-    content: '登录后播放该歌曲',
+    content: `${playerStore.playInfo.name || ''}播放失败`,
     duration: 3000,
     closable: false,
   });
@@ -45,76 +45,78 @@ playerStore.audio.onerror = () => {
     @change="val => (playerStore.audio.currentTime = val)"
     :format-tooltip="() => playerStore.getProgressTime"
   />
-  <a-row class="audio">
-    <a-col :span="8" class="left">
-      <!-- 播放信息 -->
-      <img :src="playerStore.playInfo?.al?.picUrl" />
-      <div class="title">
-        <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
-          <div>{{ playerStore.playInfo?.name }}</div>
-        </a-typography-paragraph>
-        <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
-          <div>{{ playerStore.playInfo?.al?.name }}</div>
-        </a-typography-paragraph>
-      </div>
-    </a-col>
-    <a-col :span="8" class="center">
-      <!-- 播放上一首 -->
-      <icon-skip-previous-fill
-        class="icon"
-        style="font-size: 35px"
-        @click="playerStore.playUpperAudio"
-      />
-      <!-- 播放/暂停 -->
-      <icon-play-arrow-fill
-        class="icon"
-        style="font-size: 35px; margin: 0 10px"
-        @click="playerStore.playAudio"
-        v-if="!playerStore.playState"
-      />
-      <icon-pause
-        class="icon"
-        style="font-size: 35px; margin: 0 10px"
-        @click="playerStore.suspendAudio"
-        v-else
-      />
-      <!-- 播放下一首 -->
-      <icon-skip-next-fill
-        class="icon"
-        style="font-size: 35px"
-        @click="playerStore.playNextAudio"
-      />
-    </a-col>
-    <a-col :span="8" class="right">
-      <a-space :size="10">
-        <!-- 收藏 -->
-        <icon-heart class="icon" style="font-size: 20px" />
-        <!-- 显示/隐藏播放列表 -->
-        <icon-select-all
+  <div class="player">
+    <a-row class="audio">
+      <a-col :span="8" class="left">
+        <!-- 播放信息 -->
+        <img :src="playerStore.playInfo?.al?.picUrl" />
+        <div class="title">
+          <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
+            <div>{{ playerStore.playInfo?.name }}</div>
+          </a-typography-paragraph>
+          <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
+            <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
+          </a-typography-paragraph>
+        </div>
+      </a-col>
+      <a-col :span="8" class="center">
+        <!-- 播放上一首 -->
+        <icon-skip-previous-fill
           class="icon"
-          style="font-size: 20px"
-          @click="playerStore.playListState = !playerStore.playListState"
+          style="font-size: 35px"
+          @click="playerStore.playUpperAudio"
         />
-        <!-- 声音开关 -->
-        <icon-sound-fill
+        <!-- 播放/暂停 -->
+        <icon-play-arrow-fill
           class="icon"
-          style="font-size: 20px"
-          v-if="!playerStore.mutedState"
-          @click="playerStore.disableMute"
+          style="font-size: 35px; margin: 0 10px"
+          @click="playerStore.playAudio"
+          v-if="!playerStore.playState"
         />
-        <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
-        <!-- 声音进度条 -->
-        <a-slider
-          :style="{ width: '100px' }"
-          :default-value="50"
-          @change="val => (playerStore.audio.volume = val / 100)"
+        <icon-pause
+          class="icon"
+          style="font-size: 35px; margin: 0 10px"
+          @click="playerStore.suspendAudio"
+          v-else
         />
-        <!-- 列出歌词 -->
-        <icon-up class="icon" style="font-size: 20px" />
-      </a-space>
-    </a-col>
-    <icon-select-all />
-  </a-row>
+        <!-- 播放下一首 -->
+        <icon-skip-next-fill
+          class="icon"
+          style="font-size: 35px"
+          @click="playerStore.playNextAudio"
+        />
+      </a-col>
+      <a-col :span="8" class="right">
+        <a-space :size="10">
+          <!-- 收藏 -->
+          <icon-heart class="icon" style="font-size: 20px" />
+          <!-- 显示/隐藏播放列表 -->
+          <icon-select-all
+            class="icon"
+            style="font-size: 20px"
+            @click="playerStore.playListState = !playerStore.playListState"
+          />
+          <!-- 声音开关 -->
+          <icon-sound-fill
+            class="icon"
+            style="font-size: 20px"
+            v-if="!playerStore.mutedState"
+            @click="playerStore.disableMute"
+          />
+          <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+          <!-- 声音进度条 -->
+          <a-slider
+            :style="{ width: '100px' }"
+            :default-value="50"
+            @change="val => (playerStore.audio.volume = val / 100)"
+          />
+          <!-- 列出歌词 -->
+          <icon-up class="icon" style="font-size: 20px" />
+        </a-space>
+      </a-col>
+      <icon-select-all />
+    </a-row>
+  </div>
   <!-- 播放列表 -->
   <play-list />
 </template>
@@ -128,11 +130,20 @@ playerStore.audio.onerror = () => {
   position: absolute;
   left: 0;
   top: -6px;
+  z-index: 1;
 }
-.audio {
+.player {
   width: 100%;
   height: 100%;
+  background-color: #6969690d;
+  backdrop-filter: blur(20px);
+}
+.audio {
+  margin: 0 auto;
+  width: 80%;
+  height: 100%;
   .left {
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { playCount } from '@/utils';
-import { ref, watch } from 'vue-demi';
+import { ref, watch } from 'vue';
+import request from '@/utils/request';
 
-const router = useRouter();
+import playerUseStore from '@/store/modules/player';
+const playerStore = playerUseStore();
 
 const props = defineProps({
   title: String,
@@ -11,9 +13,11 @@ const props = defineProps({
   routerName: String,
 });
 
+const router = useRouter();
+
 const lists = ref<any>([]);
-import playerUseStore from '@/store/modules/player';
-const playerStore = playerUseStore();
+
+const songListDetail = ref({});
 
 // 播放歌单
 const playSongList = async (id: string): Promise<void> => {
@@ -21,7 +25,13 @@ const playSongList = async (id: string): Promise<void> => {
   await playerStore.getAllSongList(id);
   // 获取歌单URL
   await playerStore.getUrl(playerStore.playList[0].id);
-  await playerStore.playAudio();
+  playerStore.playAudio();
+};
+
+// 获取歌单详情
+const getSongListDetail = async (id: string): Promise<void> => {
+  const { data } = await request.get('/playlist/detail', { params: { id } });
+  songListDetail.value = data;
 };
 
 watch(
