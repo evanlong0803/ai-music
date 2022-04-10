@@ -1,14 +1,13 @@
 <template>
-  <a-layout-content class="app-main">
+  <main class="app-main">
     <router-view />
-  </a-layout-content>
+  </main>
 </template>
 
 <style lang="less" scoped>
 .app-main {
-  // height: calc(100% - 64px * 2);
   width: 80%;
-  margin: 30px auto;
+  margin: 0 auto;
   padding: 64px 0;
 }
 </style>

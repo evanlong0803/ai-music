@@ -6,7 +6,7 @@ interface homeState {
   rankingList: [];
   albumsList: [];
   recommendedSongList: [];
-  night: boolean;
+  recommendedRadioStationList: [];
 }
 
 export default defineStore('home', {
@@ -15,7 +15,7 @@ export default defineStore('home', {
     rankingList: [],
     albumsList: [],
     recommendedSongList: [],
-    night: false,
+    recommendedRadioStationList: [],
   }),
   actions: {
     // 获取推荐歌单
@@ -29,6 +29,11 @@ export default defineStore('home', {
     async getNewSong(): Promise<void> {
       const { data } = await request.get('/personalized/newsong');
       this.recommendedSongList = data.result;
+    },
+    // 获取推荐电台
+    async getRecommendRadioStation(): Promise<void> {
+      const { data } = await request.get('/personalized/djprogram');
+      this.recommendedRadioStationList = data.result;
     },
     // 获取新专辑
     async getNewAlbums(): Promise<void> {

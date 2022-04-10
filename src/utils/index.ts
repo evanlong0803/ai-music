@@ -1,6 +1,5 @@
-// 播放量单位换算
 export const playCount = (target: number) => {
-  let numStr = target.toString();
+  const numStr = target.toString();
   // 4位数以内直接返回
   if (numStr.length <= 4) return target + '+';
   // 大于8位数显示亿
@@ -15,7 +14,8 @@ export const playCount = (target: number) => {
 
 /**
  * @description:延迟|等待函数
- * @return { promise }
+ * @param {number} time 延迟时间
+ * @return: Promise
  */
 export const delay = (time: number | undefined): Promise<any> =>
   new Promise(resolve => setTimeout(resolve, time));

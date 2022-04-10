@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import PlayList from './PlayList.vue';
 import { Notification } from '@arco-design/web-vue';
 import playerUseStore from '@/store/modules/player';
 const playerStore = playerUseStore();
@@ -19,9 +18,30 @@ playerStore.audio.ontimeupdate = e => {
   playerStore.currentTime = el.currentTime;
 };
 
+// 处理播放模式
+const handlePlayMode = () => {
+  switch (playerStore.playMode) {
+    // 顺序播放
+    case 1:
+      playerStore.playNextAudio();
+      break;
+    // 单曲循环
+    case 2:
+      playerStore.playAudio();
+      break;
+    // 随机播放
+    case 3:
+      playerStore.randomPlay();
+      break;
+    default:
+      playerStore.playNextAudio();
+  }
+};
+
 // 播放完毕
 playerStore.audio.onended = () => {
   playerStore.playState = false;
+  handlePlayMode();
 };
 
 // 播放错误
@@ -29,12 +49,17 @@ playerStore.audio.onerror = () => {
   playerStore.suspendAudio();
   Notification.info({
     title: '播放提示',
-    content: `${playerStore.playInfo.name || ''}播放失败`,
+    content: `《${playerStore.playInfo.name}》不能播放`,
     duration: 3000,
     closable: false,
   });
-  // 播放下一首
-  playerStore.playNextAudio();
+  handlePlayMode();
+};
+
+// 改变模式
+const changeMode = () => {
+  if (playerStore.playMode === 3) return (playerStore.playMode = 1);
+  playerStore.playMode = ++playerStore.playMode;
 };
 </script>
 <template>
@@ -91,12 +116,40 @@ playerStore.audio.onerror = () => {
           <!-- 收藏 -->
           <icon-heart class="icon" style="font-size: 20px" />
           <!-- 显示/隐藏播放列表 -->
-          <icon-select-all
+          <mdi-playlist-music
             class="icon"
             style="font-size: 20px"
             @click="playerStore.playListState = !playerStore.playListState"
           />
-          <!-- 声音开关 -->
+
+          <!-- 播放模式 -->
+          <cil-loop
+            v-if="playerStore.playMode === 1"
+            class="icon"
+            style="font-size: 20px"
+            @click="changeMode"
+          />
+          <cil-loop-1
+            v-if="playerStore.playMode === 2"
+            class="icon"
+            style="font-size: 20px"
+            @click="changeMode"
+          />
+          <cil-loop-circular
+            v-if="playerStore.playMode === 3"
+            class="icon"
+            style="font-size: 20px"
+            @click="changeMode"
+          />
+
+          <!-- 列出歌词 -->
+          <ic-round-lyrics
+            class="icon"
+            style="font-size: 20px"
+            @click="playerStore.showLyric = !playerStore.showLyric"
+          />
+
+          <!-- 声音控制 -->
           <icon-sound-fill
             class="icon"
             style="font-size: 20px"
@@ -104,14 +157,14 @@ playerStore.audio.onerror = () => {
             @click="playerStore.disableMute"
           />
           <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+
           <!-- 声音进度条 -->
           <a-slider
             :style="{ width: '100px' }"
             :default-value="50"
             @change="val => (playerStore.audio.volume = val / 100)"
           />
-          <!-- 列出歌词 -->
-          <icon-up class="icon" style="font-size: 20px" />
+          <!-- <icon-up class="icon" style="font-size: 20px" /> -->
         </a-space>
       </a-col>
       <icon-select-all />
@@ -142,6 +195,7 @@ playerStore.audio.onerror = () => {
   margin: 0 auto;
   width: 80%;
   height: 100%;
+
   .left {
     width: 100%;
     height: 100%;

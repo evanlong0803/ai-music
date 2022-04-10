@@ -1,26 +1,13 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
 import searchUseStore from '@/store/modules/search';
 import homeUseStore from '@/store/modules/home';
-import { watch } from 'vue-demi';
 const router = useRouter();
 const searchStore = searchUseStore();
 const homeStore = homeUseStore();
-
-watch(
-  () => homeStore.night,
-  val => {
-    if (val) {
-      document.body.setAttribute('arco-theme', 'dark');
-    } else {
-      document.body.removeAttribute('arco-theme');
-    }
-  },
-);
 </script>
 
 <template>
-  <a-layout-header class="header">
+  <header class="header">
     <a-row align="center" class="app-header">
       <a-col class="header-routing" :span="8">
         <a-space>
@@ -30,9 +17,9 @@ watch(
       </a-col>
       <a-col class="header-links" :span="8">
         <a-space :size="30">
-          <router-link to="/" class="link">首页</router-link>
-          <router-link to="/find" class="link">发现</router-link>
-          <router-link to="/library" class="link">音乐库</router-link>
+          <router-link to="/" class="link dark">首页</router-link>
+          <router-link to="/find" class="link dark">发现</router-link>
+          <router-link to="/library" class="link dark">音乐库</router-link>
         </a-space>
       </a-col>
       <a-col class="header-function" :span="8">
@@ -42,10 +29,10 @@ watch(
               <icon-search />
             </template>
           </a-input>
-          <a-button shape="circle" @click="homeStore.night = !homeStore.night">
+          <!-- <a-button shape="circle" @click="homeStore.night = !homeStore.night">
             <icon-moon-fill v-if="homeStore.night" />
             <icon-sun-fill v-else />
-          </a-button>
+          </a-button> -->
           <a-dropdown position="br">
             <a-avatar round :size="33">
               <icon-user />
@@ -68,7 +55,7 @@ watch(
         </a-space>
       </a-col>
     </a-row>
-  </a-layout-header>
+  </header>
 </template>
 
 <style lang="less" scoped>

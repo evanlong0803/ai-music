@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
 import { playCount } from '@/utils';
-import { ref, watch } from 'vue';
 import request from '@/utils/request';
 
 import playerUseStore from '@/store/modules/player';
+import homeUseStore from '@/store/modules/home';
 const playerStore = playerUseStore();
 
-const props = defineProps({
-  title: String,
-  lists: Array,
-  routerName: String,
-});
+const homeStore = homeUseStore();
+
+const props = defineProps<{
+  title: string;
+  lists: any[];
+  routerName?: string;
+}>();
 
 const router = useRouter();
 
@@ -37,7 +38,7 @@ const getSongListDetail = async (id: string): Promise<void> => {
 watch(
   () => props.lists,
   val => {
-    lists.value = val?.map((item: any) => ({ ...item, playButtonState: false }));
+    lists.value = val?.map((item: any) => ({ ...item, playButtonShow: false }));
   },
 );
 </script>
@@ -53,15 +54,15 @@ watch(
     />
   </div>
   <a-row :gutter="[30, 30]">
-    <a-col :span="4" v-for="item in lists as any" :key="item.id">
+    <a-col :span="4" v-for="item in lists" :key="item.id">
       <div class="song-sheet">
         <div
           class="image"
-          @mouseenter="item.playButtonState = true"
-          @mouseleave="item.playButtonState = false"
+          @mouseenter="item.playButtonShow = true"
+          @mouseleave="item.playButtonShow = false"
         >
           <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
-          <div class="playButton" v-if="item.playButtonState" @click="playSongList(item.id)">
+          <div class="playButton" v-if="item.playButtonShow" @click="playSongList(item.id)">
             <icon-play-arrow-fill class="playButtonIcon" />
           </div>
         </div>

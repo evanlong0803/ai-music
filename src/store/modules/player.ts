@@ -2,6 +2,14 @@ import { defineStore } from 'pinia';
 import { Notification } from '@arco-design/web-vue';
 import request from '@/utils/request';
 
+/**
+ * Player Mode
+ * 1: 顺序播放
+ * 2: 单曲循环
+ * 3: 随机播放
+ */
+type Mode = 1 | 2 | 3;
+
 interface playerState {
   audio: HTMLAudioElement;
   currentTime: number;
@@ -12,6 +20,8 @@ interface playerState {
   playList: any[];
   playInfo: any;
   lyric: string;
+  playMode: Mode | number;
+  showLyric: boolean;
 }
 
 export default defineStore('player', {
@@ -25,6 +35,8 @@ export default defineStore('player', {
     playInfo: {},
     playList: [],
     lyric: '',
+    playMode: 1,
+    showLyric: false,
   }),
   getters: {
     getProgressTime: (state: playerState): string => {
@@ -56,10 +68,6 @@ export default defineStore('player', {
       const {
         data: { data },
       } = await request.get('/song/url', { params: { id } });
-      // 如果歌曲不能被播放
-      if (data[0].code !== 200) {
-        console.log('123');
-      }
       // 寻找当前播放的信息
       await this.getDetail(id);
       // 获取歌词
@@ -108,6 +116,11 @@ export default defineStore('player', {
       }
       // 预备下一首
       await this.getUrl(this.playList[index + 1].id);
+      this.playAudio();
+    },
+    async randomPlay() {
+      const index = Math.floor(Math.random() * this.playList.length);
+      await this.getUrl(this.playList[index].id);
       this.playAudio();
     },
     // 打开静音

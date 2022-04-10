@@ -41,11 +41,22 @@ request.interceptors.request.use(
 
 // axios结束拦截
 request.interceptors.response.use(
-  response => response,
+  response => {
+    const { code } = response.data;
+    if (code !== 200) {
+      Notification.error({
+        title: '提示消息',
+        content: response.data.message,
+        duration: 3000,
+        closable: false,
+      });
+    }
+    return response;
+  },
   async error => {
-    return Notification.info({
-      title: '播放提示',
-      content: error.response.data.message,
+    return Notification.error({
+      title: '错误消息',
+      content: error.message,
       duration: 3000,
       closable: false,
     });

@@ -24,27 +24,17 @@
     "jsx": "preserve",
     "resolveJsonModule": true,
     // 编译过程中需要引入的库文件的列表。
-    "lib": [
-      "esnext",
-      "dom",
-      "DOM.Iterable",
-      "ScriptHost"
-    ],
+    "lib": ["esnext", "dom", "DOM.Iterable", "ScriptHost"],
     "types": [
-      "vite/client"
+      "vite/client",
+      "unplugin-vue-components/vite",
+      "vite-plugin-pages",
+      "unplugin-auto-import/vite"
     ],
     // 模块名到基于 baseUrl的路径映射的列表。
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "src/main.ts",
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/main.ts"]
 }
