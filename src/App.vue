@@ -3,9 +3,7 @@ import Layout from '@/layouts/index.vue';
 </script>
 
 <template>
-  <a-config-provider>
-    <Layout class="dark" />
-  </a-config-provider>
+  <Layout class="dark" style="overflow: hidden" />
 </template>
 
 <style lang="less">

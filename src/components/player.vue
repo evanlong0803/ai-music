@@ -183,7 +183,7 @@ const changeMode = () => {
   position: absolute;
   left: 0;
   top: -6px;
-  z-index: 1;
+  z-index: 99;
 }
 .player {
   width: 100%;

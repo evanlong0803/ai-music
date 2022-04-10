@@ -15,7 +15,26 @@ searchStore.getDefaultKeyWord();
   <a-layout>
     <LayoutHeader />
     <LayoutMain />
-    <lyric-panel v-if="playerStore.showLyric" />
     <LayoutFooter />
+    <Transition name="lyric">
+      <lyric-panel v-if="playerStore.showLyric" />
+    </Transition>
   </a-layout>
 </template>
+
+<style lang="less" scoped>
+.lyric-enter-active {
+  animation: lyric-in 0.3s ease-in-out;
+}
+.lyric-leave-active {
+  animation: lyric-in 0.3s ease-in-out reverse;
+}
+@keyframes lyric-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+</style>

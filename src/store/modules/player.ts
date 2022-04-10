@@ -19,7 +19,7 @@ interface playerState {
   playListState: boolean;
   playList: any[];
   playInfo: any;
-  lyric: string;
+  lyric: any[];
   playMode: Mode | number;
   showLyric: boolean;
 }
@@ -34,7 +34,7 @@ export default defineStore('player', {
     playListState: false,
     playInfo: {},
     playList: [],
-    lyric: '',
+    lyric: [],
     playMode: 1,
     showLyric: false,
   }),
@@ -60,8 +60,21 @@ export default defineStore('player', {
     // 获取当前歌曲歌词
     async getLyric(id: string): Promise<void> {
       const { data } = await request.get('/lyric', { params: { id } });
-      this.lyric = data.lrc;
-      // console.log(data.lrc);
+      // 处理歌词
+      const lyrics = data.lrc.lyric.split('\n');
+      // 处理歌词
+      const lyric = lyrics.map((item: string) => {
+        const time = item.match(/\[(\d{2}:\d{2}\.\d{2})\]/);
+        if (time) {
+          const timeArr: any[] = time[1].split(':');
+          const timeSec = timeArr[0] * 60 + parseInt(timeArr[1], 10);
+          // 获取歌词时间
+          return { timeSec, content: item.replace(/\[(\d{2}:\d{2}\.\d{2})\]/, '') };
+        }
+        return { timeSec: 0, content: item };
+      });
+      this.lyric = lyric;
+      console.log(this.lyric);
     },
     // 获取音乐URL
     async getUrl(id: string): Promise<void> {
