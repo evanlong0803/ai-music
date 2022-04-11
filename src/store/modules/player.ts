@@ -74,7 +74,6 @@ export default defineStore('player', {
         return { timeSec: 0, content: item };
       });
       this.lyric = lyric;
-      console.log(this.lyric);
     },
     // 获取音乐URL
     async getUrl(id: string): Promise<void> {

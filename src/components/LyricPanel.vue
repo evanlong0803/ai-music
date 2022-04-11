@@ -4,8 +4,20 @@ const playerStore = playerUseStore();
 </script>
 <template>
   <div class="lyric">
-    <div class="content" v-for="(item, index) in playerStore.lyric" :key="index">
-      {{ item.content }}
+    <div class="video-box">
+      <video
+        class="video-background"
+        preload="auto"
+        loop
+        playsinline
+        autoplay
+        src="@/static/background.mp4"
+        tabindex="-1"
+        muted
+      ></video>
+      <div class="content" v-for="(item, index) in playerStore.lyric" :key="index">
+        {{ item.content }}
+      </div>
     </div>
   </div>
 </template>
@@ -17,18 +29,47 @@ const playerStore = playerUseStore();
   right: 0;
   bottom: 0;
   z-index: 10;
-  background-color: #423e3ee3;
-  .content {
-    height: 100vh;
+  // background-color: #42996e;
+  overflow: auto;
+  // margin-bottom: 65px;
+  // display: flex;
+  // flex-flow: column nowrap;
+  // justify-content: center;
+  // align-items: center;
+
+  .video-box {
+    position: fixed;
     width: 100%;
-    overflow-x: auto;
-    font-size: 30px;
-    font-weight: 600;
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    color: #fff;
+    height: 100%;
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(40px);
+    }
+    .video-background {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100%;
+      /*保证视频充满屏幕*/
+      object-fit: cover;
+    }
+    .content {
+      line-height: 70px;
+      position: relative;
+      z-index: 15;
+      top: -55vh;
+      font-size: 30px;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+    }
   }
 }
 </style>

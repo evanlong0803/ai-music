@@ -2,7 +2,7 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     ACard: typeof import('@arco-design/web-vue')['Card']
@@ -18,6 +18,8 @@ declare module 'vue' {
     ARow: typeof import('@arco-design/web-vue')['Row']
     ASlider: typeof import('@arco-design/web-vue')['Slider']
     ASpace: typeof import('@arco-design/web-vue')['Space']
+    ATabPane: typeof import('@arco-design/web-vue')['TabPane']
+    ATabs: typeof import('@arco-design/web-vue')['Tabs']
     ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
     CilLoop: typeof import('./../components/icons/CilLoop.vue')['default']
     CilLoop1: typeof import('./../components/icons/CilLoop1.vue')['default']
@@ -27,6 +29,8 @@ declare module 'vue' {
     MdiPlaylistMusic: typeof import('./../components/icons/MdiPlaylistMusic.vue')['default']
     Player: typeof import('./../components/player.vue')['default']
     PlayList: typeof import('./../components/PlayList.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SongTypesetting: typeof import('./../components/SongTypesetting.vue')['default']
     TablerError404: typeof import('./../components/icons/TablerError404.vue')['default']
   }

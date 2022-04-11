@@ -15,14 +15,19 @@ const playList = async (id: string): Promise<void> => {
       <div class="title">播放列表</div>
     </template>
     <template #extra>
-      <icon-down
+      <icon-to-right
         class="icon"
         style="font-size: 20px"
         @click="playerStore.playListState = !playerStore.playListState"
       />
     </template>
     <a-list :max-height="355" :bordered="false" v-if="playerStore.playList.length">
-      <a-list-item v-for="item in playerStore.playList" :key="item.id" :class="[playerStore.playInfo.id === item.id && 'current-play', 'song']" @click="playList(item.id)">
+      <a-list-item
+        v-for="item in playerStore.playList"
+        :key="item.id"
+        :class="[playerStore.playInfo.id === item.id && 'current-play', 'song']"
+        @click="playList(item.id)"
+      >
         <a-list-item-meta :title="item.name" :description="item?.al.name">
           <template #avatar>
             <a-avatar shape="square">

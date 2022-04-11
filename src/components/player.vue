@@ -164,16 +164,31 @@ const changeMode = () => {
             :default-value="50"
             @change="val => (playerStore.audio.volume = val / 100)"
           />
-          <!-- <icon-up class="icon" style="font-size: 20px" /> -->
         </a-space>
       </a-col>
-      <icon-select-all />
     </a-row>
   </div>
   <!-- 播放列表 -->
-  <play-list />
+  <Transition name="play-list">
+    <play-list />
+  </Transition>
 </template>
 <style lang="less" scoped>
+.play-list-enter-active {
+  animation: play-list-in 0.3s ease-in-out;
+}
+.play-list-leave-active {
+  animation: play-list-in 0.3s ease-in-out reverse;
+}
+@keyframes play-list-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 :deep(.arco-dropdown) {
   padding: 0;
   border: 0;
