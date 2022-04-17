@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const router = useRouter();
 
-const lists = ref<any>([]);
+const lists = ref<any>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 const songListDetail = ref({});
 
@@ -38,7 +38,9 @@ const getSongListDetail = async (id: string): Promise<void> => {
 watch(
   () => props.lists,
   val => {
-    lists.value = val?.map((item: any) => ({ ...item, playButtonShow: false }));
+    if (val) {
+      lists.value = val.map((item: any) => ({ ...item, playButtonShow: false }));
+    }
   },
 );
 </script>
@@ -53,27 +55,47 @@ watch(
       @click="() => router.push({ name: routerName })"
     />
   </div>
-  <a-row :gutter="[30, 30]">
-    <a-col :span="4" v-for="item in lists" :key="item.id">
+
+  <a-grid :cols="5" :colGap="30" :rowGap="30">
+    <a-grid-item v-for="item in lists" :key="item.id">
+      <a-skeleton animation>
+        <a-space direction="vertical" :size="10" style="width: 100%">
+          <a-skeleton-shape />
+          <a-skeleton-line :rows="1" />
+        </a-space>
+      </a-skeleton>
+
       <div class="song-sheet">
+        <!-- 歌单图片容器 -->
         <div
           class="image"
           @mouseenter="item.playButtonShow = true"
           @mouseleave="item.playButtonShow = false"
         >
-          <img class="cover" :src="item.picUrl ?? item.coverImgUrl" :alt="item.name" />
+          <img
+            class="cover"
+            :src="item.picUrl ?? item.coverImgUrl"
+            :alt="item.name"
+            v-if="item.picUrl ?? item.coverImgUrl"
+          />
+
+          <!-- 播放按钮 -->
           <div class="playButton" v-if="item.playButtonShow" @click="playSongList(item.id)">
             <icon-play-arrow-fill class="playButtonIcon" />
           </div>
         </div>
+
+        <!-- 歌单名称 -->
         <div class="name">{{ item.name }}</div>
+
+        <!-- 播放数量 -->
         <div class="playCount" v-if="item.playCount">
           <icon-music style="margin-right: 5px" />
           {{ playCount(item.playCount) }}
         </div>
       </div>
-    </a-col>
-  </a-row>
+    </a-grid-item>
+  </a-grid>
 </template>
 
 <style lang="less" scoped>
@@ -98,7 +120,7 @@ watch(
   }
   .name {
     font-weight: bold;
-    font-size: 17px;
+    font-size: 18px;
     margin-top: 5px;
   }
   .playCount {
@@ -115,6 +137,8 @@ watch(
     align-items: center;
   }
   .image {
+    width: 100%;
+    height: 100%;
     position: relative;
     .playButton {
       cursor: pointer;

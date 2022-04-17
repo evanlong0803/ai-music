@@ -21,7 +21,7 @@ export default defineStore('home', {
     // 获取推荐歌单
     async getPlayLists(): Promise<void> {
       const { data } = await request.get('/personalized', {
-        params: { limit: 12 },
+        params: { limit: 10 },
       });
       this.playLists = data.result;
     },
@@ -38,14 +38,14 @@ export default defineStore('home', {
     // 获取新专辑
     async getNewAlbums(): Promise<void> {
       const { data: data } = await request.get('/album/new', {
-        params: { area: 'all', limit: 12 },
+        params: { area: 'all', limit: 10 },
       });
       this.albumsList = data.albums;
     },
     // 获取排行榜
     async getRankingList(): Promise<void> {
       const { data } = await request.get('/toplist');
-      this.rankingList = data.list?.slice(0, 6);
+      this.rankingList = data.list?.slice(0, 5);
     },
   },
 });
