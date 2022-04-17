@@ -235,10 +235,12 @@ const changeMode = () => {
         &:nth-of-type(1) {
           width: 100%;
           font-size: 15px;
+          font-weight: 600;
         }
         &:nth-of-type(2) {
           width: 100%;
           color: #7a7a7b;
+          font-weight: 600;
         }
       }
     }

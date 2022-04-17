@@ -29,13 +29,7 @@ const playerStore = playerUseStore();
   right: 0;
   bottom: 0;
   z-index: 10;
-  // background-color: #42996e;
   overflow: auto;
-  // margin-bottom: 65px;
-  // display: flex;
-  // flex-flow: column nowrap;
-  // justify-content: center;
-  // align-items: center;
 
   .video-box {
     position: fixed;
