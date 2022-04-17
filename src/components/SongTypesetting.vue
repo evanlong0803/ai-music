@@ -58,14 +58,14 @@ watch(
 
   <a-grid :cols="5" :colGap="30" :rowGap="30">
     <a-grid-item v-for="item in lists" :key="item.id">
-      <a-skeleton animation>
+      <a-skeleton animation v-if="!item.id">
         <a-space direction="vertical" :size="10" style="width: 100%">
           <a-skeleton-shape />
           <a-skeleton-line :rows="1" />
         </a-space>
       </a-skeleton>
 
-      <div class="song-sheet">
+      <div class="song-sheet" v-else>
         <!-- 歌单图片容器 -->
         <div
           class="image"
