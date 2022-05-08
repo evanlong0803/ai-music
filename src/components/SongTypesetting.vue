@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { playCount } from '@/utils';
+import { handlePlayCount } from '@/utils';
 import playerUseStore from '@/store/modules/player';
 const playerStore = playerUseStore();
 
@@ -85,7 +85,7 @@ watch(
         <!-- 播放数量 -->
         <div class="playCount" v-if="item.playCount">
           <icon-music style="margin-right: 5px" />
-          {{ playCount(item.playCount) }}
+          {{ handlePlayCount(item.playCount) }}
         </div>
       </div>
     </a-grid-item>

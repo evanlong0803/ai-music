@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import request from '@/utils/request';
+import { formatDate, handlePlayCount } from '@/utils';
 const route = useRoute() as any;
 
 const detail = reactive<any>({});
@@ -10,22 +11,28 @@ const getSongListDetail = async (id: string): Promise<void> => {
   Object.assign(detail, data.playlist);
   console.log(detail);
 };
-
 getSongListDetail(route.query.id);
 </script>
 
 <template>
-  <header class="bg-light-500 py-5 flex items-center tracking-wide">
+  <header class="bg-light-500 mt-5 flex items-center tracking-wide">
     <img class="w-1/5 rounded-xl" :src="detail.coverImgUrl" alt="cover" />
     <div class="mx-15">
-      <div class="text-3xl font-bold">
-        {{ detail.name }}
-        {{ detail.playCount }}
+      <div>
+        <span class="text-3xl font-bold">{{ detail.name }}</span>
       </div>
-      <div class="text-lg font-bold mt-5">撒大大飒飒 · {{ detail.trackCount }} 首</div>
-      <div class="text-gray-500 mb-5">
+      <div class="space-x-3 my-5">
+        <span class="p-2 bg-dark-400 text-light-500 rounded" v-for="item in detail.tags">
+          {{ item }}
+        </span>
+      </div>
+      <a href="#" class="text-lg font-bold">{{ detail.creator?.nickname }}</a>
+      <div class="text-gray-500 mb-5 leading-5">
         最后更新于 {{ detail.updateFrequency }}
-        <span>{{ detail.updateTime }}</span>
+        <span>
+          {{ formatDate(detail.updateTime) }} · 共 {{ detail.trackCount }} 首 · 播放量
+          {{ handlePlayCount(detail.playCount) }}
+        </span>
       </div>
       <div class="text-gray-500">{{ detail.description }}</div>
     </div>
