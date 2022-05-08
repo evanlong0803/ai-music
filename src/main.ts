@@ -4,6 +4,9 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@/styles/index.less';
 import '@arco-design/web-vue/dist/arco.css';
 
+import 'virtual:windi.css';
+import 'virtual:windi-devtools';
+
 import App from './App.vue';
 import router from '@/router';
 import store from '@/store';

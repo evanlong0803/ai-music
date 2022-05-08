@@ -5,6 +5,7 @@ import Pages from 'vite-plugin-pages';
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
+import WindiCSS from 'vite-plugin-windicss';
 
 export default defineConfig({
   plugins: [
@@ -31,6 +32,8 @@ export default defineConfig({
       resolvers: [ArcoResolver()],
       dts: 'src/types/components.d.ts',
     }),
+
+    WindiCSS(),
   ],
   resolve: {
     alias: {
