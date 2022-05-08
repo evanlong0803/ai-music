@@ -1,4 +1,4 @@
-export const handleplayCount = (target: number) => {
+export const handlePlayCount = (target: number) => {
   const numStr = target.toString();
   // 4位数以内直接返回
   if (numStr.length <= 4) return target + '+';
