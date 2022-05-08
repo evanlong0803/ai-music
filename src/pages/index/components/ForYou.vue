@@ -8,6 +8,13 @@ defineProps<{
   title: string;
   lists: any[];
 }>();
+
+// 播放歌单
+const playSongList = async (): Promise<void> => {
+  // 获取歌单URL
+  await playerStore.getUrl(playerStore.playList[0].id);
+  playerStore.playAudio();
+};
 </script>
 
 <template>
@@ -22,7 +29,7 @@ defineProps<{
           <span>新</span>
           <span>歌</span>
         </div>
-        <div class="left-play-button">
+        <div class="left-play-button" @click="playSongList">
           <icon-play-arrow-fill class="play-button-icon" />
         </div>
       </div>
