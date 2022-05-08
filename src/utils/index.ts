@@ -1,4 +1,4 @@
-export const playCount = (target: number) => {
+export const handleplayCount = (target: number) => {
   const numStr = target.toString();
   // 4位数以内直接返回
   if (numStr.length <= 4) return target + '+';
@@ -19,3 +19,12 @@ export const playCount = (target: number) => {
  */
 export const delay = (time: number | undefined): Promise<any> =>
   new Promise(resolve => setTimeout(resolve, time));
+
+// 将时间戳转换为年月日
+export const formatDate = (time: number) => {
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}年${month}月${day}日`;
+};
