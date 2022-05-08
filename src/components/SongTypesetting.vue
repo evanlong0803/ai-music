@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import { playCount } from '@/utils';
-import request from '@/utils/request';
-
 import playerUseStore from '@/store/modules/player';
-import homeUseStore from '@/store/modules/home';
 const playerStore = playerUseStore();
-
-const homeStore = homeUseStore();
 
 const props = defineProps<{
   title: string;
@@ -18,8 +13,6 @@ const router = useRouter();
 
 const lists = ref<any>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
-const songListDetail = ref({});
-
 // 播放歌单
 const playSongList = async (id: string): Promise<void> => {
   // 获取歌单所有歌曲
@@ -29,10 +22,11 @@ const playSongList = async (id: string): Promise<void> => {
   playerStore.playAudio();
 };
 
-// 获取歌单详情
-const getSongListDetail = async (id: string): Promise<void> => {
-  const { data } = await request.get('/playlist/detail', { params: { id } });
-  songListDetail.value = data;
+const goDetail = (id: number) => {
+  router.push({
+    name: 'SongList',
+    query: { id },
+  });
 };
 
 watch(
@@ -65,7 +59,7 @@ watch(
         </a-space>
       </a-skeleton>
 
-      <div class="song-sheet" v-else>
+      <div class="song-sheet" v-else @click="goDetail(item.id)">
         <!-- 歌单图片容器 -->
         <div
           class="image"
@@ -80,7 +74,7 @@ watch(
           />
 
           <!-- 播放按钮 -->
-          <div class="playButton" v-if="item.playButtonShow" @click="playSongList(item.id)">
+          <div class="playButton" v-if="item.playButtonShow" @click.stop="playSongList(item.id)">
             <icon-play-arrow-fill class="playButtonIcon" />
           </div>
         </div>
