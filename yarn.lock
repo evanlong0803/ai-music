@@ -1362,10 +1362,10 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-unimport@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.npmmirror.com/unimport/-/unimport-0.2.3.tgz#12d835e69cc4d6a60862f9a6b762a6c610b3d406"
-  integrity sha512-bgIGIaPgn+xZrsFZTQazzE7aLOmBzvYtvswoJtQRBI0dRbX2W5Y/G6Dd/gYEkCFPbpmNhxwZqewuAjT9hd3tcA==
+unimport@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.npmmirror.com/unimport/-/unimport-0.2.4.tgz#f28426be2a7887176ef65581a76762e3a42c767e"
+  integrity sha512-7OEUIlZMS1s1h1uFAGkCPylMtE8hnlJ/cFurJQHdzKAqIyuGiOREFKaCLbkNtFloZicCpRAlqC0Ny2yMoz6mFg==
   dependencies:
     "@rollup/pluginutils" "^4.2.1"
     escape-string-regexp "^5.0.0"
@@ -1377,16 +1377,16 @@ unimport@^0.2.3:
     scule "^0.2.1"
     unplugin "^0.6.3"
 
-unplugin-auto-import@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.npmmirror.com/unplugin-auto-import/-/unplugin-auto-import-0.8.2.tgz#9a45f566819607cf99d4ccb126839a177a514a07"
-  integrity sha512-iZjJ+3HEU3dn79SDDfgU0uVP6fGjufP4SnpU26pRVvTSLvh/en5YgTS8tNI06zWIwGhjYPruprtlbwV8SEQs8Q==
+unplugin-auto-import@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.npmmirror.com/unplugin-auto-import/-/unplugin-auto-import-0.8.5.tgz#b09e0375520c115bbda8b053b09cecdfa5cf5b19"
+  integrity sha512-JT43zA89fMjxtdqz+sTSkTsL9J0PNdnGmMOvcwbkpDi45yL5SU0aDCZgj0E8+qWLyQSIvvBaDBW3VuBrcc2MXg==
   dependencies:
     "@antfu/utils" "^0.5.2"
     "@rollup/pluginutils" "^4.2.1"
     local-pkg "^0.4.1"
     magic-string "^0.26.2"
-    unimport "^0.2.3"
+    unimport "^0.2.4"
     unplugin "^0.6.3"
 
 unplugin-vue-components@^0.19.5:
