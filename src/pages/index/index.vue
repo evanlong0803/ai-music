@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ForYou from './components/ForYou.vue';
+import ForYou from './components/for-you.vue';
 import homeUseStore from '@/store/modules/home';
 const homeStore = homeUseStore();
 homeStore.getPlayLists();
@@ -9,10 +9,10 @@ homeStore.getNewAlbums();
 homeStore.getRankingList();
 </script>
 <template>
-  <a-space direction="vertical" :size="30" style="width: 100%; margin: 30px 0">
+  <main>
     <song-typesetting title="推荐歌单" :lists="homeStore.playLists" routerName="Find" />
-    <for-you title="For You" :lists="homeStore.recommendedSongList" />
+    <!-- <for-you title="For You" :lists="homeStore.recommendedSongList" /> -->
     <song-typesetting title="新专速递" :lists="homeStore.albumsList" />
     <song-typesetting title="排行榜" :lists="homeStore.rankingList" routerName="Find" />
-  </a-space>
+  </main>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import LayoutHeader from '@/layouts/layoutHeader/index.vue';
-import LayoutMain from '@/layouts/LayoutMain/index.vue';
-import LayoutFooter from '@/layouts/layoutFooter/index.vue';
+import LayoutHeader from '@/layouts/layout-header/index.vue';
+import LayoutMain from '@/layouts/Layout-main/index.vue';
+import LayoutFooter from '@/layouts/layout-footer/index.vue';
 
 // 统一加载othen数据
 import searchUseStore from '@/store/modules/search';
@@ -12,14 +12,14 @@ searchStore.getDefaultKeyWord();
 </script>
 
 <template>
-  <a-layout>
+  <main class="light:(bg-gray-100) dark:(bg-gray-300)">
     <LayoutHeader />
-    <LayoutMain />
+    <LayoutMain class="m-auto py-20 w-[80%]" />
     <LayoutFooter />
     <Transition name="lyric">
       <lyric-panel v-if="playerStore.showLyric" />
     </Transition>
-  </a-layout>
+  </main>
 </template>
 
 <style lang="less" scoped>

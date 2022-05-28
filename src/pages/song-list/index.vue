@@ -21,16 +21,18 @@ getSongListDetail(route.query.id);
       <div>
         <span class="text-3xl font-bold">{{ detail.name }}</span>
       </div>
-      <div class="space-x-3 my-5">
-        <span class="p-2 bg-dark-400 text-light-500 rounded" v-for="item in detail.tags">
+      <div class="space-x-3 my-8">
+        <span
+          class="p-2 bg-dark-400 text-lx font-bold text-light-500 rounded"
+          v-for="item in detail.tags"
+        >
           {{ item }}
         </span>
       </div>
-      <a href="#" class="text-lg font-bold">{{ detail.creator?.nickname }}</a>
+      <a href="#" class="text-lg font-bold my-3">{{ detail.creator?.nickname }}</a>
       <div class="text-gray-500 mb-5 leading-5">
-        最后更新于 {{ detail.updateFrequency }}
         <span>
-          {{ formatDate(detail.updateTime) }} · 共 {{ detail.trackCount }} 首 · 播放量
+          最后更新于 {{ formatDate(detail.updateTime) }} · 共 {{ detail.trackCount }} 首 · 播放量
           {{ handlePlayCount(detail.playCount) }}
         </span>
       </div>
