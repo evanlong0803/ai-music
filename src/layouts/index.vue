@@ -14,7 +14,7 @@ searchStore.getDefaultKeyWord();
 <template>
   <main class="light:(bg-gray-100) dark:(bg-gray-300)">
     <LayoutHeader />
-    <LayoutMain class="m-auto py-20 w-[80%]" />
+    <LayoutMain class="m-auto py-25 w-[80%]" />
     <LayoutFooter />
     <Transition name="lyric">
       <lyric-panel v-if="playerStore.showLyric" />

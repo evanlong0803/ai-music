@@ -12,8 +12,12 @@ body,
   outline: none;
 }
 
+.router-link-active {
+  @apply shadow text-gray-200 transition-all active: (transform scale-90 transition-all duration-200);
+}
+
 .icon {
-  @apply rounded-lg cursor-pointer text-4xl text-gray-900 transition-all duration-300 hover: (bg-gray-200 transition-all duration-300) active:(transform duration-300 scale-90);
+  @apply rounded cursor-pointer filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-85);
 }
 
 .menu {
@@ -22,6 +26,14 @@ body,
 
 .absolute-center {
   @apply transform 'top-[50%]' 'left-[50%]' '-translate-x-[50%]' '-translate-y-[50%]' absolute;
+}
+
+.absolute-top-center {
+  @apply absolute 'top-[50%]' transform '-translate-y-[50%]';
+}
+
+.absolute-left-center {
+  @apply absolute 'left-[50%]' transform '-translate-x-[50%]';
 }
 
 .filter-blur {
