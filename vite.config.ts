@@ -35,11 +35,6 @@ export default defineConfig({
 
     WindiCSS(),
   ],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
-  },
   server: {
     open: true,
     proxy: {
