@@ -1,7 +1,7 @@
 <template>
   <tabler-error-404 class="not-found" />
 </template>
-<style lang="less" scoped>
+<style  scoped>
 .not-found {
   font-size: 90px;
   position: absolute;
