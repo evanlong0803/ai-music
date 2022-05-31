@@ -55,7 +55,7 @@ watch(
         @mouseleave="item.playButtonShow = false"
       >
         <img
-          class="cursor-pointer rounded-2xl shadow h-80 h-"
+          class="cursor-pointer rounded-2xl shadow aspect-square"
           :src="item.picUrl ?? item.coverImgUrl"
           :alt="item.name"
           v-if="item.picUrl ?? item.coverImgUrl"
