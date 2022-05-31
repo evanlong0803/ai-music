@@ -55,10 +55,11 @@ watch(
         @mouseleave="item.playButtonShow = false"
       >
         <img
-          class="cursor-pointer rounded-2xl shadow"
+          class="cursor-pointer rounded-2xl shadow h-80 h-"
           :src="item.picUrl ?? item.coverImgUrl"
           :alt="item.name"
           v-if="item.picUrl ?? item.coverImgUrl"
+          loading="lazy"
         />
         <!-- 播放按钮 -->
         <div
@@ -71,10 +72,9 @@ watch(
 
         <!-- 播放数量 -->
         <div
-          class="absolute top-5 right-5 text-gray-50 shadow filter-blur p-1 px-2 rounded"
+          class="absolute top-5 right-5 text-gray-50 shadow filter-blur text-sm p-1 px-2 rounded"
           v-if="item.playCount"
         >
-          <!-- <icon-music style="margin-right: 5px" /> -->
           {{ handlePlayCount(item.playCount) }}
         </div>
       </div>
