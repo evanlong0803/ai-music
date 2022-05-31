@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import playerUseStore from '@/store/modules/player';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 </script>
 <template>
@@ -21,7 +21,7 @@ const playerStore = playerUseStore();
     </div>
   </div>
 </template>
-<style lang="less" scoped>
+<style scoped>
 .lyric {
   position: fixed;
   left: 0;

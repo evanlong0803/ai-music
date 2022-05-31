@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import playerUseStore from '@/store/modules/player';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 
 // 设置默认值音量
@@ -158,7 +158,7 @@ const changeMode = () => {
     <play-list />
   </Transition>
 </template>
-<style lang="less" scoped>
+<style scoped>
 .play-list-enter-active {
   animation: play-list-in 0.3s ease-in-out;
 }

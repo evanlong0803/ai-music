@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ForYou from './components/for-you.vue';
-import homeUseStore from '@/store/modules/home';
+import { homeUseStore } from '@/store';
+
 const homeStore = homeUseStore();
 homeStore.getPlayLists();
 homeStore.getNewSong();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import playerUseStore from '@/store/modules/player';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 </script>
 
@@ -9,7 +9,7 @@ const playerStore = playerUseStore();
   </footer>
 </template>
 
-<style lang="less" scoped>
+<style scoped>
 .app-footer {
   width: 100%;
   height: 64px;

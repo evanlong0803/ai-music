@@ -1,6 +1,4 @@
-import { defineStore } from 'pinia';
-
-export const useTodoStore = defineStore('todo', {
-	state: () => ({}),
-	actions: {},
+export default defineStore('user', {
+  state: () => ({}),
+  actions: {},
 });

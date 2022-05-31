@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import playerUseStore from '@/store/modules/player';
-import homeUseStore from '@/store/modules/home';
+import { playerUseStore, homeUseStore } from '@/store';
 const playerStore = playerUseStore();
 const homeStore = homeUseStore();
 
@@ -45,7 +44,7 @@ const playSongList = async (): Promise<void> => {
   </div>
 </template>
 
-<style lang="less" scoped>
+<style scoped>
 .recommend-song-list {
   @keyframes coverAnimation {
     from {

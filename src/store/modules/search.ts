@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import request from '@/utils/request';
 
 interface searchState {

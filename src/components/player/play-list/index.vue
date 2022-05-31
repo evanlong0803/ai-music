@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import playerUseStore from '@/store/modules/player';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 
 // 播放歌单
@@ -39,7 +39,7 @@ const onPlayList = async (id: string): Promise<void> => {
     </div>
   </div>
 </template>
-<style lang="less" scoped>
+<style scoped>
 :deep(.arco-list-item-meta-title) {
   font-weight: bold;
 }

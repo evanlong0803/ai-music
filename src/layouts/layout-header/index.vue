@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import searchUseStore from '@/store/modules/search';
-import homeUseStore from '@/store/modules/home';
+import { searchUseStore, homeUseStore } from '@/store';
 const router = useRouter();
 const searchStore = searchUseStore();
 const homeStore = homeUseStore();
