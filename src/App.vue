@@ -5,3 +5,7 @@ import Layout from '@/layouts/index.vue';
 <template>
   <Layout />
 </template>
+
+<style scoped lang="less">
+@import '@/styles/index.less';
+</style>
