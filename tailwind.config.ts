@@ -1,5 +1,5 @@
 import { defineConfig } from 'windicss/helpers';
-import formsPlugin from 'windicss/plugin/forms';
+import aspectRatio from 'windicss/plugin/aspect-ratio';
 import colors from 'windicss/colors';
 
 export default defineConfig({
@@ -26,5 +26,5 @@ export default defineConfig({
       desktop: '1680px',
     },
   },
-  plugins: [formsPlugin],
+  plugins: [aspectRatio],
 });
