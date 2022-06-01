@@ -35,7 +35,6 @@ export default defineConfig({
     },
   },
   server: {
-    open: true,
     proxy: {
       '/api/trans': {
         target: 'https://fanyi-api.baidu.com',
