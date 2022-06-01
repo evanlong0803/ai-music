@@ -5,13 +5,26 @@ export default {
 </script>
 
 <script setup lang="ts">
-defineProps<{
-  value: string | null;
-}>();
+interface Props {
+  value: string;
+}
 
-defineEmits<{
-  value: string | null;
-}>();
+withDefaults(defineProps<Props>(), {
+  // 默认值
+  value: '',
+});
+
+const emit = defineEmits(['update:value', 'on-update']);
+
+const onInput = (e: Event) => {
+  const value = (<HTMLInputElement>e.target).value;
+  emit('update:value', value);
+  emit('on-update', value);
+};
+
+const onClear = () => {
+  emit('update:value', '');
+};
 </script>
 
 <template>
@@ -25,12 +38,12 @@ defineEmits<{
       :class="`absolute-top-center right-3 p-1 bg-gray-300 rounded-1/2 ${
         value ? null : 'hidden'
       } hover:(cursor-pointer text-gray-700 text-opacity-80 transition-all duration-300)`"
-      @click="$emit('update:value', null)"
+      @click="onClear"
     />
     <input
       v-bind="$attrs"
-      v-bind:value="value"
-      v-on:input="$emit('update:value', ($event.target as HTMLInputElement).value)"
+      :value="value"
+      @input="onInput"
       :class="`bg-gray-100 placeholder-gray-500 py-2 px-4 ${
         $slots?.icon ? 'pl-8' : null
       } rounded shadow text-sm`"
