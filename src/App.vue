@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import LayoutHeader from '@/layouts/layout-header/index.vue';
-import LayoutMain from '@/layouts/Layout-main/index.vue';
 import LayoutFooter from '@/layouts/layout-footer/index.vue';
 
 // 统一加载 other 数据
@@ -13,7 +12,7 @@ searchStore.getDefaultKeyWord();
 <template>
   <main class="light:(bg-gray-100) dark:(bg-gray-300)">
     <LayoutHeader />
-    <LayoutMain class="m-auto py-25 w-[80%]" />
+    <router-view class="m-auto py-25 w-[80%]" />
     <LayoutFooter />
     <Transition name="lyric">
       <lyric-panel v-if="playerStore.showLyric" />
