@@ -2,19 +2,24 @@
 export default {
   inheritAttrs: false,
 };
-</script>
 
-<script setup lang="ts">
 interface Props {
   value: string;
 }
 
+interface Emits {
+  (event: 'update:value', value: string): void;
+  (event: 'on-update', value: string): void;
+}
+</script>
+
+<script setup lang="ts">
 withDefaults(defineProps<Props>(), {
   // 默认值
   value: '',
 });
 
-const emit = defineEmits(['update:value', 'on-update']);
+const emit = defineEmits<Emits>();
 
 const onInput = (e: Event) => {
   const value = (<HTMLInputElement>e.target).value;
