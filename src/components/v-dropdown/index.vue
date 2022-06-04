@@ -1,0 +1,103 @@
+<script setup lang="ts">
+export interface IOptions {
+  /**
+   * @description 选项名称
+   */
+  name: string;
+  /**
+   * @description 选项图标
+   */
+  icon?: string;
+  /**
+   * @description 点击事件
+   */
+  onClick?: (e: Event) => void;
+}
+
+defineProps<{
+  /**
+   * @description 下拉框选项
+   */
+  options: IOptions[];
+  /**
+   * @description 头像
+   * @extends coverSrc "https://picsum.photos/200/300"
+   */
+  coverSrc?: string;
+}>();
+
+const emit = defineEmits<{
+  (event: 'click'): void;
+  // (event: 'change', value: string): void;
+}>();
+
+const isOpen = ref(false);
+
+//
+const changeState = () => {
+  // const value = (<HTMLInputElement>e.target).value;
+  isOpen.value = !isOpen.value;
+  emit('click');
+};
+
+const renderIcon = (icon: string) =>
+  h(icon, () => 'default slot', { class: ['icon', 'text-2xl', 'text-gray-500', 'mr-1'] });
+</script>
+
+<template>
+  <div class="relative">
+    <div
+      :class="`relative w-45 flex items-center cursor-pointer v-base ${coverSrc ? null : 'pl-4'}`"
+      @click.stop="changeState"
+    >
+      <!-- 用户头像信息 -->
+      <img
+        v-if="coverSrc"
+        class="aspect-square w-6 mx-2 rounded-1/2 shadow"
+        :src="coverSrc"
+        alt="cover"
+        sizes="(max-width: 320px) 280px,(max-width: 480px) 440px,800px"
+      />
+      <!-- 文本 -->
+      <div class="mouse-hover" title="jijasidj">jijasidj</div>
+      <ic-round-arrow-left
+        :class="`icon ml-auto transition-all transform rotate-0 ${isOpen ? '-rotate-90' : null}`"
+      />
+    </div>
+    <!-- 下拉内容 -->
+    <div v-auto-animate>
+      <div class="w-1/1 p-2 absolute top-1 v-base space-y-1" v-if="isOpen">
+        <template v-if="options.length">
+          <div
+            v-for="(item, index) in options"
+            :key="index"
+            class="rounded cursor-pointer hover:(bg-gray-200)"
+            @click="item.onClick"
+          >
+            <div class="flex items-center p-2">
+              <component :is="item?.icon" class="icon text-2xl text-gray-500 mr-1" />
+              <span class="text-gray-600 text-sm">
+                {{ item.name }}
+              </span>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="flex items-center justify-center min-h-20 text-gray-500 text-sm">
+            暂无内容
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.hover-active {
+  @apply transition-all hover: (opacity-80) active:(transform duration-300 scale-98);
+}
+
+.mouse-hover {
+  @apply transition-all hover: (opacity-80 duration-300);
+}
+</style>
