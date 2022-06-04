@@ -10,13 +10,10 @@ export default defineConfig({
   },
   safelist: 'p-3 p-4 p-5 icon router-link-active',
   theme: {
-    colors: {
-      gray: colors.gray, // class="text-base-xxx"
-    },
+    colors: { ...colors },
     extend: {
       fontFamily: {
         sans: ['Inter var'],
-        // sans: ['Graphik', 'sans-serif'],
         serif: ['Merriweather', 'serif'],
       },
     },
