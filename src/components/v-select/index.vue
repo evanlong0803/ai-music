@@ -1,13 +1,12 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="flex items-center cursor-pointer bg-gray-100 shadow rounded-lg">
-    <div class="relative hover-active">
+  <div class="w-45 flex items-center cursor-pointer bg-gray-100 shadow rounded-lg hover-active">
+    <div class="relative">
       <img
         class="aspect-square w-7 m-2 rounded-xl shadow"
         src="https://p2.music.126.net/bpUDG9q4smPN8ReIl2s6cw==/109951167320600625.jpg"
         alt="cover"
         sizes="(max-width: 320px) 280px,(max-width: 480px) 440px,800px"
-        loading="lazy"
       />
       <span class="p-1 rounded-1/2 bg-green-500 shadow absolute top-7 left-7 animate-wiggle"></span>
     </div>
@@ -20,7 +19,7 @@
 
 <style scoped>
 .hover-active {
-  @apply transition-all hover: (opacity-80) active:(transform duration-300 scale-90);
+  @apply transition-all hover: (opacity-80) active:(transform duration-300 scale-98);
 }
 
 .mouse-hover {

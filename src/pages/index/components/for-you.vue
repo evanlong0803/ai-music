@@ -21,7 +21,7 @@ const playSongList = async (): Promise<void> => {
     <div class="text-2xl font-bold">{{ title }}</div>
     <div class="flex gap-x-10">
       <div class="flex-1 w-1/1 h-60 relative overflow-hidden rounded-2xl">
-        <img class="rounded-2xl" :src="lists[0]?.picUrl" :alt="lists[0]?.name" loading="lazy" />
+        <img class="rounded-2xl" :src="lists[0]?.picUrl" :alt="lists[0]?.name" />
         <div
           class="grid grid-cols-2 gap-7 text-6xl text-white font-bold absolute top-1/2 left-10 transform -translate-y-1/2"
         >

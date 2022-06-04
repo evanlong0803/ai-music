@@ -59,7 +59,6 @@ watch(
           :src="item.picUrl ?? item.coverImgUrl"
           :alt="item.name"
           v-if="item.picUrl ?? item.coverImgUrl"
-          loading="lazy"
         />
         <!-- 播放按钮 -->
         <div

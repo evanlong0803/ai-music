@@ -26,7 +26,7 @@ const onPlayList = async (id: string): Promise<void> => {
         @click="onPlayList(item.id)"
       >
         <div>
-          <img alt="avatar" :src="item?.al.picUrl" loading="lazy" />
+          <img alt="avatar" :src="item?.al.picUrl" />
           <div>
             <div>{{ item.name }}</div>
             <div>{{ item?.al.name }}</div>

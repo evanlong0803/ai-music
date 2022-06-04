@@ -16,7 +16,7 @@ getSongListDetail(route.query.id);
 
 <template>
   <header class="bg-light-500 mt-5 flex items-center tracking-wide">
-    <img class="w-1/5 rounded-xl" :src="detail.coverImgUrl" alt="cover" loading="lazy" />
+    <img class="w-1/5 rounded-xl" :src="detail.coverImgUrl" alt="cover" />
     <div class="mx-15">
       <div>
         <span class="text-3xl font-bold">{{ detail.name }}</span>

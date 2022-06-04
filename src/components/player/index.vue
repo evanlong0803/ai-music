@@ -73,7 +73,7 @@ const changeMode = () => {
     <div class="audio">
       <span :span="8" class="left">
         <!-- 播放信息 -->
-        <img :src="playerStore.playInfo?.al?.picUrl" loading="lazy" />
+        <img :src="playerStore.playInfo?.al?.picUrl" />
         <div class="title">
           <div>{{ playerStore.playInfo?.name }}</div>
           <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
