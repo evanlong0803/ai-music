@@ -6,10 +6,12 @@ body,
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 * {
-  outline: none;
+  @apply outline-none box-border;
 }
 
 .router-link-active {
@@ -37,12 +39,9 @@ body,
 }
 
 .filter-blur {
-  @apply backdrop-filter backdrop-blur;
+  @apply backdrop-filter backdrop-blur-xl;
 }
 
-.empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.v-base {
+  @apply rounded shadow bg-gray-100 border-1 border-gray-50  backdrop-filter backdrop-blur-2xl;
 }
