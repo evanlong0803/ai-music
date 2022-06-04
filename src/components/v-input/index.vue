@@ -1,33 +1,26 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
-
 <script setup lang="ts">
-interface IProps {
-  /**
-   * @description 双向绑定输入框的值
-   */
-  value: string;
-  /**
-   * @description 占位符
-   */
-  placeholder?: string;
-}
+withDefaults(
+  defineProps<{
+    /**
+     * @description 双向绑定输入框的值
+     */
+    value: string;
+    /**
+     * @description 占位符
+     */
+    placeholder?: string;
+  }>(),
+  // 默认值
+  {
+    value: '',
+  },
+);
 
-interface IEmits {
+const emit = defineEmits<{
   (event: 'update:value', value: string): void;
   (event: 'input', value: string): void;
   (event: 'enter', value: string): void;
-}
-
-withDefaults(defineProps<IProps>(), {
-  // 默认值
-  value: '',
-});
-
-const emit = defineEmits<IEmits>();
+}>();
 
 const onInput = (e: Event) => {
   const value = (<HTMLInputElement>e.target).value;
@@ -48,7 +41,7 @@ const onClear = () => {
 <template>
   <div class="relative">
     <!-- icon -->
-    <span class="absolute-top-center left-3 text-gray-700 text-xl" v-if="$slots?.icon">
+    <span class="absolute-top-center z-10 left-3 text-gray-700 text-xl" v-if="$slots?.icon">
       <slot name="icon"></slot>
     </span>
     <input
@@ -58,7 +51,7 @@ const onClear = () => {
       @keyup.enter.stop="onEnter"
       :class="`bg-gray-100 placeholder-gray-500 py-2 px-4 ${
         $slots?.icon ? 'pl-10' : null
-      } rounded shadow text-sm`"
+      } v-base text-sm`"
     />
     <!-- clear -->
     <ic-round-clear
