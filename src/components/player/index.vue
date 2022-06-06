@@ -62,95 +62,87 @@ const changeMode = () => {
 };
 </script>
 <template>
-  <div
+  <!-- <div
     class="progress"
     :model-value="playerStore.currentTime"
     :max="playerStore.duration"
     @change="val => (playerStore.audio.currentTime = val)"
     :format-tooltip="() => playerStore.getProgressTime"
-  ></div>
-  <div class="player">
-    <div class="audio">
-      <span :span="8" class="left">
-        <!-- 播放信息 -->
-        <img :src="playerStore.playInfo?.al?.picUrl" />
-        <div class="title">
-          <div>{{ playerStore.playInfo?.name }}</div>
-          <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
+  ></div> -->
+  <div class="w-1/1 z-10 fixed bottom-0 filter-blur">
+    <div class="default-bg opacity-80">
+      <div class="flex m-auto h-17 w-[80%] items-center">
+        <div class="flex-1 flex space-x-2 text-left">
+          <!-- 播放信息 -->
+          <img
+            class="aspect-square h-12 mr-4 rounded shadow"
+            :src="playerStore.playInfo?.al?.picUrl"
+          />
+          <div class="default-color">
+            <div>{{ playerStore.playInfo?.name }}</div>
+            <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
+          </div>
         </div>
-      </span>
-      <span :span="8" class="center">
-        <!-- 播放上一首 -->
-        <div class="icon" style="font-size: 35px" @click="playerStore.playUpperAudio" />
-        <!-- 播放/暂停 -->
-        <div
-          class="icon"
-          style="font-size: 35px; margin: 0 10px"
-          @click="playerStore.playAudio"
-          v-if="!playerStore.playState"
-        />
-        <div
-          class="icon"
-          style="font-size: 35px; margin: 0 10px"
-          @click="playerStore.suspendAudio"
-          v-else
-        />
-        <!-- 播放下一首 -->
-        <div class="icon" style="font-size: 35px" @click="playerStore.playNextAudio" />
-      </span>
-      <span class="right">
-        <!-- 收藏 -->
-        <div class="icon" style="font-size: 20px" />
-        <!-- 显示/隐藏播放列表 -->
-        <mdi-playlist-music
-          class="icon"
-          style="font-size: 20px"
-          @click="playerStore.playListState = !playerStore.playListState"
-        />
+        <div class="flex-2 flex space-x-7 text-center justify-center items-center">
+          <!-- 播放上一首 -->
+          <ic-round-skip-previous class="icon" @click="playerStore.playUpperAudio" />
+          <!-- 播放/暂停 -->
+          <ic-round-play-arrow
+            class="icon"
+            @click="playerStore.playAudio"
+            v-if="!playerStore.playState"
+          />
+          <ic-round-pause class="icon" @click="playerStore.suspendAudio" v-else />
+          <!-- 播放下一首 -->
+          <ic-round-skip-next class="icon" @click="playerStore.playNextAudio" />
+        </div>
+        <div class="flex flex-1 text-right gap-x-4 items-center justify-end">
+          <!-- 收藏 -->
+          <div class="icon" />
+          <!-- 显示/隐藏播放列表 -->
+          <mdi-playlist-music
+            class="icon text-2xl"
+            @click="playerStore.playListState = !playerStore.playListState"
+          />
 
-        <!-- 播放模式 -->
-        <cil-loop
-          v-if="playerStore.playMode === 1"
-          class="icon"
-          style="font-size: 20px"
-          @click="changeMode"
-        />
-        <cil-loop-1
-          v-if="playerStore.playMode === 2"
-          class="icon"
-          style="font-size: 20px"
-          @click="changeMode"
-        />
-        <cil-loop-circular
-          v-if="playerStore.playMode === 3"
-          class="icon"
-          style="font-size: 20px"
-          @click="changeMode"
-        />
+          <!-- 播放模式 -->
+          <cil-loop
+            v-if="playerStore.playMode === 1"
+            class="icon text-2xl"
+            title="列表循环"
+            @click="changeMode"
+          />
+          <cil-loop-1
+            v-if="playerStore.playMode === 2"
+            class="icon text-2xl"
+            title="单曲循环"
+            @click="changeMode"
+          />
+          <cil-loop-circular
+            v-if="playerStore.playMode === 3"
+            class="icon text-2xl"
+            title="随机播放"
+            @click="changeMode"
+          />
 
-        <!-- 列出歌词 -->
-        <ic-round-lyrics
-          class="icon"
-          style="font-size: 20px"
-          @click="playerStore.showLyric = !playerStore.showLyric"
-        />
+          <!-- 列出歌词 -->
+          <ic-round-lyrics
+            class="icon text-2xl"
+            @click="playerStore.showLyric = !playerStore.showLyric"
+          />
 
-        <!-- 声音控制 -->
-        <div
-          class="icon"
-          style="font-size: 20px"
-          v-if="!playerStore.mutedState"
-          @click="playerStore.disableMute"
-        />
-        <div class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+          <!-- 声音控制 -->
+          <div class="icon" v-if="!playerStore.mutedState" @click="playerStore.disableMute" />
+          <div class="icon" @click="playerStore.enableMute" v-else />
 
-        <!-- 声音进度条 -->
-        <div
-          :style="{ width: '100px' }"
-          :default-value="50"
-          @change="val => (playerStore.audio.volume = val / 100)"
-        />
-      </span>
+          <!-- 声音进度条 -->
+          <div
+            :style="{ width: '100px' }"
+            :default-value="50"
+            @change="val => (playerStore.audio.volume = val / 100)"
+          />
+        </div>
+      </div>
     </div>
   </div>
   <!-- 播放列表 -->
