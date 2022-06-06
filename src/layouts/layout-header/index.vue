@@ -15,7 +15,22 @@ const onSearchKeyWord = (val: string) => {};
 // 按回车搜索
 const onEnterSearch = () => {};
 
+// DEV 测试用
 const options = ref<IOptions[]>([
+  {
+    name: '个人中心',
+    icon: 'ic-round-person',
+    onClick: () => {
+      router.push('/user');
+    },
+  },
+  {
+    name: '个人中心',
+    icon: 'ic-round-person',
+    onClick: () => {
+      router.push('/user');
+    },
+  },
   {
     name: '个人中心',
     icon: 'ic-round-person',
@@ -34,7 +49,7 @@ const options = ref<IOptions[]>([
           <ic-round-chevron-left class="icon" @click="() => router.back()" />
           <ic-round-chevron-right class="icon" @click="() => router.go(1)" />
         </div>
-        <div class="flex-2 font-bold space-x-5 text-center text-lg">
+        <div class="flex-2 font-bold space-x-7 text-center text-lg">
           <router-link class="menu" to="/">首页</router-link>
           <router-link class="menu" to="/find">发现</router-link>
           <router-link class="menu" to="/library">音乐库</router-link>
