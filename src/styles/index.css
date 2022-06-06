@@ -14,16 +14,8 @@ body,
   @apply outline-none box-border;
 }
 
-.router-link-active {
-  @apply shadow text-gray-200 transition-all active: (transform scale-90 transition-all duration-200);
-}
-
 .icon {
-  @apply rounded cursor-pointer filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
-}
-
-.menu {
-  @apply rounded-lg py-2 px-3 cursor-pointer text-lg text-gray-900 hover: bg-gray-200 transition-all;
+  @apply rounded cursor-pointer 'default-color' filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
 }
 
 .absolute-center {
@@ -43,5 +35,5 @@ body,
 }
 
 .v-base {
-  @apply rounded shadow bg-gray-100 border-1 border-gray-50  backdrop-filter backdrop-blur-2xl;
+  @apply rounded shadow 'component-bg' 'component-color' border-1 'border-color' backdrop-filter backdrop-blur-xl;
 }

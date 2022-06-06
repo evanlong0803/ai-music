@@ -42,7 +42,7 @@ watch(
 <template>
   <!-- 头部 -->
   <div class="flex mb-4 justify-between items-center">
-    <div class="font-bold text-2xl">{{ title }}</div>
+    <div class="font-bold text-2xl default-color">{{ title }}</div>
     <ic-round-read-more class="icon" @click="() => router.push({ name: routerName })" />
   </div>
 
@@ -66,12 +66,12 @@ watch(
           @click.stop="playSongList(item.id)"
           class="cursor-pointer rounded-1/2 shadow filter-blur absolute-center hover:(opacity-85 transition-all)"
         >
-          <ic-round-play-arrow class="p-2 text-5xl text-gray-50" />
+          <ic-round-play-arrow class="p-2 text-5xl text-gray-100" />
         </div>
 
         <!-- 播放数量 -->
         <div
-          class="absolute top-5 right-5 text-gray-50 shadow filter-blur text-sm p-1 px-2 rounded"
+          class="absolute top-[5%] right-[5%] shadow filter-blur text-sm p-1 px-2 rounded text-white"
           v-if="item.playCount"
         >
           {{ handlePlayCount(item.playCount) }}
@@ -79,7 +79,7 @@ watch(
       </div>
 
       <!-- 歌单名称 -->
-      <div class="font-bold my-2 text-lg">{{ item.name }}</div>
+      <div class="font-bold my-2 text-lg default-color">{{ item.name }}</div>
     </div>
   </div>
 </template>

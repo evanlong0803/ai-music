@@ -41,7 +41,7 @@ const onClear = () => {
 <template>
   <div class="relative">
     <!-- icon -->
-    <span class="absolute-top-center z-10 left-3 text-gray-700 text-xl" v-if="$slots?.icon">
+    <span class="absolute-top-center z-10 left-3 default-color text-xl" v-if="$slots?.icon">
       <slot name="icon"></slot>
     </span>
     <input
@@ -49,15 +49,15 @@ const onClear = () => {
       :placeholder="placeholder"
       @input="onInput"
       @keyup.enter.stop="onEnter"
-      :class="`bg-gray-100 placeholder-gray-500 py-2 px-4 ${
+      :class="`component-bg placeholder-gray-500 dark:(placeholder-gray-300) py-2 px-4 ${
         $slots?.icon ? 'pl-10' : null
       } v-base text-sm`"
     />
     <!-- clear -->
     <ic-round-clear
-      :class="`absolute-top-center right-3 p-1 bg-gray-300 rounded-1/2 ${
+      :class="`absolute-top-center right-3 p-1 component-color component-bg light:(bg-black bg-gray-300) dark:(bg-dark-300) rounded-1/2 ${
         value ? null : 'hidden'
-      } hover:(cursor-pointer text-gray-700 text-opacity-80 transition-all duration-300)`"
+      } hover:(cursor-pointer text-opacity-80 transition-all duration-300)`"
       @click="onClear"
     />
   </div>

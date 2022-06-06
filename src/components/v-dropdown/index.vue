@@ -33,15 +33,15 @@ const emit = defineEmits<{
 
 const isOpen = ref(false);
 
-//
+/**
+ * 打开下拉框
+ * @description 通过设置 isOpen 为 true 来打开下拉框
+ */
 const changeState = () => {
   // const value = (<HTMLInputElement>e.target).value;
   isOpen.value = !isOpen.value;
   emit('click');
 };
-
-const renderIcon = (icon: string) =>
-  h(icon, () => 'default slot', { class: ['icon', 'text-2xl', 'text-gray-500', 'mr-1'] });
 </script>
 
 <template>
@@ -56,7 +56,6 @@ const renderIcon = (icon: string) =>
         class="aspect-square w-6 mx-2 rounded-1/2 shadow"
         :src="coverSrc"
         alt="cover"
-        sizes="(max-width: 320px) 280px,(max-width: 480px) 440px,800px"
       />
       <!-- 文本 -->
       <div class="mouse-hover" title="jijasidj">jijasidj</div>
@@ -71,12 +70,12 @@ const renderIcon = (icon: string) =>
           <div
             v-for="(item, index) in options"
             :key="index"
-            class="rounded cursor-pointer hover:(bg-gray-200)"
+            class="rounded cursor-pointer hover:(hover-bg)"
             @click="item.onClick"
           >
             <div class="flex items-center p-2">
-              <component :is="item?.icon" class="icon text-2xl text-gray-500 mr-1" />
-              <span class="text-gray-600 text-sm">
+              <component :is="item?.icon" class="icon text-2xl component-color mr-1" />
+              <span class="component-color text-sm">
                 {{ item.name }}
               </span>
             </div>

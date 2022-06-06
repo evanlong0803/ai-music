@@ -10,7 +10,7 @@ searchStore.getDefaultKeyWord();
 </script>
 
 <template>
-  <main class="light:(bg-gray-100) dark:(bg-gray-300)">
+  <main class="default-bg">
     <LayoutHeader />
     <router-view class="m-auto py-25 w-[80%]" />
     <LayoutFooter />

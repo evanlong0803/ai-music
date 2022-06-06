@@ -8,7 +8,16 @@ export default defineConfig({
     include: ['src/**/*.{vue,html,jsx,tsx}'],
     exclude: ['node_modules', '.git'],
   },
-  safelist: 'p-3 p-4 p-5 icon router-link-active',
+  shortcuts: {
+    'default-color': 'light:(text-dark-500) dark:(text-gray-100)',
+    'default-bg': 'light:(bg-gray-100) dark:(bg-dark-500)',
+    'component-color': 'light:(text-dark-500) dark:(text-gray-100)',
+    'component-bg': 'light:(bg-gray-100) dark:(bg-dark-100)',
+    'hover-bg': 'light:(bg-gray-200) dark:(bg-dark-50)',
+    'border-color': 'light:(border-gray-100) dark:(border-dark-300)',
+  },
+  safelist:
+    'p-3 p-4 p-5 icon router-link-active default-color default-bg component-color component-bg hover-bg border-color',
   theme: {
     colors: { ...colors },
     extend: {

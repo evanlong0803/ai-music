@@ -9,13 +9,15 @@ declare module '@vue/runtime-core' {
     CilLoop1: typeof import('./../components/icons/CilLoop1.vue')['default']
     CilLoopCircular: typeof import('./../components/icons/CilLoopCircular.vue')['default']
     FxemojiFirstquartermoonface: typeof import('./../components/icons/FxemojiFirstquartermoonface.vue')['default']
+    IcRoundArrowLeft: typeof import('./../components/v-dropdown/icons/IcRoundArrowLeft.vue')['default']
     IcRoundChevronLeft: typeof import('./../components/icons/IcRoundChevronLeft.vue')['default']
     IcRoundChevronRight: typeof import('./../components/icons/IcRoundChevronRight.vue')['default']
-    IcRoundClear: typeof import('./../components/icons/input/IcRoundClear.vue')['default']
+    IcRoundClear: typeof import('./../components/v-input/icons/IcRoundClear.vue')['default']
     IcRoundLyrics: typeof import('./../components/icons/IcRoundLyrics.vue')['default']
+    IcRoundPerson: typeof import('./../components/icons/IcRoundPerson.vue')['default']
     IcRoundPlayArrow: typeof import('./../components/icons/IcRoundPlayArrow.vue')['default']
     IcRoundReadMore: typeof import('./../components/icons/IcRoundReadMore.vue')['default']
-    IcRoundSearch: typeof import('./../components/icons/input/IcRoundSearch.vue')['default']
+    IcRoundSearch: typeof import('./../components/v-input/icons/IcRoundSearch.vue')['default']
     LineMdGithubTwotone: typeof import('./../components/icons/LineMdGithubTwotone.vue')['default']
     LyricPanel: typeof import('./../components/player/lyric-panel/index.vue')['default']
     MdiPlaylistMusic: typeof import('./../components/icons/MdiPlaylistMusic.vue')['default']
@@ -26,8 +28,8 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SongTypesetting: typeof import('./../components/song-typesetting.vue')['default']
     TablerError404: typeof import('./../components/icons/TablerError404.vue')['default']
+    VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
-    VPopover: typeof import('./../components/v-popover/index.vue')['default']
   }
 }
 
