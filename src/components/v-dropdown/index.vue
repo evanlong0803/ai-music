@@ -65,26 +65,18 @@ const changeState = () => {
     </div>
     <!-- 下拉内容 -->
     <div v-auto-animate>
-      <div class="w-1/1 p-2 absolute top-1 v-base space-y-1" v-if="isOpen">
-        <template v-if="options.length">
-          <div
-            v-for="(item, index) in options"
-            :key="index"
-            class="rounded cursor-pointer hover:(hover-bg)"
+      <div class="w-1/1 p-2 absolute top-1 v-base space-y-2" v-if="isOpen && options.length">
+        <template v-for="(item, index) in options" :key="index">
+          <button
+            class="w-1/1 flex items-center p-2 rounded cursor-pointer hover:(hover-bg) checked:(hover-bg)"
             @click="item.onClick"
+            @blur="isOpen = false"
           >
-            <div class="flex items-center p-2">
-              <component :is="item?.icon" class="icon text-2xl component-color mr-1" />
-              <span class="component-color text-sm">
-                {{ item.name }}
-              </span>
-            </div>
-          </div>
-        </template>
-        <template v-else>
-          <div class="flex items-center justify-center min-h-20 text-gray-500 text-sm">
-            暂无内容
-          </div>
+            <component :is="item?.icon" class="icon text-2xl component-color mr-1" />
+            <span class="component-color text-sm">
+              {{ item.name }}
+            </span>
+          </button>
         </template>
       </div>
     </div>
