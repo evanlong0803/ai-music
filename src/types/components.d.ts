@@ -26,7 +26,7 @@ declare module '@vue/runtime-core' {
     PlayList: typeof import('./../components/player/play-list/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SongTypesetting: typeof import('./../components/song-typesetting.vue')['default']
+    SongTypesetting: typeof import('./../components/song-typesetting/index.vue')['default']
     TablerError404: typeof import('./../components/icons/TablerError404.vue')['default']
     VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
