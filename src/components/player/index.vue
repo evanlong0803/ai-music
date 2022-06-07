@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { Notification } from '@arco-design/web-vue';
-import playerUseStore from '@/store/modules/player';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 
 // 设置默认值音量
@@ -47,12 +46,12 @@ playerStore.audio.onended = () => {
 // 播放错误
 playerStore.audio.onerror = () => {
   playerStore.suspendAudio();
-  Notification.info({
-    title: '播放提示',
-    content: `《${playerStore.playInfo.name}》不能播放`,
-    duration: 3000,
-    closable: false,
-  });
+  // Notification.info({
+  //   title: '播放提示',
+  //   content: `《${playerStore.playInfo.name}》不能播放`,
+  //   duration: 3000,
+  //   closable: false,
+  // });
   handlePlayMode();
 };
 
@@ -63,117 +62,95 @@ const changeMode = () => {
 };
 </script>
 <template>
-  <a-slider
+  <!-- <div
     class="progress"
     :model-value="playerStore.currentTime"
     :max="playerStore.duration"
     @change="val => (playerStore.audio.currentTime = val)"
     :format-tooltip="() => playerStore.getProgressTime"
-  />
-  <div class="player">
-    <a-row class="audio">
-      <a-col :span="8" class="left">
-        <!-- 播放信息 -->
-        <img :src="playerStore.playInfo?.al?.picUrl" />
-        <div class="title">
-          <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
+  ></div> -->
+  <div class="w-1/1 z-10 fixed bottom-0 filter-blur">
+    <div class="default-bg opacity-80">
+      <div class="flex m-auto h-17 w-[80%] items-center">
+        <div class="flex-1 flex items-center space-x-2 text-left">
+          <!-- 播放信息 -->
+          <img
+            class="aspect-square h-10 mr-4 rounded shadow"
+            :src="playerStore.playInfo?.al?.picUrl"
+          />
+          <div class="default-color text-sm space-y-1">
             <div>{{ playerStore.playInfo?.name }}</div>
-          </a-typography-paragraph>
-          <a-typography-paragraph :ellipsis="{ rows: 1, showTooltip: true }">
             <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
-          </a-typography-paragraph>
+          </div>
         </div>
-      </a-col>
-      <a-col :span="8" class="center">
-        <!-- 播放上一首 -->
-        <icon-skip-previous-fill
-          class="icon"
-          style="font-size: 35px"
-          @click="playerStore.playUpperAudio"
-        />
-        <!-- 播放/暂停 -->
-        <icon-play-arrow-fill
-          class="icon"
-          style="font-size: 35px; margin: 0 10px"
-          @click="playerStore.playAudio"
-          v-if="!playerStore.playState"
-        />
-        <icon-pause
-          class="icon"
-          style="font-size: 35px; margin: 0 10px"
-          @click="playerStore.suspendAudio"
-          v-else
-        />
-        <!-- 播放下一首 -->
-        <icon-skip-next-fill
-          class="icon"
-          style="font-size: 35px"
-          @click="playerStore.playNextAudio"
-        />
-      </a-col>
-      <a-col :span="8" class="right">
-        <a-space :size="10">
-          <!-- 收藏 -->
-          <icon-heart class="icon" style="font-size: 20px" />
-          <!-- 显示/隐藏播放列表 -->
-          <mdi-playlist-music
+        <div class="flex-2 flex space-x-7 text-center justify-center items-center">
+          <!-- 播放上一首 -->
+          <ic-round-skip-previous class="icon" @click="playerStore.playUpperAudio" />
+          <!-- 播放/暂停 -->
+          <ic-round-play-arrow
             class="icon"
-            style="font-size: 20px"
+            @click="playerStore.playAudio"
+            v-if="!playerStore.playState"
+          />
+          <ic-round-pause class="icon" @click="playerStore.suspendAudio" v-else />
+          <!-- 播放下一首 -->
+          <ic-round-skip-next class="icon" @click="playerStore.playNextAudio" />
+        </div>
+        <div class="flex flex-1 text-right gap-x-5 items-center justify-end">
+          <!-- 收藏 -->
+          <div class="icon" />
+          <!-- 显示/隐藏播放列表 -->
+          <ic-round-queue-music
+            class="icon text-xl"
             @click="playerStore.playListState = !playerStore.playListState"
           />
 
           <!-- 播放模式 -->
           <cil-loop
             v-if="playerStore.playMode === 1"
-            class="icon"
-            style="font-size: 20px"
+            class="icon text-xl"
+            title="列表循环"
             @click="changeMode"
           />
           <cil-loop-1
             v-if="playerStore.playMode === 2"
-            class="icon"
-            style="font-size: 20px"
+            class="icon text-xl"
+            title="单曲循环"
             @click="changeMode"
           />
           <cil-loop-circular
             v-if="playerStore.playMode === 3"
-            class="icon"
-            style="font-size: 20px"
+            class="icon text-xl"
+            title="随机播放"
             @click="changeMode"
           />
 
           <!-- 列出歌词 -->
           <ic-round-lyrics
-            class="icon"
-            style="font-size: 20px"
+            class="icon text-xl"
             @click="playerStore.showLyric = !playerStore.showLyric"
           />
 
           <!-- 声音控制 -->
-          <icon-sound-fill
-            class="icon"
-            style="font-size: 20px"
-            v-if="!playerStore.mutedState"
-            @click="playerStore.disableMute"
-          />
-          <icon-mute class="icon" style="font-size: 20px" @click="playerStore.enableMute" v-else />
+          <div class="icon" v-if="!playerStore.mutedState" @click="playerStore.disableMute" />
+          <div class="icon" @click="playerStore.enableMute" v-else />
 
           <!-- 声音进度条 -->
-          <a-slider
+          <div
             :style="{ width: '100px' }"
             :default-value="50"
             @change="val => (playerStore.audio.volume = val / 100)"
           />
-        </a-space>
-      </a-col>
-    </a-row>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- 播放列表 -->
   <Transition name="play-list">
     <play-list />
   </Transition>
 </template>
-<style lang="less" scoped>
+<style scoped>
 .play-list-enter-active {
   animation: play-list-in 0.3s ease-in-out;
 }
@@ -186,76 +163,6 @@ const changeMode = () => {
   }
   to {
     transform: translateX(0);
-  }
-}
-
-:deep(.arco-dropdown) {
-  padding: 0;
-  border: 0;
-}
-.progress {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -6px;
-  z-index: 99;
-}
-.player {
-  width: 100%;
-  height: 100%;
-  background-color: #6969690d;
-  backdrop-filter: blur(20px);
-}
-.audio {
-  margin: 0 auto;
-  width: 80%;
-  height: 100%;
-
-  .left {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    > img {
-      width: 46px;
-      height: 46px;
-      border-radius: 5px;
-    }
-    .title {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-flow: column;
-      align-items: flex-start;
-      justify-content: center;
-      margin: 0 20px;
-      > div {
-        font-size: 12px;
-        margin: 2px 0;
-        &:nth-of-type(1) {
-          width: 100%;
-          font-size: 15px;
-          font-weight: 600;
-        }
-        &:nth-of-type(2) {
-          width: 100%;
-          color: #7a7a7b;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-  .center {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .right {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: end;
   }
 }
 </style>

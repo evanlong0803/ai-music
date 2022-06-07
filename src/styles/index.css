@@ -1,0 +1,39 @@
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+* {
+  @apply outline-none box-border tracking-wide;
+}
+
+.icon {
+  @apply rounded cursor-pointer default-color filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
+}
+
+.absolute-center {
+  @apply transform 'top-[50%]' 'left-[50%]' '-translate-x-[50%]' '-translate-y-[50%]' absolute;
+}
+
+.absolute-top-center {
+  @apply absolute 'top-[50%]' transform '-translate-y-[50%]';
+}
+
+.absolute-left-center {
+  @apply absolute 'left-[50%]' transform '-translate-x-[50%]';
+}
+
+.filter-blur {
+  @apply backdrop-filter backdrop-blur-xl;
+}
+
+.v-base {
+  @apply rounded shadow component-bg component-color border-1 border-color backdrop-filter backdrop-blur-xl;
+}

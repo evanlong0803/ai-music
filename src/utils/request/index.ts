@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 import translate from '@/utils/translate';
-import { Notification } from '@arco-design/web-vue';
 import { delay } from '@/utils';
 
 // 请求配置
@@ -44,22 +43,22 @@ request.interceptors.response.use(
   response => {
     const { code } = response.data;
     if (code !== 200) {
-      Notification.error({
-        title: '提示消息',
-        content: response.data.message,
-        duration: 3000,
-        closable: false,
-      });
+      // Notification.error({
+      //   title: '提示消息',
+      //   content: response.data.message,
+      //   duration: 3000,
+      //   closable: false,
+      // });
     }
     return response;
   },
   async error => {
-    return Notification.error({
-      title: '错误消息',
-      content: error.message,
-      duration: 3000,
-      closable: false,
-    });
+    // return Notification.error({
+    //   title: '错误消息',
+    //   content: error.message,
+    //   duration: 3000,
+    //   closable: false,
+    // });
     // const convertedMsg = await translate(error.message);
     // Notification.error({
     //   title: '网络错误',

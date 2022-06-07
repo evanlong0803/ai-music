@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia';
-import { Notification } from '@arco-design/web-vue';
 import request from '@/utils/request';
 
 /**
@@ -103,12 +101,12 @@ export default defineStore('player', {
       // 获取当前播放索引
       const index = this.playList.findIndex(x => x.id === this.playInfo.id);
       if (index === 0) {
-        return Notification.info({
-          title: '播放提示',
-          content: '已经是第一首了',
-          duration: 3000,
-          closable: false,
-        });
+        // return Notification.info({
+        //   title: '播放提示',
+        //   content: '已经是第一首了',
+        //   duration: 3000,
+        //   closable: false,
+        // });
       }
       // 预备上一首
       await this.getUrl(this.playList[index - 1].id);
@@ -119,12 +117,12 @@ export default defineStore('player', {
       // 获取当前播放索引
       const index = this.playList.findIndex(x => x.id === this.playInfo.id);
       if (this.playList.length - 1 === index) {
-        return Notification.info({
-          title: '播放提示',
-          content: '已经是最后一首了',
-          duration: 3000,
-          closable: false,
-        });
+        // return Notification.info({
+        //   title: '播放提示',
+        //   content: '已经是最后一首了',
+        //   duration: 3000,
+        //   closable: false,
+        // });
       }
       // 预备下一首
       await this.getUrl(this.playList[index + 1].id);

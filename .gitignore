@@ -6,3 +6,4 @@ dist-ssr
 debug.log
 .idea
 yarn.lock
+.vercel
