@@ -42,7 +42,7 @@ const options = ref<IOptions[]>([
 </script>
 
 <template>
-  <header class="w-1/1 z-10 fixed filter-blur">
+  <header class="w-1/1 z-10 fixed top-0 filter-blur">
     <div class="default-bg opacity-80">
       <div class="flex m-auto h-17 w-[80%] items-center">
         <div class="flex flex-1 space-x-2 text-left">
@@ -54,7 +54,7 @@ const options = ref<IOptions[]>([
           <router-link class="menu" to="/find">发现</router-link>
           <router-link class="menu" to="/library">音乐库</router-link>
         </div>
-        <div class="flex flex-1 text-right gap-x-4 items-center justify-end">
+        <div class="flex flex-1 text-right space-x-5 items-center justify-end">
           <!-- 搜索框 -->
           <v-input
             v-model:value="content"

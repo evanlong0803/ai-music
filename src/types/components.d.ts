@@ -17,10 +17,12 @@ declare module '@vue/runtime-core' {
     IcRoundPause: typeof import('./../components/player/icons/IcRoundPause.vue')['default']
     IcRoundPerson: typeof import('./../components/icons/IcRoundPerson.vue')['default']
     IcRoundPlayArrow: typeof import('./../components/player/icons/IcRoundPlayArrow.vue')['default']
+    IcRoundQueueMusic: typeof import('./../components/player/icons/IcRoundQueueMusic.vue')['default']
     IcRoundReadMore: typeof import('./../components/icons/IcRoundReadMore.vue')['default']
     IcRoundSearch: typeof import('./../components/v-input/icons/IcRoundSearch.vue')['default']
     IcRoundSkipNext: typeof import('./../components/player/icons/IcRoundSkipNext.vue')['default']
     IcRoundSkipPrevious: typeof import('./../components/player/icons/IcRoundSkipPrevious.vue')['default']
+    IcTwotoneAutoAwesome: typeof import('./../components/player/icons/IcTwotoneAutoAwesome.vue')['default']
     LineMdGithubTwotone: typeof import('./../components/icons/LineMdGithubTwotone.vue')['default']
     LyricPanel: typeof import('./../components/player/lyric-panel/index.vue')['default']
     MdiPlaylistMusic: typeof import('./../components/icons/MdiPlaylistMusic.vue')['default']
@@ -31,8 +33,10 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SongTypesetting: typeof import('./../components/song-typesetting/index.vue')['default']
     TablerError404: typeof import('./../components/icons/TablerError404.vue')['default']
+    VCard: typeof import('./../components/v-card/index.vue')['default']
     VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
+    VList: typeof import('./../components/v-list/index.vue')['default']
   }
 }
 

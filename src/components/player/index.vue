@@ -72,13 +72,13 @@ const changeMode = () => {
   <div class="w-1/1 z-10 fixed bottom-0 filter-blur">
     <div class="default-bg opacity-80">
       <div class="flex m-auto h-17 w-[80%] items-center">
-        <div class="flex-1 flex space-x-2 text-left">
+        <div class="flex-1 flex items-center space-x-2 text-left">
           <!-- 播放信息 -->
           <img
-            class="aspect-square h-12 mr-4 rounded shadow"
+            class="aspect-square h-10 mr-4 rounded shadow"
             :src="playerStore.playInfo?.al?.picUrl"
           />
-          <div class="default-color">
+          <div class="default-color text-sm space-y-1">
             <div>{{ playerStore.playInfo?.name }}</div>
             <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
           </div>
@@ -96,38 +96,38 @@ const changeMode = () => {
           <!-- 播放下一首 -->
           <ic-round-skip-next class="icon" @click="playerStore.playNextAudio" />
         </div>
-        <div class="flex flex-1 text-right gap-x-4 items-center justify-end">
+        <div class="flex flex-1 text-right gap-x-5 items-center justify-end">
           <!-- 收藏 -->
           <div class="icon" />
           <!-- 显示/隐藏播放列表 -->
-          <mdi-playlist-music
-            class="icon text-2xl"
+          <ic-round-queue-music
+            class="icon text-xl"
             @click="playerStore.playListState = !playerStore.playListState"
           />
 
           <!-- 播放模式 -->
           <cil-loop
             v-if="playerStore.playMode === 1"
-            class="icon text-2xl"
+            class="icon text-xl"
             title="列表循环"
             @click="changeMode"
           />
           <cil-loop-1
             v-if="playerStore.playMode === 2"
-            class="icon text-2xl"
+            class="icon text-xl"
             title="单曲循环"
             @click="changeMode"
           />
           <cil-loop-circular
             v-if="playerStore.playMode === 3"
-            class="icon text-2xl"
+            class="icon text-xl"
             title="随机播放"
             @click="changeMode"
           />
 
           <!-- 列出歌词 -->
           <ic-round-lyrics
-            class="icon text-2xl"
+            class="icon text-xl"
             @click="playerStore.showLyric = !playerStore.showLyric"
           />
 
@@ -163,76 +163,6 @@ const changeMode = () => {
   }
   to {
     transform: translateX(0);
-  }
-}
-
-:deep(.arco-dropdown) {
-  padding: 0;
-  border: 0;
-}
-.progress {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -6px;
-  z-index: 99;
-}
-.player {
-  width: 100%;
-  height: 100%;
-  background-color: #6969690d;
-  backdrop-filter: blur(20px);
-}
-.audio {
-  margin: 0 auto;
-  width: 80%;
-  height: 100%;
-
-  .left {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    > img {
-      width: 46px;
-      height: 46px;
-      border-radius: 5px;
-    }
-    .title {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-flow: column;
-      align-items: flex-start;
-      justify-content: center;
-      margin: 0 20px;
-      > div {
-        font-size: 12px;
-        margin: 2px 0;
-        &:nth-of-type(1) {
-          width: 100%;
-          font-size: 15px;
-          font-weight: 600;
-        }
-        &:nth-of-type(2) {
-          width: 100%;
-          color: #7a7a7b;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-  .center {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .right {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: end;
   }
 }
 </style>

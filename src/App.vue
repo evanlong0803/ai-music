@@ -12,7 +12,7 @@ searchStore.getDefaultKeyWord();
 <template>
   <main class="default-bg">
     <LayoutHeader />
-    <router-view class="m-auto py-25 w-[80%]" />
+    <router-view class="m-auto py-10 w-[80%]" />
     <LayoutFooter />
     <Transition name="lyric">
       <lyric-panel v-if="playerStore.showLyric" />

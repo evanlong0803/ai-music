@@ -47,7 +47,7 @@ const changeState = () => {
 <template>
   <div class="relative">
     <div
-      :class="`relative w-45 flex items-center cursor-pointer v-base ${coverSrc ? null : 'pl-4'}`"
+      :class="[!coverSrc && 'pl-4', 'relative w-45 flex items-center cursor-pointer v-base']"
       @click.stop="changeState"
     >
       <!-- 用户头像信息 -->
@@ -58,26 +58,28 @@ const changeState = () => {
         alt="cover"
       />
       <!-- 文本 -->
-      <div class="mouse-hover" title="jijasidj">jijasidj</div>
+      <div class="text-left mouse-hover truncate" title="jijasidjddddddddd">jijasidjddddddddd</div>
       <ic-round-arrow-left
-        :class="`icon ml-auto transition-all transform rotate-0 ${isOpen ? '-rotate-90' : null}`"
+        :class="[isOpen && '-rotate-90', 'icon ml-auto transition-all transform rotate-0']"
       />
     </div>
     <!-- 下拉内容 -->
     <div v-auto-animate>
-      <div class="w-1/1 p-2 absolute top-1 v-base space-y-2" v-if="isOpen && options.length">
-        <template v-for="(item, index) in options" :key="index">
-          <button
-            class="w-1/1 flex items-center p-2 rounded cursor-pointer hover:(hover-bg) checked:(hover-bg)"
-            @click="item.onClick"
-            @blur="isOpen = false"
-          >
-            <component :is="item?.icon" class="icon text-2xl component-color mr-1" />
-            <span class="component-color text-sm">
-              {{ item.name }}
-            </span>
-          </button>
-        </template>
+      <div class="w-1/1 p-2 absolute z-10 top-1 v-base space-y-2" v-if="isOpen && options.length">
+        <div class="opacity-80">
+          <template v-for="item in options" :key="item.name">
+            <button
+              class="w-1/1 flex items-center p-2 rounded cursor-pointer hover:(hover-bg) checked:(hover-bg)"
+              @click="item.onClick"
+              @blur="isOpen = false"
+            >
+              <component :is="item?.icon" class="icon text-2xl default-color mr-1" />
+              <span class="default-color text-sm">
+                {{ item.name }}
+              </span>
+            </button>
+          </template>
+        </div>
       </div>
     </div>
   </div>

@@ -49,15 +49,17 @@ const onClear = () => {
       :placeholder="placeholder"
       @input="onInput"
       @keyup.enter.stop="onEnter"
-      :class="`component-bg placeholder-gray-500 dark:(placeholder-gray-300) py-2 px-4 ${
-        $slots?.icon ? 'pl-10' : null
-      } v-base text-sm`"
+      :class="[
+        $slots?.icon && 'pl-10',
+        'v-base text-sm placeholder-gray-500 dark:(placeholder-gray-300) py-2 px-4',
+      ]"
     />
     <!-- clear -->
     <ic-round-clear
-      :class="`absolute-top-center right-3 p-1 component-color component-bg light:(bg-black bg-gray-300) dark:(bg-dark-300) rounded-1/2 ${
-        value ? null : 'hidden'
-      } hover:(cursor-pointer text-opacity-80 transition-all duration-300)`"
+      :class="[
+        !value && 'hidden',
+        'absolute-top-center right-3 p-1 component-color component-bg light:(bg-black bg-gray-300) dark:(bg-dark-300) rounded-1/2 hover:(cursor-pointer text-opacity-80 transition-all duration-300)',
+      ]"
       @click="onClear"
     />
   </div>

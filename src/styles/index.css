@@ -11,11 +11,11 @@ body,
 }
 
 * {
-  @apply outline-none box-border;
+  @apply outline-none box-border tracking-wide;
 }
 
 .icon {
-  @apply rounded cursor-pointer 'default-color' filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
+  @apply rounded cursor-pointer default-color filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
 }
 
 .absolute-center {
@@ -35,5 +35,5 @@ body,
 }
 
 .v-base {
-  @apply rounded shadow 'component-bg' 'component-color' border-1 'border-color' backdrop-filter backdrop-blur-xl;
+  @apply rounded shadow component-bg component-color border-1 border-color backdrop-filter backdrop-blur-xl;
 }

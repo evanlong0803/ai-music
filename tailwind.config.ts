@@ -16,8 +16,7 @@ export default defineConfig({
     'hover-bg': 'light:(bg-gray-200) dark:(bg-dark-50)',
     'border-color': 'light:(border-gray-100) dark:(border-dark-300)',
   },
-  safelist:
-    'p-3 p-4 p-5 icon router-link-active default-color default-bg component-color component-bg hover-bg border-color',
+  safelist: 'p-3 p-4 p-5 icon router-link-active',
   theme: {
     colors: { ...colors },
     extend: {

@@ -11,59 +11,43 @@ const onPlayList = async (id: string): Promise<void> => {
 </script>
 
 <template>
-  <div class="play-card" v-if="playerStore.playListState">
-    <div class="title">播放列表</div>
-    <div
-      class="icon"
-      style="font-size: 20px"
-      @click="playerStore.playListState = !playerStore.playListState"
-    ></div>
-    <div v-if="playerStore.playList.length">
-      <template
-        v-for="item in playerStore.playList"
-        :key="item.id"
-        :class="[playerStore.playInfo.id === item.id && 'current-play', 'song']"
-        @click="onPlayList(item.id)"
-      >
-        <div>
-          <img alt="avatar" :src="item?.al.picUrl" />
-          <div>
-            <div>{{ item.name }}</div>
-            <div>{{ item?.al.name }}</div>
+  <div class="play-list-theme" v-show="playerStore.playListState">
+    <div class="default-bg opacity-80 p-4 space-y-2" v-if="playerStore.playList.length">
+      <div class="fixed z-100 top-0">123123</div>
+      <template v-for="item in playerStore.playList" :key="item.id">
+        <div
+          :class="[
+            playerStore.playInfo.id === item.id && 'hover-bg',
+            'default-color flex items-center tracking-wide truncate p-2 rounded cursor-pointer transition-all hover:(hover-bg) active:(transform duration-100 scale-98)',
+          ]"
+          @click.stop="onPlayList(item.id)"
+        >
+          <img class="aspect-square h-10 m-2 rounded" alt="avatar" :src="item?.al.picUrl" />
+          <div class="truncate mx-2">
+            <!-- 歌曲名 -->
+            <div class="truncate font-bold" :title="item.name">
+              {{ item.name }}
+            </div>
+            <!-- 歌手 -->
+            <div
+              class="text-sm truncate light:(text-gray-500) dark:(text-gray-400)"
+              :title="item?.al.name"
+            >
+              {{ item?.al.name || '***' }}
+            </div>
           </div>
-        </div>
-        <div v-if="playerStore.playInfo.id === item.id">
-          <!-- <icon-sound style="font-size: 20px" /> -->
+          <!-- 播放位置 -->
+          <ic-twotone-auto-awesome
+            class="text-2xl ml-auto mx-2"
+            v-if="playerStore.playInfo.id === item.id"
+          />
         </div>
       </template>
     </div>
   </div>
 </template>
 <style scoped>
-:deep(.arco-list-item-meta-title) {
-  font-weight: bold;
-}
-
-.play-card {
-  background-color: #2e2d2d75;
-  backdrop-filter: blur(20px);
-  border-radius: 8px;
-  width: 450px;
-  height: 400px;
-  position: absolute;
-  bottom: 65px;
-  right: 0;
-  .title {
-    font-weight: bold;
-  }
-  .song {
-    cursor: pointer;
-    &:hover {
-      background-color: #5a56563f;
-    }
-  }
-}
-.current-play {
-  background-color: #5a56563f;
+.play-list-theme {
+  @apply 'h-[70%]' 'w-1/3' fixed bottom-17 right-0 rounded-xl rounded-b-l-none shadow component-color border-1 border-color backdrop-filter backdrop-blur-xl overflow-x-hidden overflow-y-visible;
 }
 </style>

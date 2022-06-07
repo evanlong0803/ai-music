@@ -15,7 +15,7 @@ getSongListDetail(route.query.id);
 </script>
 
 <template>
-  <header class="bg-light-500 mt-5 flex items-center tracking-wide">
+  <header class="bg-light-500 mt-5 flex items-center ">
     <img class="w-1/5 rounded-xl" :src="detail.coverImgUrl" alt="cover" />
     <div class="mx-15">
       <div>
