@@ -7,3 +7,4 @@ debug.log
 .idea
 yarn.lock
 .vercel
+src/types/*.d.ts
