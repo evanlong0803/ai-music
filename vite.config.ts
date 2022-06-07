@@ -29,6 +29,11 @@ export default defineConfig({
 
     WindiCSS(),
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
   server: {
     proxy: {
       '/api/trans': {
