@@ -13,12 +13,13 @@ const onPlayList = async (id: string): Promise<void> => {
 <template>
   <div class="play-list-theme" v-show="playerStore.playListState">
     <div class="default-bg opacity-80 p-4 space-y-2" v-if="playerStore.playList.length">
-      <div class="fixed z-100 top-0">123123</div>
+      <!-- <div class="fixed z-100 top-0">123123</div> -->
       <template v-for="item in playerStore.playList" :key="item.id">
         <div
           :class="[
             playerStore.playInfo.id === item.id && 'hover-bg',
-            'default-color flex items-center tracking-wide truncate p-2 rounded cursor-pointer transition-all hover:(hover-bg) active:(transform duration-100 scale-98)',
+            'default-color flex items-center tracking-wide truncate p-2 rounded cursor-pointer transition-all',
+            'hover:(hover-bg) active:(transform duration-100 scale-98)',
           ]"
           @click.stop="onPlayList(item.id)"
         >

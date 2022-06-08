@@ -69,7 +69,7 @@ const changeMode = () => {
     @change="val => (playerStore.audio.currentTime = val)"
     :format-tooltip="() => playerStore.getProgressTime"
   ></div> -->
-  <div class="w-1/1 z-10 fixed bottom-0 filter-blur">
+  <div class="w-1/1 z-99 fixed bottom-0 filter-blur">
     <div class="default-bg opacity-80">
       <div class="flex m-auto h-17 w-[80%] items-center">
         <div class="flex-1 flex items-center space-x-2 text-left">
@@ -145,21 +145,47 @@ const changeMode = () => {
       </div>
     </div>
   </div>
+
   <!-- 播放列表 -->
   <Transition name="play-list">
     <play-list />
   </Transition>
+
+  <!-- 歌词面板 -->
+  <Teleport to="body">
+    <Transition name="lyric">
+      <lyric-panel
+        v-if="playerStore.showLyric"
+        :class="playerStore.showLyric && 'fixed -z-99 left-0 top-0 right-0 bottom-0'"
+      />
+    </Transition>
+  </Teleport>
 </template>
 <style scoped>
 .play-list-enter-active {
-  animation: play-list-in 0.3s ease-in-out;
+  animation: play-list-in 0.5s ease-in-out;
 }
 .play-list-leave-active {
-  animation: play-list-in 0.3s ease-in-out reverse;
+  animation: play-list-in 0.5s ease-in-out reverse;
 }
 @keyframes play-list-in {
   from {
     transform: translateX(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.lyric-enter-active {
+  animation: lyric-in 0.5s ease-in-out;
+}
+.lyric-leave-active {
+  animation: lyric-in 0.5s ease-in-out reverse;
+}
+@keyframes lyric-in {
+  from {
+    transform: translateY(100%);
   }
   to {
     transform: translateX(0);

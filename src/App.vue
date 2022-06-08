@@ -14,25 +14,5 @@ searchStore.getDefaultKeyWord();
     <LayoutHeader />
     <router-view class="m-auto py-10 w-[80%]" />
     <LayoutFooter />
-    <Transition name="lyric">
-      <lyric-panel v-if="playerStore.showLyric" />
-    </Transition>
   </main>
 </template>
-
-<style scoped>
-.lyric-enter-active {
-  animation: lyric-in 0.3s ease-in-out;
-}
-.lyric-leave-active {
-  animation: lyric-in 0.3s ease-in-out reverse;
-}
-@keyframes lyric-in {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-</style>

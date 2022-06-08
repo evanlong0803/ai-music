@@ -45,18 +45,15 @@ const playSongList = async (): Promise<void> => {
 </template>
 
 <style scoped>
-.recommend-song-list {
-  @keyframes coverAnimation {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-50%);
-    }
+@keyframes coverAnimation {
+  from {
+    transform: translateY(0);
   }
-
-  .left-play-cover {
-    animation: coverAnimation 30s ease-in-out 1s infinite alternate;
+  to {
+    transform: translateY(-50%);
   }
+}
+.left-play-cover {
+  animation: coverAnimation 30s ease-in-out 1s infinite alternate;
 }
 </style>
