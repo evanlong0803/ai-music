@@ -19,6 +19,7 @@ const request = axios.create({
   responseType: 'json', // 请求响应类型
   // 只能用在 'PUT', 'POST' , 'PATCH' 请求方法
   transformRequest: [data => qs.stringify(data)],
+  withCredentials: true, // 是否允许带cookie这些
 } as AxiosRequestConfig);
 
 request.interceptors.request.use(
