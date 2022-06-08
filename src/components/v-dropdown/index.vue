@@ -58,9 +58,9 @@ const changeState = () => {
         alt="cover"
       />
       <!-- 文本 -->
-      <div class="text-left mouse-hover truncate" title="jijasidjddddddddd">jijasidjddddddddd</div>
+      <div class="flex-1 mouse-hover truncate" title="jijasidjddddddddd">jijasidjddddddddd</div>
       <ic-round-arrow-left
-        :class="[isOpen && '-rotate-90', 'icon ml-auto transition-all transform rotate-0']"
+        :class="[isOpen && 'transition-all transform -rotate-90', 'icon ml-auto']"
       />
     </div>
     <!-- 下拉内容 -->
