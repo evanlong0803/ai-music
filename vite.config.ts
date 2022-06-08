@@ -9,6 +9,7 @@ import WindiCSS from 'vite-plugin-windicss';
 export default defineConfig({
   plugins: [
     vue({
+      // 可以使用 $ref() 来代替 ref()，好处是不用再写 xxx.value
       reactivityTransform: true,
     }),
     // https://github.com/hannoeru/vite-plugin-pages
