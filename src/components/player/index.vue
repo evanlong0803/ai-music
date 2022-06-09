@@ -62,26 +62,24 @@ const changeMode = () => {
 };
 </script>
 <template>
-  <!-- <div
-    class="progress"
-    :model-value="playerStore.currentTime"
+  <div class="w-1/1 z-99 fixed bottom-0 filter-blur">
+    <v-progress />
+    <!-- :model-value="playerStore.currentTime"
     :max="playerStore.duration"
     @change="val => (playerStore.audio.currentTime = val)"
-    :format-tooltip="() => playerStore.getProgressTime"
-  ></div> -->
-  <div class="w-1/1 z-99 fixed bottom-0 filter-blur">
+    :format-tooltip="() => playerStore.getProgressTime" -->
     <div class="default-bg opacity-80">
       <div class="flex m-auto h-17 w-[80%] items-center">
-        <div class="flex-1 flex items-center space-x-2 text-left">
+        <div class="flex-1 flex items-center space-x-5 text-left">
           <!-- 播放信息 -->
-          <img
-            class="aspect-square h-10 mr-4 rounded shadow"
-            :src="playerStore.playInfo?.al?.picUrl"
-          />
-          <div class="default-color text-sm space-y-1">
-            <div>{{ playerStore.playInfo?.name }}</div>
+          <img class="aspect-square h-12 rounded shadow" :src="playerStore.playInfo?.al?.picUrl" />
+          <div class="default-color text-sm">
+            <div class="text-xl font-bold">{{ playerStore.playInfo?.name }}</div>
             <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
           </div>
+          <!-- 收藏 -->
+          <!-- <ic-round-favorite-border class="icon text-xl" /> -->
+          <ic-round-favorite class="icon text-2xl !text-red-600" />
         </div>
         <div class="flex-2 flex space-x-7 text-center justify-center items-center">
           <!-- 播放上一首 -->
@@ -97,8 +95,6 @@ const changeMode = () => {
           <ic-round-skip-next class="icon" @click="playerStore.playNextAudio" />
         </div>
         <div class="flex flex-1 text-right gap-x-5 items-center justify-end">
-          <!-- 收藏 -->
-          <div class="icon" />
           <!-- 显示/隐藏播放列表 -->
           <ic-round-queue-music
             class="icon text-xl"
@@ -125,21 +121,26 @@ const changeMode = () => {
             @click="changeMode"
           />
 
-          <!-- 列出歌词 -->
-          <ic-round-lyrics
-            class="icon text-xl"
-            @click="playerStore.showLyric = !playerStore.showLyric"
-          />
-
           <!-- 声音控制 -->
-          <div class="icon" v-if="!playerStore.mutedState" @click="playerStore.disableMute" />
-          <div class="icon" @click="playerStore.enableMute" v-else />
+          <ic-round-volume-up
+            class="icon text-xl"
+            v-if="!playerStore.mutedState"
+            @click="playerStore.disableMute"
+          />
+          <ic-round-volume-off class="icon text-xl" @click="playerStore.enableMute" v-else />
 
           <!-- 声音进度条 -->
-          <div
-            :style="{ width: '100px' }"
-            :default-value="50"
-            @change="val => (playerStore.audio.volume = val / 100)"
+          <v-slider class="w-[100px]" />
+          <!-- :default-value="50" -->
+          <!-- @change="val => (playerStore.audio.volume = val / 100)" -->
+
+          <!-- 列出歌词 -->
+          <ic-round-expand-less
+            :class="[
+              'icon text-2xl transition-all transform',
+              playerStore.showLyric ? '-rotate-180' : 'rotate-0',
+            ]"
+            @click="playerStore.showLyric = !playerStore.showLyric"
           />
         </div>
       </div>

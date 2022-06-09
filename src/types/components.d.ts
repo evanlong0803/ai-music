@@ -13,6 +13,9 @@ declare module '@vue/runtime-core' {
     IcRoundChevronLeft: typeof import('./../components/icons/IcRoundChevronLeft.vue')['default']
     IcRoundChevronRight: typeof import('./../components/icons/IcRoundChevronRight.vue')['default']
     IcRoundClear: typeof import('./../components/v-input/icons/IcRoundClear.vue')['default']
+    IcRoundExpandLess: typeof import('./../components/player/icons/IcRoundExpandLess.vue')['default']
+    IcRoundFavorite: typeof import('./../components/player/icons/IcRoundFavorite.vue')['default']
+    IcRoundFavoriteBorder: typeof import('./../components/player/icons/IcRoundFavoriteBorder.vue')['default']
     IcRoundLyrics: typeof import('./../components/icons/IcRoundLyrics.vue')['default']
     IcRoundPause: typeof import('./../components/player/icons/IcRoundPause.vue')['default']
     IcRoundPerson: typeof import('./../components/icons/IcRoundPerson.vue')['default']
@@ -22,6 +25,8 @@ declare module '@vue/runtime-core' {
     IcRoundSearch: typeof import('./../components/v-input/icons/IcRoundSearch.vue')['default']
     IcRoundSkipNext: typeof import('./../components/player/icons/IcRoundSkipNext.vue')['default']
     IcRoundSkipPrevious: typeof import('./../components/player/icons/IcRoundSkipPrevious.vue')['default']
+    IcRoundVolumeOff: typeof import('./../components/player/icons/IcRoundVolumeOff.vue')['default']
+    IcRoundVolumeUp: typeof import('./../components/player/icons/IcRoundVolumeUp.vue')['default']
     IcTwotoneAutoAwesome: typeof import('./../components/player/icons/IcTwotoneAutoAwesome.vue')['default']
     LineMdGithubTwotone: typeof import('./../components/icons/LineMdGithubTwotone.vue')['default']
     LyricPanel: typeof import('./../components/player/lyric-panel/index.vue')['default']
@@ -37,6 +42,8 @@ declare module '@vue/runtime-core' {
     VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
     VList: typeof import('./../components/v-list/index.vue')['default']
+    VProgress: typeof import('./../components/v-progress/index.vue')['default']
+    VSlider: typeof import('./../components/v-slider/index.vue')['default']
   }
 }
 
