@@ -16,7 +16,6 @@ declare module '@vue/runtime-core' {
     IcRoundExpandLess: typeof import('./../components/player/icons/IcRoundExpandLess.vue')['default']
     IcRoundFavorite: typeof import('./../components/player/icons/IcRoundFavorite.vue')['default']
     IcRoundFavoriteBorder: typeof import('./../components/player/icons/IcRoundFavoriteBorder.vue')['default']
-    IcRoundLyrics: typeof import('./../components/icons/IcRoundLyrics.vue')['default']
     IcRoundPause: typeof import('./../components/player/icons/IcRoundPause.vue')['default']
     IcRoundPerson: typeof import('./../components/icons/IcRoundPerson.vue')['default']
     IcRoundPlayArrow: typeof import('./../components/player/icons/IcRoundPlayArrow.vue')['default']
