@@ -15,7 +15,7 @@ const source = axios.CancelToken.source();
 // 请求配置
 const request = axios.create({
   timeout: 1000 * 5, // 请求超时
-  baseURL: 'https://musicapi.123mtr.top', // 基础路径
+  baseURL: 'https://netease-cloud-music-api-sage-ten.vercel.app', // 基础路径
   responseType: 'json', // 请求响应类型
   // 只能用在 'PUT', 'POST' , 'PATCH' 请求方法
   transformRequest: [data => qs.stringify(data)],
