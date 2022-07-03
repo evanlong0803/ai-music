@@ -78,7 +78,7 @@ const changeMode = () => {
             <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
           </div>
           <!-- 收藏 -->
-          <!-- <ic-round-favorite-border class="icon text-xl" /> -->
+          <ic-round-favorite-border class="icon text-2xl" />
           <ic-round-favorite class="icon text-2xl !text-red-600" />
         </div>
         <div class="flex-2 flex space-x-7 text-center justify-center items-center">
