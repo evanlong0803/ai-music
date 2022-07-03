@@ -9,7 +9,8 @@ body,
   /* user-select: none; */
 }
 
-img {
+img,
+a {
   -webkit-user-drag: none;
 }
 
@@ -22,7 +23,7 @@ img {
 }
 
 .absolute-center {
-  @apply transform 'top-[50%]' 'left-[50%]' '-translate-x-[50%]' '-translate-y-[50%]' absolute;
+  @apply absolute 'top-[50%]' 'left-[50%]' transform '-translate-x-[50%]' '-translate-y-[50%]';
 }
 
 .absolute-top-center {

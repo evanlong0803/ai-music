@@ -43,8 +43,8 @@ export const handleLyric = (lyric: string) => {
         // 将时间转换为秒
         const timeSec = Number(timeArr[0]) * 60 + parseInt(timeArr[1], 10);
         // 歌词
-        const content = item.replace(/\d*:\d*.\d*/, '').split(']')[1];
-        return { timeSec, content: content.trim() };
+        const content = item.replace(/\[\d*:\d*.\d*\]/, '').trim();
+        return { timeSec, content };
       }
       return { timeSec: 0, content: item };
     })
