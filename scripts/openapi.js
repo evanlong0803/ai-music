@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { dirname as _dirname, resolve as _resolve } from 'path';
+import { get } from 'http';
 const openapi = {
   requestLibPath: "import request from '@/utils/request'",
   schemaPath: 'http://192.168.110.214:9002/v3/api-docs',
@@ -11,18 +11,18 @@ const srcFolder = '/src';
 const url = openapi.schemaPath;
 
 function mkdirsSync(dirname) {
-  if (fs.existsSync(dirname)) {
+  if (existsSync(dirname)) {
     return true;
   } else {
-    if (mkdirsSync(path.dirname(dirname))) {
-      fs.mkdirSync(dirname);
+    if (mkdirsSync(_dirname(dirname))) {
+      mkdirSync(dirname);
       return true;
     }
   }
 }
 
 function getPath(pathUrl) {
-  return path.resolve(__dirname, pathUrl);
+  return _resolve(__dirname, pathUrl);
 }
 
 function generateTemplate() {
@@ -146,42 +146,40 @@ function generateType({ title, properties, required }) {
 
 function httpgetJson(url) {
   return new Promise((resolve, reject) => {
-    http
-      .get(url, res => {
-        const { statusCode } = res;
-        const contentType = res.headers['content-type'];
-        let error;
-        if (statusCode !== 200) {
-          error = new Error('请求失败。\n' + `状态码: $ { statusCode }`);
-        } else if (!/^application\/json/.test(contentType)) {
-          error = new Error(
-            '无效的 content-type.\n' + `期望 application / json 但获取的是 $ { contentType }`,
-          );
-        }
-        if (error) {
-          console.error(error.message);
-          // 消耗响应数据以释放内存
-          res.resume();
-          return;
-        }
-        res.setEncoding('utf8');
-        let rawData = '';
-        res.on('data', chunk => {
-          rawData += chunk;
-        });
-        res.on('end', () => {
-          try {
-            const parsedData = JSON.parse(rawData);
-            resolve(parsedData);
-          } catch (e) {
-            reject(`错误: ${e.message}`);
-          }
-        });
-      })
-      .on('error', e => {
-        reject(`错误: ${e.message}
-    `);
+    get(url, res => {
+      const { statusCode } = res;
+      const contentType = res.headers['content-type'];
+      let error;
+      if (statusCode !== 200) {
+        error = new Error('请求失败。\n' + `状态码: $ { statusCode }`);
+      } else if (!/^application\/json/.test(contentType)) {
+        error = new Error(
+          '无效的 content-type.\n' + `期望 application / json 但获取的是 $ { contentType }`,
+        );
+      }
+      if (error) {
+        console.error(error.message);
+        // 消耗响应数据以释放内存
+        res.resume();
+        return;
+      }
+      res.setEncoding('utf8');
+      let rawData = '';
+      res.on('data', chunk => {
+        rawData += chunk;
       });
+      res.on('end', () => {
+        try {
+          const parsedData = JSON.parse(rawData);
+          resolve(parsedData);
+        } catch (e) {
+          reject(`错误: ${e.message}`);
+        }
+      });
+    }).on('error', e => {
+      reject(`错误: ${e.message}
+    `);
+    });
   });
 }
 
@@ -262,7 +260,7 @@ async function main() {
     typetsstring += generateType(schemas[typename]);
   }
   typetsstring = typetsstring + `}`;
-  fs.writeFileSync(getPath(`..${srcFolder}/api/typings.d.ts`), typetsstring);
+  writeFileSync(getPath(`..${srcFolder}/api/typings.d.ts`), typetsstring);
   for (const foldername in obj) {
     let jsString = '';
     let index = 0;
@@ -277,7 +275,7 @@ async function main() {
     }
     jsString = generateTemplate() + jsString;
     mkdirsSync(getPath(`..${srcFolder}/${openapi.projectName}/${foldername}`));
-    fs.writeFileSync(
+    writeFileSync(
       getPath(`..${srcFolder}/${openapi.projectName}/${foldername}/index.ts`),
       jsString,
     );

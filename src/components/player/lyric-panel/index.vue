@@ -5,7 +5,7 @@ const playerStore = playerUseStore();
 <template>
   <div class="lyric">
     <div class="video-box">
-      <video
+      <!-- <video
         class="video-background"
         preload="auto"
         loop
@@ -14,7 +14,7 @@ const playerStore = playerUseStore();
         src="@/static/background.mp4"
         tabindex="-1"
         muted
-      ></video>
+      ></video> -->
       <div class="content" v-for="(item, index) in playerStore.lyric" :key="index">
         {{ item.content }}
       </div>

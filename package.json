@@ -1,26 +1,21 @@
 {
-  "name": "vite-vue3-tailwind-starter",
-  "version": "0.0.0",
+  "name": "cookie-music",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
     "serve": "vite preview"
   },
+  "license": "MIT",
   "dependencies": {
-    "@formkit/auto-animate": "^1.0.0-beta.1",
     "@vueuse/core": "^8.6.0",
     "axios": "0.27.2",
-    "js-cookie": "^3.0.1",
-    "md5": "^2.3.0",
     "pinia": "^2.0.14",
-    "qs": "^6.10.5",
     "vue": "3.2.37",
     "vue-router": "^4.0.15"
   },
   "devDependencies": {
-    "@types/md5": "^2.3.2",
     "@types/node": "^17.0.41",
-    "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^2.3.3",
     "unplugin-auto-import": "^0.8.7",
     "unplugin-vue-components": "^0.19.6",
