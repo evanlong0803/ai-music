@@ -1,3 +1,5 @@
+import test from 'node:test';
+
 export const handlePlayCount = (target: number) => {
   const numStr = target.toString();
   // 4位数以内直接返回
@@ -27,4 +29,24 @@ export const formatDate = (time: number) => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   return `${year}年${month}月${day}日`;
+};
+
+// 处理歌词
+export const handleLyric = (lyric: string) => {
+  const lyricArr = lyric.split('\n');
+  return lyricArr
+    .map((item: string) => {
+      const time = item.match(/\d*:\d*.\d*/);
+      if (time?.input) {
+        // 切割时间为：分：秒.毫秒
+        const timeArr: string[] = time[0].split(':');
+        // 将时间转换为秒
+        const timeSec = Number(timeArr[0]) * 60 + parseInt(timeArr[1], 10);
+        // 歌词
+        const content = item.replace(/\d*:\d*.\d*/, '').split(']')[1];
+        return { timeSec, content: content.trim() };
+      }
+      return { timeSec: 0, content: item };
+    })
+    .filter(item => item.content);
 };

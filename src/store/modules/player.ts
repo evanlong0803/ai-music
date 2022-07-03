@@ -1,40 +1,24 @@
 import request from '@/utils/request';
-
-/**
- * Player Mode
- * 1: 顺序播放
- * 2: 单曲循环
- * 3: 随机播放
- */
-type Mode = 1 | 2 | 3;
-
-interface playerState {
-  audio: HTMLAudioElement;
-  currentTime: number;
-  duration: number;
-  playState: boolean;
-  mutedState: boolean;
-  playListState: boolean;
-  playList: any[];
-  playInfo: any;
-  lyric: any[];
-  playMode: Mode | number;
-  showLyric: boolean;
-}
+import { EPlayerMode } from '@/types/enum';
+import { playerState } from '../model';
+import { handleLyric } from '@/utils';
 
 export default defineStore('player', {
   state: (): playerState => ({
     audio: new Audio(),
     currentTime: 0,
-    duration: 0,
+    durationTime: 0,
     playState: false,
     mutedState: false,
     playListState: false,
     playInfo: {},
     playList: [],
     lyric: [],
-    playMode: 1,
+    playMode: EPlayerMode.sequence,
     showLyric: false,
+    volume: 50,
+    currentLyricIndex: 0,
+    collectState: false,
   }),
   getters: {
     getProgressTime: (state: playerState): string => {
@@ -59,19 +43,7 @@ export default defineStore('player', {
     async getLyric(id: string): Promise<void> {
       const { data } = await request.get('/lyric', { params: { id } });
       // 处理歌词
-      const lyrics = data.lrc.lyric.split('\n');
-      // 处理歌词
-      const lyric = lyrics.map((item: string) => {
-        const time = item.match(/\[(\d{2}:\d{2}\.\d{2})\]/);
-        if (time) {
-          const timeArr: any[] = time[1].split(':');
-          const timeSec = timeArr[0] * 60 + parseInt(timeArr[1], 10);
-          // 获取歌词时间
-          return { timeSec, content: item.replace(/\[(\d{2}:\d{2}\.\d{2})\]/, '') };
-        }
-        return { timeSec: 0, content: item };
-      });
-      this.lyric = lyric;
+      this.lyric = handleLyric(data.lrc.lyric);
     },
     // 获取音乐URL
     async getUrl(id: string): Promise<void> {

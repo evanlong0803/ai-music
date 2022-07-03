@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { EPlayerMode } from '@/types/enum';
 import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 
@@ -7,29 +8,24 @@ playerStore.audio.volume = 0.5;
 
 // 当总时间被改变时
 playerStore.audio.ondurationchange = e => {
-  const el = e.target as HTMLAudioElement;
-  playerStore.duration = el.duration;
+  playerStore.durationTime = (<HTMLAudioElement>e.target).duration;
 };
 
 // 当时间更新时
 playerStore.audio.ontimeupdate = e => {
-  const el = e.target as HTMLAudioElement;
-  playerStore.currentTime = el.currentTime;
+  playerStore.currentTime = (<HTMLAudioElement>e.target).currentTime;
 };
 
 // 处理播放模式
 const handlePlayMode = () => {
   switch (playerStore.playMode) {
-    // 顺序播放
-    case 1:
+    case EPlayerMode.sequence:
       playerStore.playNextAudio();
       break;
-    // 单曲循环
-    case 2:
+    case EPlayerMode.singleLoop:
       playerStore.playAudio();
       break;
-    // 随机播放
-    case 3:
+    case EPlayerMode.random:
       playerStore.randomPlay();
       break;
     default:
@@ -65,23 +61,35 @@ const changeMode = () => {
   <div class="w-1/1 z-99 fixed bottom-0 filter-blur">
     <v-progress />
     <!-- :model-value="playerStore.currentTime"
-    :max="playerStore.duration"
+    :max="playerStore.durationTime"
     @change="val => (playerStore.audio.currentTime = val)"
     :format-tooltip="() => playerStore.getProgressTime" -->
     <div class="default-bg opacity-80">
       <div class="flex m-auto h-17 w-[80%] items-center">
-        <div class="flex-1 flex items-center space-x-5 text-left">
+        <div class="w-1/3 flex items-center space-x-5 text-left">
           <!-- 播放信息 -->
           <img class="aspect-square h-12 rounded shadow" :src="playerStore.playInfo?.al?.picUrl" />
-          <div class="default-color text-sm">
-            <div class="text-xl font-bold">{{ playerStore.playInfo?.name }}</div>
-            <div>{{ playerStore.playInfo?.ar[0]?.name }}</div>
+          <div class="max-w-[70%] default-color text-sm space-y-1">
+            <div class="text-xl font-bold truncate" :title="playerStore.playInfo?.name">
+              {{ playerStore.playInfo?.name }}
+            </div>
+            <div class="truncate">
+              {{ playerStore.playInfo?.ar[0]?.name }}
+            </div>
           </div>
           <!-- 收藏 -->
-          <ic-round-favorite-border class="icon text-2xl" />
-          <ic-round-favorite class="icon text-2xl !text-red-600" />
+          <ic-round-favorite-border
+            class="icon text-2xl !text-red-500"
+            v-if="!playerStore.collectState"
+            @click="playerStore.collectState = !playerStore.collectState"
+          />
+          <ic-round-favorite
+            class="icon text-2xl !text-red-600"
+            v-else
+            @click="playerStore.collectState = !playerStore.collectState"
+          />
         </div>
-        <div class="flex-2 flex space-x-7 text-center justify-center items-center">
+        <div class="w-1/3 flex space-x-7 text-center justify-center items-center">
           <!-- 播放上一首 -->
           <ic-round-skip-previous class="icon" @click="playerStore.playUpperAudio" />
           <!-- 播放/暂停 -->
@@ -94,7 +102,7 @@ const changeMode = () => {
           <!-- 播放下一首 -->
           <ic-round-skip-next class="icon" @click="playerStore.playNextAudio" />
         </div>
-        <div class="flex flex-1 text-right gap-x-5 items-center justify-end">
+        <div class="w-1/3 flex text-right gap-x-5 items-center justify-end">
           <!-- 显示/隐藏播放列表 -->
           <ic-round-queue-music
             class="icon text-xl"
@@ -103,7 +111,7 @@ const changeMode = () => {
 
           <!-- 播放模式 -->
           <cil-loop
-            v-if="playerStore.playMode === 1"
+            v-if="playerStore.playMode === EPlayerMode.sequence"
             class="icon text-xl"
             title="列表循环"
             @click="changeMode"
@@ -153,14 +161,9 @@ const changeMode = () => {
   </Transition>
 
   <!-- 歌词面板 -->
-  <Teleport to="body">
-    <Transition name="lyric">
-      <lyric-panel
-        v-if="playerStore.showLyric"
-        :class="playerStore.showLyric && 'fixed -z-99 left-0 top-0 right-0 bottom-0'"
-      />
-    </Transition>
-  </Teleport>
+  <Transition name="lyric">
+    <lyric-panel v-if="playerStore.showLyric" :class="[playerStore.showLyric]" />
+  </Transition>
 </template>
 <style scoped>
 .play-list-enter-active {

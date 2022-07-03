@@ -3,8 +3,7 @@ import LayoutHeader from '@/layouts/layout-header/index.vue';
 import LayoutFooter from '@/layouts/layout-footer/index.vue';
 
 // 统一加载 other 数据
-import { searchUseStore, playerUseStore } from '@/store';
-const playerStore = playerUseStore();
+import { searchUseStore } from '@/store';
 const searchStore = searchUseStore();
 searchStore.getDefaultKeyWord();
 </script>

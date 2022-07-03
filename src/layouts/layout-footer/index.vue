@@ -5,6 +5,8 @@ const playerStore = playerUseStore();
 
 <template>
   <footer v-auto-animate>
-    <player v-if="playerStore.playInfo.name" />
+    <Teleport to="body">
+      <player v-if="playerStore.playInfo.name" />
+    </Teleport>
   </footer>
 </template>
