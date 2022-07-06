@@ -46,5 +46,4 @@ declare module '@vue/runtime-core' {
     VProgress: typeof import('./../components/v-progress/index.vue')['default']
     VSlider: typeof import('./../components/v-slider/index.vue')['default']
   }
-
 }
