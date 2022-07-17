@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { IOptions } from '@/components/v-dropdown/index.vue';
-import { searchUseStore, homeUseStore } from '@/store';
+import { searchUseStore } from '@/store';
 const router = useRouter();
 const searchStore = searchUseStore();
-const homeStore = homeUseStore();
-
 const mode = useColorMode();
 
 const content = ref('');

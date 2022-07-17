@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
     VList: typeof import('./../components/v-list/index.vue')['default']
+    VLoading: typeof import('./../components/v-loading/index.vue')['default']
     VProgress: typeof import('./../components/v-progress/index.vue')['default']
     VSlider: typeof import('./../components/v-slider/index.vue')['default']
   }

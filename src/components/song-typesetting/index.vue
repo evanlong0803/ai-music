@@ -3,18 +3,26 @@ import { handlePlayCount } from '@/utils';
 import playerUseStore from '@/store/modules/player';
 const playerStore = playerUseStore();
 
-const props = defineProps<{
-  title: string;
-  lists: any[];
-  routerName?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    /** 歌单标题 */
+    title: string;
+    /** 歌单列表 */
+    lists: any[];
+    /** 路由名称 */
+    routerName?: string;
+  }>(),
+  {
+    routerName: '',
+  },
+);
 
 const router = useRouter();
 
 const lists = ref<any>([]);
 
 // 播放歌单
-const playSongList = async (id: string): Promise<void> => {
+const playSongList = async (id: string) => {
   // 获取歌单所有歌曲
   await playerStore.getAllSongList(id);
   // 获取歌单URL
@@ -33,7 +41,8 @@ watch(
   () => props.lists,
   val => {
     if (val) {
-      lists.value = val.map((item: any) => ({ ...item, playButtonShow: false }));
+      console.log(val);
+      lists.value = val.map(item => ({ ...item, playButtonShow: false }));
     }
   },
 );

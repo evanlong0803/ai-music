@@ -1,5 +1,3 @@
-import test from 'node:test';
-
 export const handlePlayCount = (target: number) => {
   const numStr = target.toString();
   // 4位数以内直接返回
@@ -13,14 +11,6 @@ export const handlePlayCount = (target: number) => {
     return Math.floor(target / 10000).toFixed(0) + '万';
   }
 };
-
-/**
- * @description:延迟|等待函数
- * @param {number} time 延迟时间
- * @return: Promise
- */
-export const delay = (time: number | undefined): Promise<any> =>
-  new Promise(resolve => setTimeout(resolve, time));
 
 // 将时间戳转换为年月日
 export const formatDate = (time: number) => {

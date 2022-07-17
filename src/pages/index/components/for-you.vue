@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { playerUseStore, homeUseStore } from '@/store';
+import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
-const homeStore = homeUseStore();
 
 defineProps<{
   title: string;

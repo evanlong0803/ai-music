@@ -83,12 +83,3 @@ export interface PlayerState {
 interface SearchState {
   keyWord: string;
 }
-
-// 主页状态
-interface HomeState {
-  playLists: [];
-  rankingList: [];
-  albumsList: [];
-  recommendedSongList: [];
-  recommendedRadioStationList: [];
-}

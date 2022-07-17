@@ -30,23 +30,23 @@ export default defineStore('player', {
   },
   actions: {
     // 获取歌单所有歌曲
-    async getAllSongList(id: string): Promise<void> {
+    async getAllSongList(id: string) {
       const { data } = await request.get('/playlist/track/all', { params: { id } });
       this.playList = data.songs;
     },
     // 获取歌曲详情
-    async getDetail(id: string): Promise<void> {
+    async getDetail(id: string) {
       const { data } = await request.get('/song/detail', { params: { ids: id } });
       this.playInfo = data.songs[0];
     },
     // 获取当前歌曲歌词
-    async getLyric(id: string): Promise<void> {
+    async getLyric(id: string) {
       const { data } = await request.get('/lyric', { params: { id } });
       // 处理歌词
       this.lyric = handleLyric(data.lrc.lyric);
     },
     // 获取音乐URL
-    async getUrl(id: string): Promise<void> {
+    async getUrl(id: string) {
       const {
         data: { data },
       } = await request.get('/song/url', { params: { id } });
