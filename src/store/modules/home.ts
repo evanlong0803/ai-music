@@ -1,15 +1,8 @@
 import request from '@/utils/request';
-
-interface homeState {
-  playLists: [];
-  rankingList: [];
-  albumsList: [];
-  recommendedSongList: [];
-  recommendedRadioStationList: [];
-}
+import { HomeState } from '../model';
 
 export default defineStore('home', {
-  state: (): homeState => ({
+  state: (): HomeState => ({
     playLists: [],
     rankingList: [],
     albumsList: [],

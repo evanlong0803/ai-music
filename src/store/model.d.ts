@@ -20,7 +20,7 @@ import { EPlayerMode } from '@/types/enum';
  * @param {number} volume - 音量
  * @param {boolean} showLyric - 是否显示歌词
  */
-export interface playerState {
+export interface PlayerState {
   /**
    * @description 播放器元素
    */
@@ -77,4 +77,18 @@ export interface playerState {
    * @description 是否显示歌词
    */
   showLyric: boolean;
+}
+
+// 搜索状态
+interface SearchState {
+  keyWord: string;
+}
+
+// 主页状态
+interface HomeState {
+  playLists: [];
+  rankingList: [];
+  albumsList: [];
+  recommendedSongList: [];
+  recommendedRadioStationList: [];
 }

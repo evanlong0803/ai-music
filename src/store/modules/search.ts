@@ -1,11 +1,8 @@
 import request from '@/utils/request';
-
-interface searchState {
-  keyWord: string;
-}
+import { SearchState } from '../model';
 
 export default defineStore('search', {
-  state: (): searchState => ({
+  state: (): SearchState => ({
     keyWord: '',
   }),
   actions: {

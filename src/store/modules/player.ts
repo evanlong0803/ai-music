@@ -1,10 +1,10 @@
 import request from '@/utils/request';
 import { EPlayerMode } from '@/types/enum';
-import { playerState } from '../model';
+import { PlayerState } from '../model';
 import { handleLyric } from '@/utils';
 
 export default defineStore('player', {
-  state: (): playerState => ({
+  state: (): PlayerState => ({
     audio: new Audio(),
     currentTime: 0,
     durationTime: 0,
@@ -21,7 +21,7 @@ export default defineStore('player', {
     collectState: false,
   }),
   getters: {
-    getProgressTime: (state: playerState): string => {
+    getProgressTime: (state: PlayerState): string => {
       // 秒转换为分钟
       const min = Math.floor(state.currentTime / 60);
       const sec = Math.floor(state.currentTime % 60);
