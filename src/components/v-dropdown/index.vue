@@ -45,27 +45,26 @@ const changeState = () => {
 </script>
 
 <template>
-  <div class="relative">
-    <div
-      :class="[!coverSrc && 'pl-4', 'relative w-45 flex items-center cursor-pointer v-base']"
-      @click.stop="changeState"
-    >
-      <!-- 用户头像信息 -->
-      <img
-        v-if="coverSrc"
-        class="aspect-square w-6 mx-2 rounded-1/2 shadow"
-        :src="coverSrc"
-        alt="cover"
-      />
-      <!-- 文本 -->
-      <div class="flex-1 mouse-hover truncate" title="jijasidjddddddddd">jijasidjddddddddd</div>
-      <ic-round-arrow-left
-        :class="[isOpen && 'transition-all transform -rotate-90', 'icon ml-auto']"
-      />
-    </div>
+  <div
+    :class="[!coverSrc && 'pl-4', 'relative w-45 flex items-center cursor-pointer v-base']"
+    @click.stop="changeState"
+  >
+    <!-- 用户头像信息 -->
+    <img
+      v-if="coverSrc"
+      class="aspect-square w-6 mx-2 rounded-1/2 shadow"
+      :src="coverSrc"
+      alt="cover"
+    />
+    <!-- 文本 -->
+    <div class="flex-1 mouse-hover truncate" title="jijasidjddddddddd">jijasidjddddddddd</div>
+    <ic-round-arrow-left
+      :class="[isOpen && 'transition-all transform -rotate-90', 'icon ml-auto']"
+    />
+
     <!-- 下拉内容 -->
-    <div v-auto-animate>
-      <div class="w-1/1 p-2 absolute z-10 top-1 v-base space-y-2" v-if="isOpen && options.length">
+    <div class="w-1/1 p-2 absolute z-10 top-10 v-base space-y-2" v-if="isOpen && options.length">
+      <div>
         <template v-for="item in options" :key="item.name">
           <button
             class="w-1/1 flex items-center p-2 rounded cursor-pointer hover:(hover-bg) checked:(hover-bg)"

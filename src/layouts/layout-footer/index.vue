@@ -4,7 +4,7 @@ const playerStore = playerUseStore();
 </script>
 
 <template>
-  <footer v-auto-animate>
+  <footer>
     <Teleport to="body">
       <player v-if="playerStore.playInfo.name" />
     </Teleport>
