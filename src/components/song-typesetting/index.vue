@@ -21,7 +21,7 @@ const router = useRouter();
 
 const lists = ref<any>([]);
 
-// 播放歌单
+/** 播放歌单 */
 const playSongList = async (id: string) => {
   // 获取歌单所有歌曲
   await playerStore.getAllSongList(id);
@@ -30,6 +30,7 @@ const playSongList = async (id: string) => {
   playerStore.playAudio();
 };
 
+/** 跳转歌单列表 */
 const goDetail = (id: number) => {
   router.push({
     name: 'SongList',
@@ -37,15 +38,9 @@ const goDetail = (id: number) => {
   });
 };
 
-watch(
-  () => props.lists,
-  val => {
-    if (val) {
-      console.log(val);
-      lists.value = val.map(item => ({ ...item, playButtonShow: false }));
-    }
-  },
-);
+watchSyncEffect(() => {
+  lists.value = props.lists.map(item => ({ ...item, playButtonShow: false }));
+});
 </script>
 
 <template>
