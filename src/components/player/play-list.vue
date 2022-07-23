@@ -13,8 +13,11 @@ const onPlayList = async (id: string): Promise<void> => {
 <template>
   <div class="play-list-theme" v-show="playerStore.playListState">
     <div class="default-bg opacity-80 p-4 space-y-2" v-if="playerStore.playList.length">
-      <!-- <div class="fixed z-100 top-0">123123</div> -->
-      <template v-for="item in playerStore.playList" :key="item.id">
+      <template
+        v-for="item in playerStore.playList"
+        :key="item.id"
+        v-memo="[item.id === playerStore.playInfo.id]"
+      >
         <div
           :class="[
             playerStore.playInfo.id === item.id && 'hover-bg',
