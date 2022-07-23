@@ -3,8 +3,19 @@ import { EPlayerMode } from '@/types/enum';
 import { playerUseStore } from '@/store';
 const playerStore = playerUseStore();
 
-// 设置默认值音量
-playerStore.audio.volume = 0.5;
+// 播放器音量
+const volume = ref(50);
+
+// 设置播放器默认值音量
+playerStore.setVolume(volume.value);
+
+watch(
+  () => volume.value,
+  val => {
+    // 设置播放器音量
+    playerStore.setVolume(val);
+  },
+);
 
 // 当总时间被改变时
 playerStore.audio.ondurationchange = e => {
@@ -138,9 +149,7 @@ const changeMode = () => {
           <ic-round-volume-off class="icon text-xl" @click="playerStore.enableMute" v-else />
 
           <!-- 声音进度条 -->
-          <v-slider class="w-[100px]" />
-          <!-- :default-value="50" -->
-          <!-- @change="val => (playerStore.audio.volume = val / 100)" -->
+          <v-slider class="w-[100px]" v-model:value="volume" />
 
           <!-- 列出歌词 -->
           <ic-round-expand-less

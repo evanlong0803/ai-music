@@ -2,7 +2,7 @@
 withDefaults(
   defineProps<{
     /**
-     * @description 双向绑定输入框的值
+     * @description 输入框的值
      */
     value: string;
     /**

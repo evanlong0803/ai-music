@@ -115,5 +115,8 @@ export default defineStore('player', {
       this.audio.muted = true;
       this.mutedState = true;
     },
+    setVolume(volume: number) {
+      this.audio.volume = volume / 100;
+    },
   },
 });
