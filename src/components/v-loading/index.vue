@@ -1,67 +1,36 @@
 <template>
   <div class="absolute-center">
     <div class="loader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.loader {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(#ee280e, #15a0f7, #6ed15a);
-  animation: loading_animate 1.2s linear infinite;
-}
-
-@keyframes loading_animate {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .loader span {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(#ee280e, #15a0f7, #5ad15a);
+  font-size: 22px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  animation: blur 3s linear infinite;
+  line-height: 20px;
+  transition: all 0.5s;
+  letter-spacing: 0.2em;
 }
 
-.loader:after {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background: #333;
-  border: solid #333 10px;
-  border-radius: 50%;
-}
+@keyframes blur {
+  0%,
+  90% {
+    filter: blur(0);
+  }
 
-.loader span:nth-child(1) {
-  filter: blur(5px);
-}
-
-.loader span:nth-child(2) {
-  filter: blur(10px);
-}
-
-.loader span:nth-child(3) {
-  filter: blur(25px);
-}
-
-.loader span:nth-child(4) {
-  filter: blur(50px);
+  50% {
+    filter: blur(10px);
+  }
 }
 </style>

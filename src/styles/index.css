@@ -22,22 +22,26 @@ a {
   @apply rounded cursor-pointer default-color filter drop-shadow text-4xl text-gray-900 transition-all duration-300 hover: (opacity-80) active:(transform duration-300 scale-90);
 }
 
+.v-base {
+  @apply rounded shadow component-bg component-color border-1 border-color backdrop-filter backdrop-blur-xl;
+}
+
 .absolute-center {
   @apply absolute 'top-[50%]' 'left-[50%]' transform '-translate-x-[50%]' '-translate-y-[50%]';
 }
 
-.absolute-top-center {
+.fixed-center {
+  @apply fixed 'top-[50%]' 'left-[50%]' transform '-translate-x-[50%]' '-translate-y-[50%]';
+}
+
+.absolute-y-center {
   @apply absolute 'top-[50%]' transform '-translate-y-[50%]';
 }
 
-.absolute-left-center {
+.absolute-x-center {
   @apply absolute 'left-[50%]' transform '-translate-x-[50%]';
 }
 
 .filter-blur {
   @apply backdrop-filter backdrop-blur-xl;
-}
-
-.v-base {
-  @apply rounded shadow component-bg component-color border-1 border-color backdrop-filter backdrop-blur-xl;
 }

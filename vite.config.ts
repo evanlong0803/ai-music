@@ -13,11 +13,7 @@ export default defineConfig({
       reactivityTransform: true,
     }),
     // https://github.com/hannoeru/vite-plugin-pages
-    Pages({
-      importMode(filepath, options) {
-        return filepath.includes('index') ? 'sync' : 'async';
-      },
-    }),
+    Pages(),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: ['vue', 'vue/macros', 'vue-router', 'pinia', '@vueuse/core'],

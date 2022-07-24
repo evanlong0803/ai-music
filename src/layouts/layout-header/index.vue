@@ -8,7 +8,15 @@ const mode = useColorMode();
 const content = ref('');
 
 // 输入关键字进行搜索
-const onSearchKeyWord = (val: string) => {};
+const onSearchKeyWord = useDebounceFn(async query => {
+  try {
+    searchStore.searching = true;
+    await searchStore.search(query);
+    searchStore.searching = false;
+  } catch (error) {
+    console.error(error);
+  }
+}, 1000);
 
 // 按回车搜索
 const onEnterSearch = () => {};
@@ -55,13 +63,42 @@ const options = ref<IOptions[]>([
         <div class="flex flex-1 text-right space-x-5 items-center justify-end">
           <!-- 搜索框 -->
           <v-input
-            v-model:value="content"
+            v-model:value.trme="content"
+            :loading="searchStore.searching"
             @input="onSearchKeyWord"
             @enter="onEnterSearch"
             :placeholder="searchStore.keyWord"
           >
             <template #icon>
               <ic-round-search />
+            </template>
+            <!-- 搜索结果 -->
+            <template #result>
+              <!--  -->
+              <div
+                class="space-y-2 overflow-y-auto p-2"
+                v-if="searchStore.searchResult.length && searchStore.searching"
+              >
+                <div
+                  class="w-1/1 hover:(hover-bg) cursor-pointer p-3 rounded relative"
+                  v-for="(item, index) in searchStore.searchResult"
+                  :key="item.id"
+                >
+                  <div
+                    :class="[index + 1 === 1 ? 'w-[60%]' : 'w-[100%]', 'truncate']"
+                    :title="item.name"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <div
+                    v-if="index + 1 === 1"
+                    class="absolute-y-center right-2 light:(bg-dark-900 text-gray-100) dark:(bg-dark-300 text-gray-100) px-2 py-1 rounded text-sm"
+                  >
+                    最佳匹配
+                  </div>
+                </div>
+              </div>
+              <div v-else class="py-5 text-center">没有找到相关内容</div>
             </template>
           </v-input>
           <!-- 用户信息 -->

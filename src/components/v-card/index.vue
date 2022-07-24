@@ -1,14 +1,16 @@
 <template>
-  <div class="h-1/1 w-1/1 card card-theme">
-    <slot></slot>
+  <div class="card card-theme">
+    <div class="default-bg opacity-80">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .card-theme {
-  @apply 'component-color' border-1 'border-color' backdrop-filter backdrop-blur-xl;
+  @apply component-color border-1 border-color backdrop-filter backdrop-blur;
 }
 .card {
-  @apply rounded-xl shadow;
+  @apply absolute-center rounded shadow;
 }
 </style>

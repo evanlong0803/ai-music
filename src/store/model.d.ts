@@ -82,4 +82,6 @@ export interface PlayerState {
 // 搜索状态
 interface SearchState {
   keyWord: string;
+  searching: boolean;
+  searchResult: any[];
 }

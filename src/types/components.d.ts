@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AlgoliaSearch: typeof import('./../components/algolia-search/index.vue')['default']
     CilLoop: typeof import('./../components/icons/CilLoop.vue')['default']
     CilLoop1: typeof import('./../components/icons/CilLoop1.vue')['default']
     CilLoopCircular: typeof import('./../components/icons/CilLoopCircular.vue')['default']
@@ -29,6 +30,7 @@ declare module '@vue/runtime-core' {
     IcRoundVolumeOff: typeof import('./../components/player/icons/IcRoundVolumeOff.vue')['default']
     IcRoundVolumeUp: typeof import('./../components/player/icons/IcRoundVolumeUp.vue')['default']
     IcTwotoneAutoAwesome: typeof import('./../components/player/icons/IcTwotoneAutoAwesome.vue')['default']
+    InputLoading: typeof import('../components/v-input/v-input-loading.vue')['default']
     LineMdGithubTwotone: typeof import('./../components/icons/LineMdGithubTwotone.vue')['default']
     LyricPanel: typeof import('./../components/player/lyric-panel.vue')['default']
     MdiPlaylistMusic: typeof import('./../components/icons/MdiPlaylistMusic.vue')['default']
@@ -42,8 +44,10 @@ declare module '@vue/runtime-core' {
     VCard: typeof import('./../components/v-card/index.vue')['default']
     VDropdown: typeof import('./../components/v-dropdown/index.vue')['default']
     VInput: typeof import('./../components/v-input/index.vue')['default']
+    VInputLoading: typeof import('./../components/v-input/v-input-loading.vue')['default']
     VList: typeof import('./../components/v-list/index.vue')['default']
     VLoading: typeof import('./../components/v-loading/index.vue')['default']
+    VModal: typeof import('./../components/v-modal/index.vue')['default']
     VProgress: typeof import('./../components/v-progress/index.vue')['default']
     VSlider: typeof import('./../components/v-slider/index.vue')['default']
   }

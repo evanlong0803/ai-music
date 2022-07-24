@@ -21,7 +21,8 @@ defineProps<{
   options: IOptions[];
   /**
    * @description 头像
-   * @extends coverSrc "https://picsum.photos/200/300"
+   * @extend `url` https://picsum.photos/200/300
+   * @extend `path` ./assets/images/avatar.png
    */
   coverSrc?: string;
 }>();
@@ -64,20 +65,18 @@ const changeState = () => {
 
     <!-- 下拉内容 -->
     <div class="w-1/1 p-2 absolute z-10 top-10 v-base space-y-2" v-if="isOpen && options.length">
-      <div>
-        <template v-for="item in options" :key="item.name">
-          <button
-            class="w-1/1 flex items-center p-2 rounded cursor-pointer hover:(hover-bg) checked:(hover-bg)"
-            @click="item.onClick"
-            @blur="isOpen = false"
-          >
-            <component :is="item?.icon" class="icon text-2xl default-color mr-1" />
-            <span class="default-color text-sm">
-              {{ item.name }}
-            </span>
-          </button>
-        </template>
-      </div>
+      <template v-for="item in options" :key="item.name">
+        <button
+          class="w-1/1 flex items-center p-2 rounded hover:(hover-bg) checked:(hover-bg)"
+          @click="item.onClick"
+          @blur="isOpen = false"
+        >
+          <component :is="item.icon ?? null" class="icon text-2xl default-color mr-1" />
+          <span class="default-color text-sm">
+            {{ item.name }}
+          </span>
+        </button>
+      </template>
     </div>
   </div>
 </template>
