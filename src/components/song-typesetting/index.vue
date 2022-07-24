@@ -60,7 +60,7 @@ watchSyncEffect(() => {
           @mouseleave="item.playButtonShow = false"
         >
           <img
-            class="cursor-pointer rounded-2xl shadow aspect-square"
+            class="w-1/1 h-1/1 cursor-pointer rounded-2xl shadow aspect-square"
             :src="item.picUrl ?? item.coverImgUrl"
             :alt="item.name"
             v-if="item.picUrl ?? item.coverImgUrl"
