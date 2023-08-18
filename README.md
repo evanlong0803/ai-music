@@ -1,6 +1,6 @@
 # 🤖 AI Music
 
-Store only AI-made music clients 🎶
+Store only AI-made music clients 🎶（Under renovation）
 
 ![YV0BHDlsFZ](https://github.com/evanlong0926/ai-music/assets/52912949/8cc92279-f34b-407f-b081-733a0976666d)
 
